@@ -1,11 +1,15 @@
 import { http, createConfig } from "wagmi";
-import { localhost } from "./definedChain";
-import { mainnet, goerli } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
+import { injected } from "wagmi/connectors";
 
 export const config = createConfig({
-  chains: [mainnet, goerli],
+  chains: [sepolia],
+  connectors: [
+    injected({
+      target: "metaMask",
+    }),
+  ],
   transports: {
-    [mainnet.id]: http(),
-    [goerli.id]: http(),
+    [sepolia.id]: http(),
   },
 });
