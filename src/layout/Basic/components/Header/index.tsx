@@ -67,7 +67,7 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.left}>
-        <div className={styles.placeholder}></div>
+        <div className={styles.placeholder}>WorkThree</div>
       </div>
       <div className={styles.right}>
         {!isConnected ? (
