@@ -10,7 +10,7 @@ export const Header = () => {
       </div>
       <div className={styles.right}>
         <Button variant="contained" size="large">
-          Login In
+          Connect Wallet
         </Button>
       </div>
     </div>
