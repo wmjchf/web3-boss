@@ -1,0 +1,65 @@
+.ellipsis {
+  display: flex;
+  &--input {
+    display: none;
+    &:checked + .ellipsis--text {
+      max-height: none;
+      .ellipsis--button {
+        margin-left: 5px;
+        &::after {
+          content: "收起";
+        }
+        &::before {
+          display: none;
+        }
+      }
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  &--text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+    position: relative;
+    line-height: 2;
+    max-height: 20em;
+    font-size: 12px;
+    transition: 0.3s max-height;
+    &::after {
+      content: "";
+      width: 999vw;
+      height: 999vw;
+      position: absolute;
+      box-shadow: inset calc(100px - 999vw) calc(30px - 999vw) 0 0 #fff;
+      margin-left: -100px;
+    }
+  }
+  &--slide {
+    float: right;
+    height: 100%;
+  }
+  &--button {
+    position: relative;
+    float: right;
+    clear: both;
+    margin-left: 20px;
+    color: blue;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &::after {
+      content: "更多";
+    }
+    &::before {
+      content: "...";
+      position: absolute;
+      left: -5px;
+      color: #333;
+      transform: translateX(-100%);
+    }
+  }
+}

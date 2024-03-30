@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Ellipsis } from "@/components/Ellipsis";
 import styles from "./index.less";
 
 interface IItem {
@@ -17,14 +17,16 @@ export const Item: React.FC<IItem> = (props) => {
       </div>
       <div className={styles.position}>
         <span>{data.position}</span>
+        <span>{data.salary}</span>
       </div>
       <div className={styles.address}>
         <span>地址：</span>
         <span>{data.address}</span>
       </div>
       <div className={styles.required}>
-        <span>职位描述</span>
-        <span>{data.description}</span>
+        <span>团队/项目/公司描述</span>
+        {/* <span>{data.description}</span> */}
+        <Ellipsis content={data.description}></Ellipsis>
         {/* <div className={styles.required1}>
           <span></span>
           <span>
