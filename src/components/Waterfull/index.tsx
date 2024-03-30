@@ -1,12 +1,17 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useState } from "react";
 
 import styles from "./index.less";
-interface IData {}
+import { IWaterItemPosition, Item } from "./Item";
+interface IData {
+  actualHeight?: number;
+  id: number;
+}
 interface IWaterfull<T> {
   width: number;
   columns: number;
   data: T[];
   itemGap?: number;
+  renderItem?: (node: T, itemWidth: number) => React.ReactNode;
 }
 export function findMinColumnIndex(columns: Array<number>): number {
   let minIndex = 0;
@@ -32,12 +37,45 @@ export function findMaxColumnValue(columns: Array<number>): number {
 export const Waterfull = <T extends IData>(
   props: IWaterfull<T>
 ): React.ReactElement => {
-  const { columns, width, itemGap } = props;
+  const { columns, width, itemGap, data, renderItem } = props;
 
   const heightArrRef = useRef<Array<number>>(new Array(columns).fill(0));
-
+  const [maxHeight, setMaxHeight] = useState(0);
   const itemWidth = useMemo(() => {
     return (width - (columns - 1) * itemGap) / columns;
   }, [width, columns, itemGap]);
-  return <div className={styles.waterfull}></div>;
+  const getWaterfallItemPostionInfo = (node: T): IWaterItemPosition => {
+    const { actualHeight = 0 } = node;
+
+    const itemHeight = actualHeight + itemGap;
+
+    const minHeightIndex = findMinColumnIndex(heightArrRef.current);
+
+    const prevMinHeight = heightArrRef.current[minHeightIndex];
+
+    heightArrRef.current[minHeightIndex] += itemHeight;
+    const maxHeight = findMaxColumnValue(heightArrRef.current);
+    setMaxHeight(maxHeight);
+    return {
+      index: minHeightIndex,
+      top: prevMinHeight,
+    };
+  };
+  return (
+    <div className={styles.waterfull}>
+      {data.map((item) => {
+        return (
+          <Item
+            width={itemWidth}
+            key={item.id}
+            node={item}
+            itemGap={itemGap}
+            getWaterfallItemPostionInfo={getWaterfallItemPostionInfo}
+          >
+            {renderItem && renderItem(item, itemWidth)}
+          </Item>
+        );
+      })}
+    </div>
+  );
 };

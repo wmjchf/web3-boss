@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { SiweMessage } from "siwe";
 import styles from "./index.less";
@@ -7,6 +8,7 @@ import { useLocation } from "react-router-dom";
 
 export const Header = () => {
   const { connectors, connect } = useConnect();
+  const navigate = useNavigate();
   const { signMessage } = useSignMessage();
   const { disconnect } = useDisconnect();
   const { isConnected, address } = useAccount();
@@ -64,6 +66,7 @@ export const Header = () => {
     // console.log(await res.text());
     signMessage({ message: "hello world", account: address });
   }
+
   return (
     <div className={styles.header}>
       <div className={styles.left}>
@@ -84,7 +87,13 @@ export const Header = () => {
             >
               我要应聘
             </Button>
-            <Button variant="contained" size="large" onClick={handleDisConnect}>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => {
+                navigate("/company");
+              }}
+            >
               我要招人
             </Button>
           </>
