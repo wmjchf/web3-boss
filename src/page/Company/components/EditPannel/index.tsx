@@ -6,11 +6,19 @@ import classNames from "classnames";
 interface IEditorPannel {
   children?: React.ReactElement;
   className?: string;
+
   onEdit?: () => void;
   onSave?: () => void;
 }
 export const EditPannel: React.FC<IEditorPannel> = (props) => {
-  const { children, onEdit, onSave, className } = props;
+  const {
+    children,
+    onEdit,
+    onSave,
+    className,
+    isPreview = false,
+    onPreview,
+  } = props;
   const [isEdit, setIsEdit] = useState(false);
   return (
     <div className={classNames(styles.edit__pannel, className)}>
