@@ -1,21 +1,22 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo, useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import Button from "@mui/material/Button";
 import { SiweMessage } from "siwe";
+import { getNonce, login } from "@/api/user";
 import styles from "./index.less";
-import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
-import { useLocation } from "react-router-dom";
 
 export const Header = () => {
   const { connectors, connect } = useConnect();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { signMessage } = useSignMessage();
+  const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
   const { isConnected, address } = useAccount();
   const [ready, setReady] = useState(false);
+  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
   const domain = window.location.host;
   const origin = window.location.origin;
-
   const connector = useMemo(() => {
     const item = connectors.find((item) => !item.icon);
     return item;
@@ -25,6 +26,7 @@ export const Header = () => {
       setReady(!!provider);
     });
   }, [connector]);
+
   const handleConnect = () => {
     if (!ready) {
       alert("请下载metaMask钱包");
@@ -37,6 +39,7 @@ export const Header = () => {
   };
 
   async function createSiweMessage(address, statement) {
+    const { result } = await getNonce();
     const message = new SiweMessage({
       domain,
       address,
@@ -44,61 +47,73 @@ export const Header = () => {
       uri: origin,
       version: "1",
       chainId: 1,
-      // nonce: await res.text(),
+      nonce: result.nonce,
     });
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
-    // const signer = await provider.getSigner();
-    // const message = await createSiweMessage(
-    //     await signer.getAddress(),
-    //     'Sign in with Ethereum to the app.'
-    // );
-    // const signature = await signer.signMessage(message);
-    // const res = await fetch(`${BACKEND_ADDR}/verify`, {
-    //     method: "POST",
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ message, signature }),
-    //     credentials: 'include'
-    // });
-    // console.log(await res.text());
-    signMessage({ message: "hello world", account: address });
+    const message = await createSiweMessage(
+      address,
+      "Sign in with Ethereum to the app."
+    );
+
+    const signature = await signMessageAsync({
+      message,
+      account: address,
+    });
+
+    const { result } = await login({ signature, message });
+
+    localStorage.setItem("token", result.token);
+    setIsLogin(true);
   }
+
+  const renderBtn = useMemo(() => {
+    if (!isConnected) {
+      return (
+        <Button variant="contained" size="large" onClick={handleConnect}>
+          Connect Wallet
+        </Button>
+      );
+    } else {
+      if (isLogin) {
+        return pathname === "/company" ? (
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => {
+              navigate("/jobs");
+            }}
+          >
+            我要应聘
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => {
+              navigate("/company");
+            }}
+          >
+            我要招人
+          </Button>
+        );
+      } else {
+        return (
+          <Button variant="contained" size="large" onClick={signInWithEthereum}>
+            Login In
+          </Button>
+        );
+      }
+    }
+  }, [isConnected, isLogin, pathname]);
 
   return (
     <div className={styles.header}>
       <div className={styles.left}>
         <div className={styles.placeholder}>WorkThree</div>
       </div>
-      <div className={styles.right}>
-        {!isConnected ? (
-          <Button variant="contained" size="large" onClick={handleConnect}>
-            Connect Wallet
-          </Button>
-        ) : (
-          <>
-            <Button
-              variant="contained"
-              size="large"
-              onClick={signInWithEthereum}
-              className={styles.seek}
-            >
-              我要应聘
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              onClick={() => {
-                navigate("/company");
-              }}
-            >
-              我要招人
-            </Button>
-          </>
-        )}
-      </div>
+      <div className={styles.right}>{renderBtn}</div>
     </div>
   );
 };
