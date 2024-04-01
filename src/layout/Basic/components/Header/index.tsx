@@ -1,7 +1,16 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+  useSignMessage,
+} from "wagmi";
 import Button from "@mui/material/Button";
+import Popover from "@mui/material/Popover";
+import { EllipsisMiddle } from "@/components/EllipsisMiddle";
 import { SiweMessage } from "siwe";
 import { getNonce, login } from "@/api/user";
 import styles from "./index.less";
@@ -13,6 +22,7 @@ export const Header = () => {
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
   const { isConnected, address } = useAccount();
+
   const [ready, setReady] = useState(false);
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
   const domain = window.location.host;
@@ -78,25 +88,51 @@ export const Header = () => {
     } else {
       if (isLogin) {
         return pathname === "/company" ? (
-          <Button
-            variant="contained"
-            size="large"
-            onClick={() => {
-              navigate("/jobs");
-            }}
-          >
-            我要应聘
-          </Button>
+          <>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => {
+                navigate("/jobs");
+              }}
+            >
+              我要应聘
+            </Button>
+
+            <EllipsisMiddle
+              value={address}
+              suffixCount={6}
+              className={styles.address}
+            >
+              <div className={styles.user__window}>
+                <span
+                  className={styles.user__window__item}
+                  onClick={() => {
+                    disconnect();
+                  }}
+                >
+                  退出登录
+                </span>
+              </div>
+            </EllipsisMiddle>
+          </>
         ) : (
-          <Button
-            variant="contained"
-            size="large"
-            onClick={() => {
-              navigate("/company");
-            }}
-          >
-            我要招人
-          </Button>
+          <>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => {
+                navigate("/company");
+              }}
+            >
+              我要招人
+            </Button>
+            <EllipsisMiddle
+              value={address}
+              suffixCount={6}
+              className={styles.address}
+            ></EllipsisMiddle>
+          </>
         );
       } else {
         return (

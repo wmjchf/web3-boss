@@ -30,14 +30,14 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function (response) {
-    toast.success(response.data.message);
+    // toast.success(response.data.message);
     return response;
   },
   function (error) {
     //   // 超出 2xx 范围的状态码都会触发该函数。
-
     //   // 对响应错误做点什么
-    return Promise.reject(error);
+
+    return Promise.reject(error.response.data);
   }
 );
 

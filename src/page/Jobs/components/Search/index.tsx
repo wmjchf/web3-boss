@@ -37,7 +37,7 @@ export const Search = () => {
   return (
     <div className={styles.search}>
       <div className={styles.keyword}>
-        <TextField id="keyword" label="关键字" fullWidth />
+        <TextField id="name" label="岗位名称" fullWidth />
       </div>
       <div className={styles.type}>
         <TextField id="type" label="是否远程" select fullWidth>
@@ -49,13 +49,7 @@ export const Search = () => {
         </TextField>
       </div>
       <div className={styles.city}>
-        <TextField id="city" label="城市" select fullWidth>
-          {citys.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+        <TextField id="location" label="地址" fullWidth />
       </div>
     </div>
   );

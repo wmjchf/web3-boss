@@ -21,7 +21,7 @@ export const getCompanyListByAddress = (address: string) =>
     pageSize: number;
     total: number;
     list: ICompany[];
-  }>("company", { params: { address } });
+  }>("company", { address });
 
 export const getCompanyDetail = (id: number) => get<ICompany>(`company/${id}`);
 
@@ -37,4 +37,4 @@ export const getPicture = (companyId: number) =>
     pageSize: number;
     total: number;
     list: IPicture[];
-  }>("cpicture", { params: { companyId } });
+  }>("cpicture", { companyId });

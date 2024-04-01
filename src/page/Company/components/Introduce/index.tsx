@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import ImgCrop from "antd-img-crop";
+import toast from "react-hot-toast";
+import { Image } from "@/components/Image";
 import { EditPannel } from "../EditPannel";
 import styles from "./index.less";
 import classNames from "classnames";
 import { Upload, UploadProps } from "antd";
 import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
+import { useAccount } from "wagmi";
 interface IIntroduce {
   companyId: number;
 }
 export const Introduce: React.FC<IIntroduce> = (props) => {
   const { companyId } = props;
+  const { address } = useAccount();
+
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("");
+  const [caddress, setCAddress] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [logo, setLogo] = useState("");
@@ -38,21 +44,27 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
     setIsEdit(false);
   };
   const handleUpdateCompany = async () => {
-    await updateCompany(companyId, {
-      name,
-      location,
-      description,
-      logo,
-    });
-    setIsEdit(false);
+    try {
+      await updateCompany(companyId, {
+        name,
+        location,
+        description,
+        logo,
+      });
+      setIsEdit(false);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const handleGetCompanyDetail = async () => {
     const { result } = await getCompanyDetail(companyId);
+
     setDescription(result.description);
     setLocation(result.location);
     setLogo(result.logo);
     setName(result.name);
+    setCAddress(result.address);
   };
   useEffect(() => {
     if (companyId) {
@@ -64,6 +76,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       onEdit={() => {
         setIsEdit(true);
       }}
+      showEdit={address === caddress || !companyId}
       onSave={onSave}
       className={styles.edit__introduce}
     >
@@ -79,7 +92,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
                 onChange={handleChange}
               >
                 {logo ? (
-                  <img src={logo} alt="" />
+                  <Image src={logo}></Image>
                 ) : (
                   <div className={styles.upload}></div>
                 )}

@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Upload, UploadFile, UploadProps } from "antd";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import { useAccount } from "wagmi";
 import { addPicture, getPicture } from "@/api/company";
+import { Image } from "@/components/Image";
 import styles from "./index.less";
 import { EditPannel } from "../EditPannel";
 interface IPicture {
   companyId: number;
+  address: string;
 }
 export const Picture: React.FC<IPicture> = (props) => {
-  const { companyId } = props;
+  const { companyId, address: caddress } = props;
   const [isEdit, setIsEdit] = useState(false);
+  const { address } = useAccount();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     const list = newFileList
@@ -48,6 +52,7 @@ export const Picture: React.FC<IPicture> = (props) => {
         setIsEdit(true);
       }}
       onSave={onSave}
+      showEdit={address === caddress || !companyId}
       className={styles.edit__picture}
     >
       <div className={styles.picture}>
@@ -57,7 +62,13 @@ export const Picture: React.FC<IPicture> = (props) => {
             // console.log(item?.response.result.url);
             return (
               <PhotoView src={item?.url} key={item?.id}>
-                <img src={item?.url} alt="" className={styles.preview__image} />
+                <div>
+                  <Image
+                    src={item?.url}
+                    alt=""
+                    className={styles.preview__image}
+                  />
+                </div>
               </PhotoView>
             );
           })}
