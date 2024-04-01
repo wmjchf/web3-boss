@@ -12,6 +12,7 @@ interface IWaterfull<T> {
   data: T[];
   itemGap?: number;
   renderItem?: (node: T, itemWidth: number) => React.ReactNode;
+  onHeight?: (maxHeight: number) => void;
 }
 export function findMinColumnIndex(columns: Array<number>): number {
   let minIndex = 0;
@@ -37,7 +38,7 @@ export function findMaxColumnValue(columns: Array<number>): number {
 export const Waterfull = <T extends IData>(
   props: IWaterfull<T>
 ): React.ReactElement => {
-  const { columns, width, itemGap, data, renderItem } = props;
+  const { columns, width, itemGap, data, renderItem, onHeight } = props;
 
   const heightArrRef = useRef<Array<number>>(new Array(columns).fill(0));
   const [maxHeight, setMaxHeight] = useState(0);
@@ -56,6 +57,7 @@ export const Waterfull = <T extends IData>(
     heightArrRef.current[minHeightIndex] += itemHeight;
     const maxHeight = findMaxColumnValue(heightArrRef.current);
     setMaxHeight(maxHeight);
+    onHeight && onHeight(maxHeight);
     return {
       index: minHeightIndex,
       top: prevMinHeight,

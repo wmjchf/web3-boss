@@ -36,6 +36,21 @@ export const Introduce = () => {
             )}
           </div>
         </div>
+        <div className={styles.middle}>
+          <div className={styles.location}>
+            <i>地址：</i>
+            {isEdit ? (
+              <TextField
+                id="keyword"
+                label="地址"
+                fullWidth
+                defaultValue={"杭州市下沙航海路124号"}
+              />
+            ) : (
+              <span>杭州市下沙航海路124号</span>
+            )}
+          </div>
+        </div>
         <div className={styles.bottom}>
           {isEdit ? (
             <TextField

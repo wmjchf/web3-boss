@@ -1,0 +1,50 @@
+.edit__navbar {
+  margin-top: 24px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  .item {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    &.active {
+      span {
+        color: #1976d2;
+      }
+    }
+  }
+  .indictor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+}
+.body {
+  padding-top: 12px;
+  .job {
+    box-shadow: 0 0 0 2px #eaecf1;
+    padding: 32px;
+    box-sizing: border-box;
+    background-color: #fff;
+    width: 300px;
+    height: 400px;
+    margin-top: 2px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+}
