@@ -15,10 +15,7 @@ axios.defaults.baseURL = "http://localhost:8000";
 
 axios.interceptors.request.use(
   function (config) {
-    // config.headers.Authorization = localStorage.getItem("token")
-    //   ? `Bearer ${localStorage.getItem("token")}`
-    //   : `Bearer ${window.token}`;
-
+    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
     // config.headers["webwea-agent"] = isMobile() ? "h5" : "pc";
     return config;
   },
@@ -87,9 +84,9 @@ export function patch(url: string, data = {}) {
   });
 }
 
-export function put(url: string, data = {}) {
+export function put<T>(url: string, data = {}) {
   return new Promise((resolve, reject) => {
-    axios.put(url, data).then(
+    axios.put<IResponse<T>>(url, data).then(
       (response) => {
         resolve(response.data);
       },

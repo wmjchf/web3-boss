@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import ImgCrop from "antd-img-crop";
 import { EditPannel } from "../EditPannel";
 import styles from "./index.less";
 import classNames from "classnames";
 import { Upload, UploadProps } from "antd";
-
-export const Introduce = () => {
+import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
+interface IIntroduce {
+  companyId: number;
+}
+export const Introduce: React.FC<IIntroduce> = (props) => {
+  const { companyId } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -17,14 +21,50 @@ export const Introduce = () => {
       setLogo(file?.response?.result?.url);
     }
   };
+  const onSave = () => {
+    if (companyId) {
+      handleUpdateCompany();
+    } else {
+      handleAddCompany();
+    }
+  };
+  const handleAddCompany = async () => {
+    await addCompany({
+      name,
+      location,
+      description,
+      logo,
+    });
+    setIsEdit(false);
+  };
+  const handleUpdateCompany = async () => {
+    await updateCompany(companyId, {
+      name,
+      location,
+      description,
+      logo,
+    });
+    setIsEdit(false);
+  };
+
+  const handleGetCompanyDetail = async () => {
+    const { result } = await getCompanyDetail(companyId);
+    setDescription(result.description);
+    setLocation(result.location);
+    setLogo(result.logo);
+    setName(result.name);
+  };
+  useEffect(() => {
+    if (companyId) {
+      handleGetCompanyDetail();
+    }
+  }, [companyId]);
   return (
     <EditPannel
       onEdit={() => {
         setIsEdit(true);
       }}
-      onSave={() => {
-        setIsEdit(false);
-      }}
+      onSave={onSave}
       className={styles.edit__introduce}
     >
       <div className={styles.introduce}>

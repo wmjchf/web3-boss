@@ -1,24 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Upload, UploadFile, UploadProps } from "antd";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import { addPicture, getPicture } from "@/api/company";
 import styles from "./index.less";
 import { EditPannel } from "../EditPannel";
-
-export const Picture = () => {
+interface IPicture {
+  companyId: number;
+}
+export const Picture: React.FC<IPicture> = (props) => {
+  const { companyId } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
+    const list = newFileList.map((item) => {
+      return item?.response?.result;
+    });
+    setFileList(list);
+  };
 
+  const onSave = async () => {
+    const pictures = fileList.map((item) => {
+      return {
+        url: item?.url,
+        companyId,
+      };
+    });
+    const { result } = await addPicture({ pictures });
+    console.log(result);
+    setIsEdit(false);
+  };
+  const handleGetPicture = async () => {
+    const { result } = await getPicture(companyId);
+    setFileList(result.list);
+  };
+  useEffect(() => {
+    if (companyId) {
+      handleGetPicture();
+    }
+  }, [companyId]);
   return (
     <EditPannel
       onEdit={() => {
         setIsEdit(true);
       }}
-      onSave={() => {
-        setIsEdit(false);
-      }}
+      onSave={onSave}
       className={styles.edit__picture}
     >
       <div className={styles.picture}>
@@ -27,12 +53,8 @@ export const Picture = () => {
           {fileList.map((item) => {
             // console.log(item?.response.result.url);
             return (
-              <PhotoView src={item?.response?.result?.url}>
-                <img
-                  src={item?.response?.result?.url}
-                  alt=""
-                  className={styles.preview__image}
-                />
+              <PhotoView src={item?.url} key={item?.id}>
+                <img src={item?.url} alt="" className={styles.preview__image} />
               </PhotoView>
             );
           })}
@@ -41,7 +63,6 @@ export const Picture = () => {
           // className={styles.upload}
           action="http://localhost:8000/common/upload"
           listType="picture-card"
-          fileList={fileList}
           showUploadList={false}
           onChange={handleChange}
         >
