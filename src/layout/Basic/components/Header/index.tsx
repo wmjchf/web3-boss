@@ -28,10 +28,10 @@ export const Header = () => {
   }, [connector]);
 
   const handleConnect = () => {
-    if (!ready) {
-      alert("请下载metaMask钱包");
-      return;
-    }
+    // if (!ready) {
+    //   alert("请下载metaMask钱包");
+    //   return;
+    // }
     connect({ connector });
   };
   const handleDisConnect = () => {
