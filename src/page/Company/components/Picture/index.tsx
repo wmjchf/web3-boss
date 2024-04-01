@@ -13,10 +13,13 @@ export const Picture: React.FC<IPicture> = (props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    const list = newFileList.map((item) => {
-      return item?.response?.result;
-    });
-    setFileList(list);
+    const list = newFileList
+      .map((item) => {
+        return item?.response?.result;
+      })
+      .filter((item) => item);
+
+    setFileList(list.concat(fileList));
   };
 
   const onSave = async () => {
@@ -26,8 +29,8 @@ export const Picture: React.FC<IPicture> = (props) => {
         companyId,
       };
     });
-    const { result } = await addPicture({ pictures });
-    console.log(result);
+    const { result } = await addPicture(companyId, { pictures });
+
     setIsEdit(false);
   };
   const handleGetPicture = async () => {

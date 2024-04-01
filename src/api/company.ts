@@ -28,7 +28,8 @@ export const getCompanyDetail = (id: number) => get<ICompany>(`company/${id}`);
 export const updateCompany = (id: number, data: unknown) =>
   put<boolean>(`company/${id}`, data);
 
-export const addPicture = (data: unknown) => post<IPicture[]>("cpicture", data);
+export const addPicture = (companyId: number, data: unknown) =>
+  post<IPicture[]>(`cpicture/${companyId}`, data);
 
 export const getPicture = (companyId: number) =>
   get<{
