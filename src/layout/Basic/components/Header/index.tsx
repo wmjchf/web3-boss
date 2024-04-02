@@ -7,13 +7,15 @@ import { AuthBtn } from "@/components/AuthBtn";
 import { EllipsisMiddle } from "@/components/EllipsisMiddle";
 
 import styles from "./index.less";
-
-export const Header = () => {
+interface IHeader {
+  onClick: () => void;
+}
+export const Header: React.FC<IHeader> = (props) => {
+  const { onClick } = props;
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const { disconnect } = useDisconnect();
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
 
   const renderBtn = useMemo(() => {
     return pathname === "/company" ? (
@@ -33,8 +35,9 @@ export const Header = () => {
             value={address}
             suffixCount={6}
             className={styles.address}
+            onClick={onClick}
           >
-            <div className={styles.user__window}>
+            {/* <div className={styles.user__window}>
               <span
                 className={styles.user__window__item}
                 onClick={() => {
@@ -51,8 +54,8 @@ export const Header = () => {
                 }}
               >
                 退出登录
-              </span>
-            </div>
+              </span> */}
+            {/* </div> */}
           </EllipsisMiddle>
         )}
       </>
@@ -72,6 +75,7 @@ export const Header = () => {
             value={address}
             suffixCount={6}
             className={styles.address}
+            onClick={onClick}
           ></EllipsisMiddle>
         )}
       </>

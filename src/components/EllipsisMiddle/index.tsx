@@ -9,7 +9,7 @@ interface IEllipsisMiddle {
   children?: React.ReactNode;
 }
 export const EllipsisMiddle: React.FC<IEllipsisMiddle> = (props) => {
-  const { value, suffixCount, className, children } = props;
+  const { value, suffixCount, className, children, onClick } = props;
   const start = value.slice(0, suffixCount).trim();
   const suffix = value.slice(-suffixCount).trim();
   const [anchorEl, setAnchorEl] = React.useState<HTMLSpanElement | null>(null);
@@ -22,7 +22,7 @@ export const EllipsisMiddle: React.FC<IEllipsisMiddle> = (props) => {
   const open = Boolean(anchorEl);
   return (
     <>
-      <span className={classNames(className)} onClick={handleClick}>
+      <span className={classNames(className)} onClick={onClick}>
         {start}....{suffix}
       </span>
       <Popover
