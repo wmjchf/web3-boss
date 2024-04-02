@@ -4,6 +4,7 @@ import { EditPannel } from "../EditPannel";
 import styles from "./index.less";
 import classNames from "classnames";
 import { Waterfull } from "@/components/Waterfull";
+import NoData from "@/image/common/no-list.png";
 import { Item } from "./Item";
 
 export const Navbar = () => {
@@ -128,21 +129,28 @@ export const Navbar = () => {
       <div
         className={styles.body}
         style={{
-          height,
+          height: list?.length < 0 ? height : "auto",
         }}
       >
-        <Waterfull
-          columns={4}
-          data={list}
-          width={1552}
-          itemGap={15}
-          renderItem={(data) => {
-            return <Item data={data}></Item>;
-          }}
-          onHeight={(height) => {
-            setHeight(height);
-          }}
-        ></Waterfull>
+        {list?.length < 0 ? (
+          <Waterfull
+            columns={4}
+            data={list}
+            width={1552}
+            itemGap={15}
+            renderItem={(data) => {
+              return <Item data={data}></Item>;
+            }}
+            onHeight={(height) => {
+              setHeight(height);
+            }}
+          ></Waterfull>
+        ) : (
+          <div className={styles.no__data}>
+            <img src={NoData}></img>
+            <span>没有数据，点击悬浮按钮可以去发布！</span>
+          </div>
+        )}
       </div>
     </EditPannel>
   );

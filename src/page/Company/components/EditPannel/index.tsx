@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import styles from "./index.less";
 import classNames from "classnames";
+import { AuthBtn } from "@/components/AuthBtn";
 
 interface IEditorPannel {
   children?: React.ReactElement;
@@ -20,23 +21,23 @@ export const EditPannel: React.FC<IEditorPannel> = (props) => {
         {showEdit && (
           <div className={styles.btn}>
             {!isEdit ? (
-              <Button
+              <AuthBtn
                 onClick={() => {
                   setIsEdit(true);
                   onEdit && onEdit();
                 }}
               >
-                编辑
-              </Button>
+                <Button>编辑</Button>
+              </AuthBtn>
             ) : (
-              <Button
+              <AuthBtn
                 onClick={() => {
                   setIsEdit(false);
                   onSave && onSave();
                 }}
               >
-                保存
-              </Button>
+                <Button>保存</Button>
+              </AuthBtn>
             )}
           </div>
         )}

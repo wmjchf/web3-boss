@@ -6,13 +6,16 @@ import { Picture } from "./components/Picture";
 import styles from "./index.less";
 import { getCompanyListByAddress, ICompany } from "@/api/company";
 import { useAccount } from "wagmi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { JobModal } from "./components/JobModal";
+import { AuthBtn } from "@/components/AuthBtn";
 
 export const Company = () => {
   const { address } = useAccount();
-  const modalRef = useRef<any>();
+
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const companyId = searchParams.get("companyId");
   const [company, setCompany] = useState<ICompany>();
   const handleCompanyList = async () => {
     const { result } = await getCompanyListByAddress(address);
@@ -25,19 +28,20 @@ export const Company = () => {
   }, [address]);
   return (
     <div className={styles.company}>
-      <Introduce companyId={company?.id}></Introduce>
-      <Picture companyId={company?.id} address={company?.address}></Picture>
+      <Introduce companyId={companyId || company?.id}></Introduce>
+      <Picture
+        companyId={companyId || company?.id}
+        address={company?.address}
+      ></Picture>
       <Navbar></Navbar>
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={styles.add}
+
+      <AuthBtn
         onClick={() => {
           navigate("/addJob");
         }}
       >
-        {/* <AddIcon /> */}
-      </Fab>
+        <Fab color="primary" aria-label="add" className={styles.add}></Fab>
+      </AuthBtn>
     </div>
   );
 };
