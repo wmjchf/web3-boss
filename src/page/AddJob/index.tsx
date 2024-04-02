@@ -8,6 +8,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { AuthBtn } from "@/components/AuthBtn";
 
 export const AddJob = () => {
   const [tagList, setTagList] = useState([]);
@@ -18,7 +19,9 @@ export const AddJob = () => {
         <div className={styles.form}>
           <div className={styles.title}>
             <span className={styles.span}>发布职位</span>
-            <Button variant="contained">发布</Button>
+            <AuthBtn>
+              <Button variant="contained">发布</Button>
+            </AuthBtn>
           </div>
           <div className={styles.one}>
             <div className={styles.name}>
