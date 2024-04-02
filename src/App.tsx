@@ -10,9 +10,13 @@ import { userUserStore } from "./store";
 const queryClient = new QueryClient();
 
 export const App = () => {
-  const { getCurrentUser } = userUserStore();
+  const { getCurrentUser, getCurrentResume } = userUserStore();
+  const init = async () => {
+    await getCurrentUser();
+    await getCurrentResume();
+  };
   useEffect(() => {
-    getCurrentUser();
+    init();
   }, []);
   return (
     <WagmiProvider config={config}>

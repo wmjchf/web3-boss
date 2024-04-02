@@ -19,7 +19,12 @@ export const Item: React.FC<IItem> = (props) => {
     return data?.isFace ? "面议" : `${data.minSalary}~${data.maxSalary}`;
   }, [data]);
   return (
-    <div className={styles.item}>
+    <div
+      className={styles.item}
+      onClick={() => {
+        navigate(`/job/${data.id}`);
+      }}
+    >
       {address === caddress && (
         <Button
           className={styles.edit}

@@ -7,6 +7,7 @@ import { Jobs } from "@/page/Jobs";
 import { Company } from "@/page/Company";
 import { AddJob } from "@/page/AddJob";
 import { UpdateJob } from "@/page/UpdateJob";
+import { Job } from "@/page/Job";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
         path: "jobs",
         element: <Jobs></Jobs>,
       },
+
       {
         path: "company",
         element: <Company></Company>,
@@ -27,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "updateJob/:id",
         element: <UpdateJob></UpdateJob>,
+      },
+      {
+        path: "job/:id",
+        element: <Job></Job>,
       },
     ],
   },

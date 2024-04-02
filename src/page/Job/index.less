@@ -1,0 +1,60 @@
+.job {
+  height: 100%;
+  overflow: scroll;
+  background-color: RGB(242, 244, 247);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .container {
+    padding: 32px calc((100% - var(--contentWidth)) / 2);
+    .content {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      .name {
+        display: flex;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 500;
+        .salary {
+          font-size: 28px;
+          margin-left: 20px;
+          color: red;
+        }
+      }
+      .tag {
+        margin-top: 12px;
+        .chip {
+          margin-right: 5px;
+          margin-bottom: 10px;
+        }
+      }
+      .location {
+        font-size: 14px;
+        // margin-top: 8px;
+      }
+      .description {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        span {
+          &:nth-child(1) {
+            font-weight: 500;
+            font-size: 18px;
+          }
+          &:nth-child(2) {
+            margin-top: 12px;
+            line-height: 28px;
+            white-space: pre-line;
+          }
+        }
+      }
+      .apply {
+        margin-top: 24px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

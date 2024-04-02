@@ -10,6 +10,7 @@ export interface IJob {
   id: number;
   isFace: boolean;
   location: string;
+  address: string;
 }
 
 export const addJob = (data: unknown) => post<IJob>("job", data);
