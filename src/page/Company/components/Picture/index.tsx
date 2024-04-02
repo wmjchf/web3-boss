@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Upload, UploadFile, UploadProps } from "antd";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
-import { useAccount } from "wagmi";
 import NoData from "@/image/common/no-list.png";
 import { addPicture, getPicture } from "@/api/company";
 import { Image } from "@/components/Image";
 import styles from "./index.less";
 import { EditPannel } from "../EditPannel";
+import { userUserStore } from "@/store";
 interface IPicture {
   companyId: number;
   address: string;
@@ -15,7 +15,8 @@ interface IPicture {
 export const Picture: React.FC<IPicture> = (props) => {
   const { companyId, address: caddress } = props;
   const [isEdit, setIsEdit] = useState(false);
-  const { address } = useAccount();
+  const { userInfo } = userUserStore();
+  const { address } = userInfo;
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     const list = newFileList
@@ -51,6 +52,9 @@ export const Picture: React.FC<IPicture> = (props) => {
     <EditPannel
       onEdit={() => {
         setIsEdit(true);
+      }}
+      onClose={() => {
+        setIsEdit(false);
       }}
       onSave={onSave}
       showEdit={address === caddress || !companyId}

@@ -10,9 +10,17 @@ interface IEditorPannel {
   showEdit?: boolean;
   onEdit?: () => void;
   onSave?: () => void;
+  onClose?: () => void;
 }
 export const EditPannel: React.FC<IEditorPannel> = (props) => {
-  const { children, onEdit, onSave, className, showEdit = true } = props;
+  const {
+    children,
+    onEdit,
+    onSave,
+    className,
+    showEdit = true,
+    onClose,
+  } = props;
   const [isEdit, setIsEdit] = useState(false);
   return (
     <div className={classNames(styles.edit__pannel, className)}>
@@ -20,6 +28,16 @@ export const EditPannel: React.FC<IEditorPannel> = (props) => {
         {children}
         {showEdit && (
           <div className={styles.btn}>
+            {isEdit && (
+              <Button
+                onClick={() => {
+                  setIsEdit(false);
+                  onClose && onClose();
+                }}
+              >
+                取消
+              </Button>
+            )}
             {!isEdit ? (
               <AuthBtn
                 onClick={() => {

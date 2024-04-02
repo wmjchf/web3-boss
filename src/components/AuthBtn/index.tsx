@@ -3,6 +3,8 @@ import { useAccount, useSignMessage, useConnect } from "wagmi";
 import { SiweMessage } from "siwe";
 
 import { getNonce, login } from "@/api/user";
+import { userUserStore } from "@/store";
+import { Button } from "@mui/material";
 
 interface IAuthBtn {
   onClick?: () => void;
@@ -13,10 +15,11 @@ interface IAuthBtn {
 export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   const { onClick, children } = props;
   const [ready, setReady] = useState(false);
+  const { updateToken, getCurrentUser } = userUserStore();
   const { signMessageAsync } = useSignMessage();
   const { connectors, connect } = useConnect();
   const { isConnected, address } = useAccount();
-
+  const { userInfo } = userUserStore();
   const connector = useMemo(() => {
     const item = connectors.find((item) => !item.icon);
     return item;
@@ -60,10 +63,19 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
     });
 
     const { result } = await login({ signature, message });
-
+    updateToken(result.token);
     localStorage.setItem("token", result.token);
+    getCurrentUser();
   }
-
+  const renderChildren = () => {
+    if (!isConnected) {
+      return <Button>connect wallet</Button>;
+    }
+    if (!userInfo.address) {
+      return <Button>login in</Button>;
+    }
+    return children;
+  };
   return (
     <div
       onClick={() => {
@@ -71,14 +83,14 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
           handleConnect();
           return;
         }
-        if (!localStorage.getItem("token")) {
+        if (!userInfo.address) {
           signInWithEthereum();
           return;
         }
         onClick && onClick();
       }}
     >
-      {children}
+      {renderChildren()}
     </div>
   );
 };

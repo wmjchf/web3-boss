@@ -5,16 +5,14 @@ import { WagmiProvider } from "wagmi";
 import { Toaster } from "react-hot-toast";
 import { config } from "./wagmi/config";
 import router from "./router";
-import { getCurrentUser } from "./api/user";
+import { userUserStore } from "./store";
 
 const queryClient = new QueryClient();
+
 export const App = () => {
-  const handleGetCurrentUser = async () => {
-    const result = await getCurrentUser();
-    console.log(result, "fsfds");
-  };
+  const { getCurrentUser } = userUserStore();
   useEffect(() => {
-    // handleGetCurrentUser();
+    getCurrentUser();
   }, []);
   return (
     <WagmiProvider config={config}>

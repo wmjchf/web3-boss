@@ -1,12 +1,11 @@
 import React, { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAccount, useDisconnect } from "wagmi";
 import Button from "@mui/material/Button";
-import { AuthBtn } from "@/components/AuthBtn";
 
 import { EllipsisMiddle } from "@/components/EllipsisMiddle";
 
 import styles from "./index.less";
+import { userUserStore } from "@/store";
 interface IHeader {
   onClick: () => void;
 }
@@ -14,9 +13,8 @@ export const Header: React.FC<IHeader> = (props) => {
   const { onClick } = props;
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
-  const { address } = useAccount();
-
+  const { userInfo } = userUserStore();
+  const { address } = userInfo;
   const renderBtn = useMemo(() => {
     return pathname === "/company" ? (
       <>
@@ -36,27 +34,7 @@ export const Header: React.FC<IHeader> = (props) => {
             suffixCount={6}
             className={styles.address}
             onClick={onClick}
-          >
-            {/* <div className={styles.user__window}>
-              <span
-                className={styles.user__window__item}
-                onClick={() => {
-                  // disconnect();
-                  localStorage.removeItem("token");
-                  disconnect(
-                    {},
-                    {
-                      onSuccess() {
-                        location.reload();
-                      },
-                    }
-                  );
-                }}
-              >
-                退出登录
-              </span> */}
-            {/* </div> */}
-          </EllipsisMiddle>
+          ></EllipsisMiddle>
         )}
       </>
     ) : (
@@ -156,7 +134,7 @@ export const Header: React.FC<IHeader> = (props) => {
     //     );
     //   }
     // }
-  }, [pathname]);
+  }, [pathname, address]);
 
   return (
     <div className={styles.header}>

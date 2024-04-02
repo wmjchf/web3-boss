@@ -8,13 +8,14 @@ import styles from "./index.less";
 import classNames from "classnames";
 import { Upload, UploadProps } from "antd";
 import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
-import { useAccount } from "wagmi";
+import { userUserStore } from "@/store";
 interface IIntroduce {
   companyId: number;
 }
 export const Introduce: React.FC<IIntroduce> = (props) => {
   const { companyId } = props;
-  const { address } = useAccount();
+  const { userInfo } = userUserStore();
+  const { address } = userInfo;
 
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("");
@@ -78,6 +79,9 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       }}
       showEdit={address === caddress || !companyId}
       onSave={onSave}
+      onClose={() => {
+        setIsEdit(false);
+      }}
       className={styles.edit__introduce}
     >
       <div className={styles.introduce}>

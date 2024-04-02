@@ -9,13 +9,13 @@ import {
   getCompanyListByAddress,
   ICompany,
 } from "@/api/company";
-import { useAccount } from "wagmi";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { JobModal } from "./components/JobModal";
 import { AuthBtn } from "@/components/AuthBtn";
+import { userUserStore } from "@/store";
 
 export const Company = () => {
-  const { address } = useAccount();
+  const { userInfo } = userUserStore();
+  const { address } = userInfo;
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

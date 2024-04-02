@@ -1,6 +1,6 @@
 import { post, get } from "@/request";
 
-interface IUser {
+export interface IUser {
   address: string;
   chainId: number;
   integral: number;

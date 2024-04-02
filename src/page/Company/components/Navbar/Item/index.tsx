@@ -4,7 +4,7 @@ import { Ellipsis } from "@/components/Ellipsis";
 import { timeAgo } from "@/utils/time";
 import styles from "./index.less";
 import { useNavigate } from "react-router-dom";
-import { useAccount } from "wagmi";
+import { userUserStore } from "@/store";
 
 interface IItem {
   data: any;
@@ -13,7 +13,8 @@ interface IItem {
 export const Item: React.FC<IItem> = (props) => {
   const { data, caddress } = props;
   const navigate = useNavigate();
-  const { address } = useAccount();
+  const { userInfo } = userUserStore();
+  const { address } = userInfo;
   const salary = useMemo(() => {
     return `${data.minSalary}~${data.maxSalary}`;
   }, [data]);
