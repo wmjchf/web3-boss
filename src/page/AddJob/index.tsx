@@ -9,23 +9,53 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { AuthBtn } from "@/components/AuthBtn";
+import { addJob } from "@/api/job";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const AddJob = () => {
   const [tagList, setTagList] = useState([]);
+  const { companyId } = useParams();
   const [tag, setTag] = useState("");
+  const [name, setName] = useState("");
+  const navigate = useNavigate();
+  const [isRemote, setIsRemote] = useState("0");
+  const [minSalary, setMinSalary] = useState("");
+  const [maxSalary, setMaxSalary] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handlePublish = async () => {
+    const result = await addJob({
+      name,
+      isRemote,
+      minSalary,
+      maxSalary,
+      description,
+      companyId,
+      tag: tagList.join(","),
+    });
+
+    navigate(-1);
+  };
   return (
     <div className={styles.add__job}>
       <div className={styles.container}>
         <div className={styles.form}>
           <div className={styles.title}>
             <span className={styles.span}>发布职位</span>
-            <AuthBtn>
+            <AuthBtn onClick={handlePublish}>
               <Button variant="contained">发布</Button>
             </AuthBtn>
           </div>
           <div className={styles.one}>
             <div className={styles.name}>
-              <TextField id="name" label="岗位名称" fullWidth />
+              <TextField
+                id="name"
+                label="岗位名称"
+                fullWidth
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+              />
             </div>
             <div className={styles.remote}>
               <span className={styles.label}>是否支持远程</span>
@@ -34,21 +64,32 @@ export const AddJob = () => {
                 defaultValue="female"
                 name="radio-buttons-group"
                 row
+                onChange={(event) => {
+                  setIsRemote(event.target.value);
+                }}
               >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="否"
-                />
-                <FormControlLabel value="male" control={<Radio />} label="是" />
+                <FormControlLabel value="0" control={<Radio />} label="否" />
+                <FormControlLabel value="1" control={<Radio />} label="是" />
               </RadioGroup>
             </div>
           </div>
           <div className={styles.two}>
             <div className={styles.salary}>
-              <TextField id="name" label="最低薪资" />{" "}
+              <TextField
+                id="name"
+                label="最低薪资"
+                onChange={(event) => {
+                  setMinSalary(event.target.value);
+                }}
+              />{" "}
               <span className={styles.range}>-</span>
-              <TextField id="name" label="最高薪资" />
+              <TextField
+                id="name"
+                label="最高薪资"
+                onChange={(event) => {
+                  setMaxSalary(event.target.value);
+                }}
+              />
             </div>
             <div className={styles.tag}>
               <span className={styles.label}>标签</span>
@@ -90,6 +131,9 @@ export const AddJob = () => {
               fullWidth
               multiline
               rows={20}
+              onChange={(event) => {
+                setDescription(event.target.value);
+              }}
             />
           </div>
         </div>

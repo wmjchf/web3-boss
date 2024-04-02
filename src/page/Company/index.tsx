@@ -47,11 +47,11 @@ export const Company = () => {
         companyId={companyId || company?.id}
         address={company?.address}
       ></Picture>
-      <Navbar></Navbar>
+      <Navbar companyId={companyId || company?.id}></Navbar>
 
       <AuthBtn
         onClick={() => {
-          navigate("/addJob");
+          navigate(`/addJob/${companyId || company?.id}`);
         }}
       >
         <Fab color="primary" aria-label="add" className={styles.add}></Fab>
