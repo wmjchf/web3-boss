@@ -10,9 +10,10 @@ import { IJob, getJobListByCompanyId } from "@/api/job";
 
 interface INavbar {
   companyId: number;
+  caddress: string;
 }
 export const Navbar: React.FC<INavbar> = (props) => {
-  const { companyId } = props;
+  const { companyId, caddress } = props;
   const [index, setIndex] = useState(1000);
   const [height, setHeight] = useState(0);
   const [list, setList] = useState<IJob>([]);
@@ -64,7 +65,7 @@ export const Navbar: React.FC<INavbar> = (props) => {
             width={1552}
             itemGap={15}
             renderItem={(data) => {
-              return <Item data={data}></Item>;
+              return <Item data={data} caddress={caddress}></Item>;
             }}
             onHeight={(height) => {
               setHeight(height);

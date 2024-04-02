@@ -3,6 +3,7 @@ import { Upload, UploadFile, UploadProps } from "antd";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { useAccount } from "wagmi";
+import NoData from "@/image/common/no-list.png";
 import { addPicture, getPicture } from "@/api/company";
 import { Image } from "@/components/Image";
 import styles from "./index.less";
@@ -73,15 +74,26 @@ export const Picture: React.FC<IPicture> = (props) => {
             );
           })}
         </PhotoProvider>
-        <Upload
-          // className={styles.upload}
-          action="http://localhost:8000/common/upload"
-          listType="picture-card"
-          showUploadList={false}
-          onChange={handleChange}
-        >
-          <div className={styles.upload}></div>
-        </Upload>
+        {isEdit ? (
+          <Upload
+            // className={styles.upload}
+            action="http://localhost:8000/common/upload"
+            listType="picture-card"
+            showUploadList={false}
+            onChange={handleChange}
+          >
+            <div className={styles.upload}></div>
+          </Upload>
+        ) : (
+          <>
+            {fileList?.length === 0 && (
+              <div className={styles.no__data}>
+                <img src={NoData}></img>
+                <span>没有数据，赶快去上传图片吧</span>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </EditPannel>
   );

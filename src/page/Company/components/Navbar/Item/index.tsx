@@ -1,20 +1,35 @@
 import React, { useMemo } from "react";
-import { Chip } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import { Ellipsis } from "@/components/Ellipsis";
 import { timeAgo } from "@/utils/time";
 import styles from "./index.less";
+import { useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
 
 interface IItem {
   data: any;
+  caddress: string;
 }
 export const Item: React.FC<IItem> = (props) => {
-  const { data } = props;
-
+  const { data, caddress } = props;
+  const navigate = useNavigate();
+  const { address } = useAccount();
   const salary = useMemo(() => {
     return `${data.minSalary}~${data.maxSalary}`;
   }, [data]);
   return (
     <div className={styles.item}>
+      {address === caddress && (
+        <Button
+          className={styles.edit}
+          onClick={() => {
+            navigate(`/updateJob/${data.id}`);
+          }}
+        >
+          编辑
+        </Button>
+      )}
+
       <div className={styles.position}>
         <span>{data.name}</span>
         <span>{salary}</span>

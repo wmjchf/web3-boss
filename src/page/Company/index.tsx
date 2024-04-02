@@ -47,15 +47,20 @@ export const Company = () => {
         companyId={companyId || company?.id}
         address={company?.address}
       ></Picture>
-      <Navbar companyId={companyId || company?.id}></Navbar>
+      <Navbar
+        companyId={companyId || company?.id}
+        caddress={company?.address}
+      ></Navbar>
 
-      <AuthBtn
-        onClick={() => {
-          navigate(`/addJob/${companyId || company?.id}`);
-        }}
-      >
-        <Fab color="primary" aria-label="add" className={styles.add}></Fab>
-      </AuthBtn>
+      {address === company?.address && (
+        <AuthBtn
+          onClick={() => {
+            navigate(`/addJob/${companyId || company?.id}`);
+          }}
+        >
+          <Fab color="primary" aria-label="add" className={styles.add}></Fab>
+        </AuthBtn>
+      )}
     </div>
   );
 };
