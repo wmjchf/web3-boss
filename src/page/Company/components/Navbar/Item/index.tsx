@@ -16,7 +16,7 @@ export const Item: React.FC<IItem> = (props) => {
   const { userInfo } = userUserStore();
   const { address } = userInfo;
   const salary = useMemo(() => {
-    return `${data.minSalary}~${data.maxSalary}`;
+    return data?.isFace ? "面议" : `${data.minSalary}~${data.maxSalary}`;
   }, [data]);
   return (
     <div className={styles.item}>

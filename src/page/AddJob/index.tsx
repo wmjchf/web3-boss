@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
+import { toast } from "react-hot-toast";
 import styles from "./index.less";
 import {
   Button,
@@ -19,18 +20,51 @@ export const AddJob = () => {
   const [name, setName] = useState("");
   const navigate = useNavigate();
   const [isRemote, setIsRemote] = useState("0");
+  const [showLocation, setShowLocation] = useState(true);
+  const [location, setLocation] = useState("");
+  const [isFace, setIsFace] = useState("0");
+  const [showSalary, setShowSalary] = useState(true);
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    setShowLocation(isRemote === "0");
+  }, [isRemote]);
+  useEffect(() => {
+    setShowSalary(isFace === "0");
+  }, [isFace]);
+
   const handlePublish = async () => {
-    const result = await addJob({
+    if (!name) {
+      toast.error("岗位名称必填");
+      return;
+    }
+    if (isFace === "0" && (!minSalary || !maxSalary)) {
+      toast.error("薪资范围必填");
+      return;
+    }
+    if (isRemote === "0" && !location) {
+      toast.error("工作地点必填");
+      return;
+    }
+    if (!description) {
+      toast.error("岗位描述必填");
+      return;
+    }
+    if (tagList.length === 0) {
+      toast.error("标签至少有一个");
+      return;
+    }
+    await addJob({
       name,
       isRemote,
       minSalary,
       maxSalary,
       description,
       companyId,
+      isFace,
+      location,
       tag: tagList.join(","),
     });
 
@@ -54,40 +88,6 @@ export const AddJob = () => {
                 fullWidth
                 onChange={(event) => {
                   setName(event.target.value);
-                }}
-              />
-            </div>
-            <div className={styles.remote}>
-              <span className={styles.label}>是否支持远程</span>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-                row
-                onChange={(event) => {
-                  setIsRemote(event.target.value);
-                }}
-              >
-                <FormControlLabel value="0" control={<Radio />} label="否" />
-                <FormControlLabel value="1" control={<Radio />} label="是" />
-              </RadioGroup>
-            </div>
-          </div>
-          <div className={styles.two}>
-            <div className={styles.salary}>
-              <TextField
-                id="name"
-                label="最低薪资"
-                onChange={(event) => {
-                  setMinSalary(event.target.value);
-                }}
-              />{" "}
-              <span className={styles.range}>-</span>
-              <TextField
-                id="name"
-                label="最高薪资"
-                onChange={(event) => {
-                  setMaxSalary(event.target.value);
                 }}
               />
             </div>
@@ -124,13 +124,83 @@ export const AddJob = () => {
               </div>
             </div>
           </div>
+          <div className={styles.two}>
+            <div className={styles.is__face}>
+              <span className={styles.label}>是否薪资面议</span>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="0"
+                name="radio-buttons-group"
+                row
+                onChange={(event) => {
+                  setIsFace(event.target.value);
+                }}
+              >
+                <FormControlLabel value="0" control={<Radio />} label="否" />
+                <FormControlLabel value="1" control={<Radio />} label="是" />
+              </RadioGroup>
+            </div>
+            {showSalary && (
+              <div className={styles.salary}>
+                <span className={styles.label}>薪资范围</span>
+                <TextField
+                  id="name"
+                  label="最低薪资"
+                  onChange={(event) => {
+                    setMinSalary(event.target.value);
+                  }}
+                />{" "}
+                <span className={styles.range}>-</span>
+                <TextField
+                  id="name"
+                  label="最高薪资"
+                  onChange={(event) => {
+                    setMaxSalary(event.target.value);
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <div className={styles.three}>
+            <div className={styles.remote}>
+              <span className={styles.label}>是否支持远程</span>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="0"
+                name="radio-buttons-group"
+                row
+                onChange={(event) => {
+                  setIsRemote(event.target.value);
+                }}
+              >
+                <FormControlLabel value="0" control={<Radio />} label="否" />
+                <FormControlLabel value="1" control={<Radio />} label="是" />
+              </RadioGroup>
+            </div>
+            {showLocation && (
+              <div className={styles.location}>
+                <span className={styles.label}>工作地点</span>
+                {/* <div className={styles.location__input}> */}
+                <TextField
+                  id="location"
+                  label="地址"
+                  value={location}
+                  onChange={(event) => {
+                    setLocation(event.target.value);
+                  }}
+                  fullWidth
+                />
+                {/* </div> */}
+              </div>
+            )}
+          </div>
           <div className={styles.description}>
             <TextField
               id="name"
               label="岗位描述"
               fullWidth
               multiline
-              rows={20}
+              rows={15}
               onChange={(event) => {
                 setDescription(event.target.value);
               }}

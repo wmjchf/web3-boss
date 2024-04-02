@@ -19,8 +19,13 @@ export const UpdateJob = () => {
   const [tag, setTag] = useState("");
   const [name, setName] = useState("");
   const navigate = useNavigate();
-  const [isRemote, setIsRemote] = useState("0");
+
   const [companyId, setCompanyId] = useState(-1);
+  const [isRemote, setIsRemote] = useState("0");
+  const [showLocation, setShowLocation] = useState(true);
+  const [location, setLocation] = useState("");
+  const [isFace, setIsFace] = useState("0");
+  const [showSalary, setShowSalary] = useState(true);
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
   const [description, setDescription] = useState("");
@@ -28,6 +33,8 @@ export const UpdateJob = () => {
   const handleGetJobInfo = async () => {
     const { result } = await getJobDetail(parseInt(id));
     setName(result.name);
+    setIsFace(result.isFace ? "1" : "0");
+    setLocation(result.location);
     setIsRemote(result.isRemote ? "1" : "0");
     setMaxSalary(result.maxSalary);
     setMinSalary(result.minSalary);
@@ -35,8 +42,33 @@ export const UpdateJob = () => {
     setTagList(result.tag.split(","));
     setCompanyId(result.companyId);
   };
-
+  useEffect(() => {
+    setShowLocation(isRemote === "0");
+  }, [isRemote]);
+  useEffect(() => {
+    setShowSalary(isFace === "0");
+  }, [isFace]);
   const handlePublish = async () => {
+    if (!name) {
+      toast.error("岗位名称必填");
+      return;
+    }
+    if (isFace === "0" && (!minSalary || !maxSalary)) {
+      toast.error("薪资范围必填");
+      return;
+    }
+    if (isRemote === "0" && !location) {
+      toast.error("工作地点必填");
+      return;
+    }
+    if (!description) {
+      toast.error("岗位描述必填");
+      return;
+    }
+    if (tagList.length === 0) {
+      toast.error("标签至少有一个");
+      return;
+    }
     const result = await updateJob(parseInt(id), {
       name,
       isRemote,
@@ -44,6 +76,8 @@ export const UpdateJob = () => {
       maxSalary,
       description,
       companyId,
+      isFace,
+      location,
       tag: tagList.join(","),
     });
 
@@ -69,46 +103,10 @@ export const UpdateJob = () => {
               <TextField
                 id="name"
                 label="岗位名称"
-                value={name}
                 fullWidth
+                value={name}
                 onChange={(event) => {
                   setName(event.target.value);
-                }}
-              />
-            </div>
-            <div className={styles.remote}>
-              <span className={styles.label}>是否支持远程</span>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                value={isRemote}
-                name="radio-buttons-group"
-                row
-                onChange={(event) => {
-                  setIsRemote(event.target.value);
-                }}
-              >
-                <FormControlLabel value="0" control={<Radio />} label="否" />
-                <FormControlLabel value="1" control={<Radio />} label="是" />
-              </RadioGroup>
-            </div>
-          </div>
-          <div className={styles.two}>
-            <div className={styles.salary}>
-              <TextField
-                id="minSalary"
-                value={minSalary}
-                label="最低薪资"
-                onChange={(event) => {
-                  setMinSalary(event.target.value);
-                }}
-              />{" "}
-              <span className={styles.range}>-</span>
-              <TextField
-                id="maxSalary"
-                value={maxSalary}
-                label="最高薪资"
-                onChange={(event) => {
-                  setMaxSalary(event.target.value);
                 }}
               />
             </div>
@@ -145,14 +143,88 @@ export const UpdateJob = () => {
               </div>
             </div>
           </div>
+          <div className={styles.two}>
+            <div className={styles.is__face}>
+              <span className={styles.label}>是否薪资面议</span>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="0"
+                name="radio-buttons-group"
+                row
+                value={isFace}
+                onChange={(event) => {
+                  setIsFace(event.target.value);
+                }}
+              >
+                <FormControlLabel value="0" control={<Radio />} label="否" />
+                <FormControlLabel value="1" control={<Radio />} label="是" />
+              </RadioGroup>
+            </div>
+            {showSalary && (
+              <div className={styles.salary}>
+                <span className={styles.label}>薪资范围</span>
+                <TextField
+                  id="name"
+                  label="最低薪资"
+                  value={minSalary}
+                  onChange={(event) => {
+                    setMinSalary(event.target.value);
+                  }}
+                />{" "}
+                <span className={styles.range}>-</span>
+                <TextField
+                  id="name"
+                  label="最高薪资"
+                  value={maxSalary}
+                  onChange={(event) => {
+                    setMaxSalary(event.target.value);
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <div className={styles.three}>
+            <div className={styles.remote}>
+              <span className={styles.label}>是否支持远程</span>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="0"
+                name="radio-buttons-group"
+                row
+                value={isRemote}
+                onChange={(event) => {
+                  setIsRemote(event.target.value);
+                }}
+              >
+                <FormControlLabel value="0" control={<Radio />} label="否" />
+                <FormControlLabel value="1" control={<Radio />} label="是" />
+              </RadioGroup>
+            </div>
+            {showLocation && (
+              <div className={styles.location}>
+                <span className={styles.label}>工作地点</span>
+                {/* <div className={styles.location__input}> */}
+                <TextField
+                  id="location"
+                  label="地址"
+                  value={location}
+                  onChange={(event) => {
+                    setLocation(event.target.value);
+                  }}
+                  fullWidth
+                />
+                {/* </div> */}
+              </div>
+            )}
+          </div>
           <div className={styles.description}>
             <TextField
-              id="description"
+              id="name"
               label="岗位描述"
-              value={description}
               fullWidth
               multiline
-              rows={20}
+              value={description}
+              rows={15}
               onChange={(event) => {
                 setDescription(event.target.value);
               }}

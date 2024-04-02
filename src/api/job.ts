@@ -8,6 +8,8 @@ export interface IJob {
   description: number;
   companyId: number;
   id: number;
+  isFace: boolean;
+  location: string;
 }
 
 export const addJob = (data: unknown) => post<IJob>("job", data);
