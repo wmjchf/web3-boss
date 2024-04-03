@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import { Item } from "./Item";
-
+import NoData from "@/image/common/no-list.png";
 import styles from "./index.less";
 import { Waterfull } from "@/components/Waterfull";
 import { useJobsStore } from "@/store";
 import { getJobList } from "@/api/job";
+import classNames from "classnames";
 
 export const Result = () => {
   const list = [
@@ -102,19 +103,31 @@ export const Result = () => {
     getJobList();
   }, []);
   return (
-    <div className={styles.result}>
+    <div
+      className={classNames(
+        styles.result,
+        jobList.length === 0 && styles.block
+      )}
+    >
       {/* {list.map((item) => {
         return <Item key={item.logo} data={item}></Item>;
       })} */}
-      <Waterfull
-        columns={4}
-        data={jobList}
-        width={1600}
-        itemGap={15}
-        renderItem={(data) => {
-          return <Item data={data}></Item>;
-        }}
-      ></Waterfull>
+      {jobList?.length == 0 ? (
+        <div className={styles.no__data}>
+          <img src={NoData}></img>
+          <span>还没有工作机会，很是抱歉☹️</span>
+        </div>
+      ) : (
+        <Waterfull
+          columns={4}
+          data={jobList}
+          width={1600}
+          itemGap={15}
+          renderItem={(data) => {
+            return <Item data={data}></Item>;
+          }}
+        ></Waterfull>
+      )}
     </div>
   );
 };
