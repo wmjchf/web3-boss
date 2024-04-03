@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-
+import logo from "@/image/common/logo.png";
 import { EllipsisMiddle } from "@/components/EllipsisMiddle";
 
 import styles from "./index.less";
@@ -148,7 +148,8 @@ export const Header: React.FC<IHeader> = (props) => {
           });
         }}
       >
-        <div className={styles.placeholder}>FlowIn3</div>
+        <img src={logo} alt="" />
+        <span>FlowIn3</span>
       </div>
       <div className={styles.right}>{renderBtn}</div>
     </div>

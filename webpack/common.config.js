@@ -90,7 +90,7 @@ const config = {
       Buffer: ["buffer", "Buffer"],
     }),
     new HtmlWebpackPlugin({
-      title: "Dapp",
+      title: "FlowIn3",
       template: path.resolve("public/index.html"),
       favicon: path.resolve("public/favicon.ico"),
     }),
