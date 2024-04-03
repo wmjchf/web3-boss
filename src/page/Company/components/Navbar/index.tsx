@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { Waterfull } from "@/components/Waterfull";
 import NoData from "@/image/common/no-list.png";
 import { Item } from "./Item";
-import { IJob, getJobListByCompanyId } from "@/api/job";
+import { useJobListStore } from "@/store";
 
 interface INavbar {
   companyId: number;
@@ -16,14 +16,12 @@ export const Navbar: React.FC<INavbar> = (props) => {
   const { companyId, caddress } = props;
   const [index, setIndex] = useState(1000);
   const [height, setHeight] = useState(0);
-  const [list, setList] = useState<IJob>([]);
-  const handleGetJobs = async () => {
-    const { result } = await getJobListByCompanyId(companyId);
-    setList(result.list);
-  };
+
+  const { getJobList, jobList } = useJobListStore();
+
   useEffect(() => {
     if (companyId) {
-      handleGetJobs();
+      getJobList(companyId);
     }
   }, [companyId]);
   return (
@@ -55,13 +53,13 @@ export const Navbar: React.FC<INavbar> = (props) => {
       <div
         className={styles.body}
         style={{
-          height: list?.length > 0 ? height : "auto",
+          height: jobList?.length > 0 ? height : "auto",
         }}
       >
-        {list?.length > 0 ? (
+        {jobList?.length > 0 ? (
           <Waterfull
             columns={4}
-            data={list}
+            data={jobList}
             width={1552}
             itemGap={15}
             renderItem={(data) => {

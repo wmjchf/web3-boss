@@ -1,10 +1,14 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { Button, Chip } from "@mui/material";
+import { toast } from "react-hot-toast";
 import { Ellipsis } from "@/components/Ellipsis";
+import { ComfirmDelete } from "@/components/ComfirmDelete";
 import { timeAgo } from "@/utils/time";
 import styles from "./index.less";
 import { useNavigate } from "react-router-dom";
-import { userUserStore } from "@/store";
+import { useJobListStore, userUserStore } from "@/store";
+import { AuthBtn } from "@/components/AuthBtn";
+import { deleteJob } from "@/api/job";
 
 interface IItem {
   data: any;
@@ -12,7 +16,9 @@ interface IItem {
 }
 export const Item: React.FC<IItem> = (props) => {
   const { data, caddress } = props;
+  const confirmRef = useRef();
   const navigate = useNavigate();
+  const { openConfirm } = useJobListStore();
   const { userInfo } = userUserStore();
   const { address } = userInfo;
   const salary = useMemo(() => {
@@ -26,14 +32,18 @@ export const Item: React.FC<IItem> = (props) => {
       }}
     >
       {address === caddress && (
-        <Button
-          className={styles.edit}
-          onClick={() => {
-            navigate(`/updateJob/${data.id}`);
-          }}
-        >
-          编辑
-        </Button>
+        <div className={styles.edit}>
+          <AuthBtn>
+            <Button
+              onClick={(event) => {
+                event.stopPropagation();
+                navigate(`/updateJob/${data.id}`);
+              }}
+            >
+              编辑
+            </Button>
+          </AuthBtn>
+        </div>
       )}
 
       <div className={styles.position}>

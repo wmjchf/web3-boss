@@ -8,12 +8,15 @@
   .container {
     padding: 32px calc((100% - var(--contentWidth)) / 2);
     .content {
+      position: relative;
+
       background-color: #fff;
       border-radius: 12px;
       padding: 24px;
       .name {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         font-size: 30px;
         font-weight: 500;
         .salary {
@@ -54,6 +57,66 @@
         width: 100%;
         display: flex;
         justify-content: center;
+      }
+      .resume__list {
+        .title {
+          font-size: 22px;
+          font-weight: 600;
+          margin-bottom: 24px;
+        }
+        .top {
+          display: flex;
+          align-items: center;
+          span {
+            display: flex;
+            width: 100px;
+            height: 40px;
+            align-items: center;
+            position: relative;
+            justify-content: center;
+            cursor: pointer;
+            &.active {
+              &::after {
+                display: block;
+                content: "";
+                width: 50%;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 0;
+                height: 2px;
+                border-radius: 2px;
+                background-color: red;
+              }
+            }
+          }
+        }
+        .bottom {
+          .content {
+            .wrap {
+              display: flex;
+              flex-wrap: wrap;
+            }
+
+            .no__data {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              width: 100%;
+              img {
+                width: 200px;
+              }
+              span {
+                font-size: 14px;
+                margin-bottom: 12px;
+              }
+            }
+            &.none {
+              display: none;
+            }
+          }
+        }
       }
     }
   }

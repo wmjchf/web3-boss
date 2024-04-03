@@ -11,9 +11,10 @@ interface IAuthBtn {
   children?: React.ReactNode;
   variant?: string;
   size?: string;
+  className?: string;
 }
 export const AuthBtn: React.FC<IAuthBtn> = (props) => {
-  const { onClick, children } = props;
+  const { onClick, children, className } = props;
   const [ready, setReady] = useState(false);
   const { updateToken, getCurrentUser } = userUserStore();
   const { signMessageAsync } = useSignMessage();
@@ -78,6 +79,7 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   };
   return (
     <div
+      className={className}
       onClick={() => {
         if (!isConnected) {
           handleConnect();

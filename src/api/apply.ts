@@ -1,4 +1,4 @@
-import { post, get } from "@/request";
+import { post, get, put } from "@/request";
 export interface IApply {
   resumeUrl: string;
   id: number;
@@ -7,12 +7,15 @@ export interface IApply {
 
 export const addApply = (data: unknown) => post<IApply>(`apply`, data);
 
-export const getApplyList = () =>
+export const getApplyList = (data: unknown) =>
   get<{
     pageNum: number;
     pageSize: number;
     total: number;
     list: IApply[];
-  }>("apply/list");
+  }>("apply/list", data);
 
 export const getApply = () => get<IApply>("apply");
+
+export const updateApply = (id: number, data: unknown) =>
+  put<boolean>(`apply/${id}`, data);
