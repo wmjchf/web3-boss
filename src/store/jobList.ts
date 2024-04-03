@@ -39,7 +39,7 @@ export const useJobListStore = create<State & Action>()(
     deleteJob: async () => {
       const { deleteItem, jobList } = get();
       const result = await deleteJob(deleteItem.id, {
-        companyId: deleteItem.companyId,
+        companyId: deleteItem?.company?.id,
       });
       toast.success(result.message);
       const newList = jobList.filter((item) => item.id !== deleteItem.id);

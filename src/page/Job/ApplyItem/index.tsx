@@ -16,7 +16,7 @@ export const ApplyItem: React.FC<IApplyItem> = (props) => {
         <div className={styles.icon}></div>
       </div>
       <div className={styles.right}>
-        <div className={styles.name}>{data.resumeName}</div>
+        <div className={styles.name}>{data.resume.name}</div>
         <div className={styles.time}>{timeAgo(new Date(data.updatedAt))}</div>
       </div>
     </div>

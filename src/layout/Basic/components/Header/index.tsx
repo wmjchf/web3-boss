@@ -17,7 +17,6 @@ export const Header: React.FC<IHeader> = (props) => {
   const { userInfo } = userUserStore();
   const { address } = userInfo;
   const { isConnected } = useAccount();
-  console.log(isConnected, "fsdfee");
   const renderBtn = useMemo(() => {
     return pathname === "/company" ? (
       <>
@@ -141,7 +140,14 @@ export const Header: React.FC<IHeader> = (props) => {
 
   return (
     <div className={styles.header}>
-      <div className={styles.left}>
+      <div
+        className={styles.left}
+        onClick={() => {
+          navigate("/jobs", {
+            replace: true,
+          });
+        }}
+      >
         <div className={styles.placeholder}>FlowIn3</div>
       </div>
       <div className={styles.right}>{renderBtn}</div>

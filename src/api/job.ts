@@ -1,4 +1,5 @@
 import { post, get, put } from "@/request";
+import { ICompany } from "./company";
 export interface IJob {
   name: string;
   isRemote: boolean;
@@ -6,7 +7,7 @@ export interface IJob {
   maxSalary: string;
   tag: string;
   description: number;
-  companyId: number;
+  company: ICompany;
   id: number;
   isFace: boolean;
   location: string;
@@ -22,6 +23,14 @@ export const getJobListByCompanyId = (companyId: number) =>
     total: number;
     list: IJob[];
   }>("job", { companyId });
+
+export const getJobList = (data: unknown) =>
+  get<{
+    pageNum: number;
+    pageSize: number;
+    total: number;
+    list: IJob[];
+  }>("job", data);
 
 export const getJobDetail = (id: number) => get<IJob>(`job/${id}`);
 

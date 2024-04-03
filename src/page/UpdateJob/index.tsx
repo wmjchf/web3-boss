@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { AuthBtn } from "@/components/AuthBtn";
 import { getJobDetail, updateJob } from "@/api/job";
+import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const UpdateJob = () => {
@@ -40,7 +41,7 @@ export const UpdateJob = () => {
     setMinSalary(result.minSalary);
     setDescription(result.description);
     setTagList(result.tag.split(","));
-    setCompanyId(result.companyId);
+    setCompanyId(result.company?.id);
   };
   useEffect(() => {
     setShowLocation(isRemote === "0");

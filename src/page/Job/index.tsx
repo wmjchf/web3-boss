@@ -84,7 +84,7 @@ export const Job = () => {
   }, [address]);
 
   useEffect(() => {
-    if (address !== detail?.address && detail?.id) {
+    if (address !== detail?.company?.address && detail?.id) {
       handleGetApply();
     }
   }, [address, detail]);
@@ -100,7 +100,7 @@ export const Job = () => {
       : `${detail?.minSalary}~${detail?.maxSalary}`;
   }, [detail]);
   const renderBtn = () => {
-    if (detail?.address !== address) {
+    if (detail?.company?.address !== address) {
       if (resume?.length === 0) {
         return (
           <AuthBtn>
@@ -178,7 +178,7 @@ export const Job = () => {
             <div className={styles.left}>
               {detail?.name} <span className={styles.salary}>{salary}</span>
             </div>
-            {detail?.address === address && (
+            {detail?.company?.address === address && (
               <div className={styles.operation}>
                 <Button
                   onClick={() => {
@@ -219,7 +219,7 @@ export const Job = () => {
 
           <div className={styles.apply}>{renderBtn()}</div>
 
-          {detail?.address === address && (
+          {detail?.company?.address === address && (
             <div className={styles.resume__list}>
               <div className={styles.title}>申请列表</div>
               <div className={styles.top}>
@@ -352,8 +352,6 @@ export const Job = () => {
           addApply({
             jobId: detail?.id,
             resumeId: resume[0]?.id,
-            resumeName: resume[0]?.name,
-            resumeUrl: resume[0]?.url,
           })
             .then((res) => {
               toast.success(

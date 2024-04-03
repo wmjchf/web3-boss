@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Item } from "./Item";
 
 import styles from "./index.less";
 import { Waterfull } from "@/components/Waterfull";
+import { useJobsStore } from "@/store";
+import { getJobList } from "@/api/job";
 
 export const Result = () => {
   const list = [
@@ -95,6 +97,10 @@ export const Result = () => {
       salary: "15k~20k",
     },
   ];
+  const { jobList, getJobList } = useJobsStore();
+  useEffect(() => {
+    getJobList();
+  }, []);
   return (
     <div className={styles.result}>
       {/* {list.map((item) => {
@@ -102,7 +108,7 @@ export const Result = () => {
       })} */}
       <Waterfull
         columns={4}
-        data={list}
+        data={jobList}
         width={1600}
         itemGap={15}
         renderItem={(data) => {

@@ -3,6 +3,8 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
 import styles from "./index.less";
+import { useJobsStore } from "@/store";
+import { Button } from "@mui/material";
 
 export const Search = () => {
   const citys = [
@@ -34,13 +36,39 @@ export const Search = () => {
       label: "否",
     },
   ];
+  const {
+    setName,
+    setIsRemote,
+    setLocation,
+    name,
+    location,
+    isRemote,
+    getJobList,
+  } = useJobsStore();
   return (
     <div className={styles.search}>
       <div className={styles.keyword}>
-        <TextField id="name" label="岗位名称" fullWidth />
+        <TextField
+          id="name"
+          label="岗位名称"
+          fullWidth
+          value={name}
+          onChange={(event) => {
+            setName(event.target.value);
+          }}
+        />
       </div>
       <div className={styles.type}>
-        <TextField id="type" label="是否远程" select fullWidth>
+        <TextField
+          id="isRemote"
+          label="是否远程"
+          select
+          fullWidth
+          value={isRemote}
+          onChange={(event) => {
+            setIsRemote(event.target.value === "1" ? true : false);
+          }}
+        >
           {types.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
@@ -49,8 +77,24 @@ export const Search = () => {
         </TextField>
       </div>
       <div className={styles.city}>
-        <TextField id="location" label="地址" fullWidth />
+        <TextField
+          id="location"
+          label="地址"
+          value={location}
+          fullWidth
+          onChange={(event) => {
+            setLocation(event.target.value);
+          }}
+        />
       </div>
+      <Button
+        variant="contained"
+        size="large"
+        className={styles.search__btn}
+        onClick={getJobList}
+      >
+        搜索
+      </Button>
     </div>
   );
 };
