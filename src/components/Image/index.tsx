@@ -10,20 +10,27 @@ interface IImage {
 }
 export const Image: React.FC<IImage> = (props) => {
   const { className, style, src } = props;
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = useState(false);
+
   return (
     <div className={classNames(className, styles.image)} style={style}>
       {load ? (
-        <Skeleton variant="rounded" width={"100%"} height={"100%"}></Skeleton>
+        <Skeleton
+          variant="rounded"
+          width={"100%"}
+          height={"100%"}
+          className={styles.skeleton}
+        ></Skeleton>
       ) : (
-        <img
-          src={src}
-          alt=""
-          onLoad={() => {
-            // setLoad(true);
-          }}
-        />
+        <></>
       )}
+      <img
+        src={src}
+        alt=""
+        onLoad={() => {
+          setLoad(false);
+        }}
+      ></img>
     </div>
   );
 };
