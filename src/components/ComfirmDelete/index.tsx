@@ -3,8 +3,8 @@ import { Button, Modal } from "@mui/material";
 
 import styles from "./index.less";
 
-export const ComfirmDelete = (props) => {
-  const { open, onClose, onConfirm } = props;
+export const Comfirm = (props) => {
+  const { open, onClose, onConfirm, tip } = props;
 
   return (
     <Modal
@@ -14,7 +14,7 @@ export const ComfirmDelete = (props) => {
       aria-describedby="modal-modal-description"
     >
       <div className={styles.container}>
-        <div className={styles.tip}>确认删除吗？删除之后该岗位不在生效</div>
+        <div className={styles.tip}>{tip}</div>
         <div className={styles.bottom}>
           <Button
             variant="outlined"

@@ -1,5 +1,5 @@
 .draw__list {
-  width: 200px;
+  width: 300px;
   height: 100%;
   background-color: #fff;
   display: flex;
@@ -8,5 +8,38 @@
   align-items: center;
   .bottom {
     padding-bottom: 24px;
+  }
+  .top {
+    width: 100%;
+    padding: 24px 12px;
+    box-sizing: border-box;
+    .score {
+      .main {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        span {
+          &.label {
+            font-size: 14px;
+          }
+          &.count {
+            font-size: 16px;
+            font-weight: 500;
+            margin-right: 8px;
+          }
+        }
+        .copy {
+          margin-left: 12px;
+        }
+        img {
+          width: 20px;
+        }
+      }
+      .rule {
+        font-size: 12px;
+        color: #ddd;
+        margin-top: 6px;
+      }
+    }
   }
 }

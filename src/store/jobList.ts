@@ -8,17 +8,23 @@ type Action = {
   closeConfirm: () => void;
   deleteJob: () => Promise<boolean>;
   getJobList: (companyId: number) => void;
+
+  openApply: () => void;
+  closeApply: () => void;
 };
 
 interface State {
   confirmOpen: boolean;
   deleteItem: IJob;
   jobList: IJob[];
+
+  applyOpen: boolean;
 }
 
 export const useJobListStore = create<State & Action>()(
   immer((set, get) => ({
     confirmOpen: false,
+    applyOpen: false,
     deleteItem: null,
     jobList: [],
     openConfirm: (job) =>
@@ -50,5 +56,13 @@ export const useJobListStore = create<State & Action>()(
         state.jobList = result.list;
       });
     },
+    openApply: () =>
+      set((state) => {
+        state.applyOpen = true;
+      }),
+    closeApply: () =>
+      set((state) => {
+        state.applyOpen = false;
+      }),
   }))
 );

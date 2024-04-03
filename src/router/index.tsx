@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import BasicLayout from "@/layout/Basic";
 import { Jobs } from "@/page/Jobs";
@@ -13,6 +13,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <BasicLayout />,
     children: [
+      {
+        path: "",
+        element: <Navigate to={"/jobs"}></Navigate>,
+      },
       {
         path: "jobs",
         element: <Jobs></Jobs>,

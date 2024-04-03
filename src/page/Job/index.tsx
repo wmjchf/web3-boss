@@ -19,7 +19,7 @@ import {
   updateApply,
 } from "@/api/apply";
 import classNames from "classnames";
-import { ComfirmDelete } from "@/components/ComfirmDelete";
+import { Comfirm } from "@/components/ComfirmDelete";
 
 export const Job = () => {
   const { id } = useParams();
@@ -35,8 +35,15 @@ export const Job = () => {
   const [current, setCurrent] = useState("0");
   const { address } = userInfo;
   const pdfPreviewRef = useRef<any>();
-  const { closeConfirm, deleteJob, openConfirm, confirmOpen } =
-    useJobListStore();
+  const {
+    closeConfirm,
+    deleteJob,
+    openConfirm,
+    confirmOpen,
+    applyOpen,
+    openApply,
+    closeApply,
+  } = useJobListStore();
   const handleGetJobInfo = async () => {
     const { result } = await getJobDetail(parseInt(id));
     setDetail(result);
@@ -44,7 +51,7 @@ export const Job = () => {
   // 申请人的apply，看是否有申请过
   const handleGetApply = async () => {
     try {
-      const { result } = await getApply();
+      const { result } = await getApply(detail?.id);
       setApplyInfo(result);
     } catch (error) {}
   };
@@ -77,10 +84,10 @@ export const Job = () => {
   }, [address]);
 
   useEffect(() => {
-    if (address !== detail?.address) {
+    if (address !== detail?.address && detail?.id) {
       handleGetApply();
     }
-  }, [address, detail?.address]);
+  }, [address, detail]);
 
   useEffect(() => {
     if (id) {
@@ -141,15 +148,16 @@ export const Job = () => {
             ) : (
               <AuthBtn
                 onClick={() => {
-                  addApply({
-                    jobId: detail?.id,
-                    resumeId: resume[0]?.id,
-                    resumeName: resume[0]?.name,
-                    resumeUrl: resume[0]?.url,
-                  }).then((res) => {
-                    toast.success(res.message);
-                    handleGetApply();
-                  });
+                  openApply();
+                  // addApply({
+                  //   jobId: detail?.id,
+                  //   resumeId: resume[0]?.id,
+                  //   resumeName: resume[0]?.name,
+                  //   resumeUrl: resume[0]?.url,
+                  // }).then((res) => {
+                  //   toast.success(res.message);
+                  //   handleGetApply();
+                  // });
                 }}
               >
                 <Button variant="contained" size="large">
@@ -170,15 +178,17 @@ export const Job = () => {
             <div className={styles.left}>
               {detail?.name} <span className={styles.salary}>{salary}</span>
             </div>
-            <div className={styles.operation}>
-              <Button
-                onClick={() => {
-                  openConfirm(detail);
-                }}
-              >
-                删除
-              </Button>
-            </div>
+            {detail?.address === address && (
+              <div className={styles.operation}>
+                <Button
+                  onClick={() => {
+                    openConfirm(detail);
+                  }}
+                >
+                  删除
+                </Button>
+              </div>
+            )}
           </div>
           <div className={styles.tag}>
             {detail?.tag?.split(",").map((item) => {
@@ -322,8 +332,9 @@ export const Job = () => {
             updateApply(currentApply.id, { haveRead: true });
         }}
       ></PdfPreview>
-      <ComfirmDelete
+      <Comfirm
         open={confirmOpen}
+        tip="确认删除吗？"
         onClose={closeConfirm}
         onConfirm={() => {
           deleteJob().then((res) => {
@@ -332,7 +343,31 @@ export const Job = () => {
             }
           });
         }}
-      ></ComfirmDelete>
+      ></Comfirm>
+      <Comfirm
+        open={applyOpen}
+        tip="申请将消耗5颗豆豆，是否继续申请？"
+        onClose={closeConfirm}
+        onConfirm={() => {
+          addApply({
+            jobId: detail?.id,
+            resumeId: resume[0]?.id,
+            resumeName: resume[0]?.name,
+            resumeUrl: resume[0]?.url,
+          })
+            .then((res) => {
+              toast.success(
+                `${res.message},还剩${res.result?.resetIntegral}豆豆`
+              );
+              closeApply();
+              handleGetApply();
+            })
+            .catch((error) => {
+              toast.error(error.message);
+              closeApply();
+            });
+        }}
+      ></Comfirm>
     </div>
   );
 };
