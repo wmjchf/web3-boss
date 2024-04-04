@@ -1,10 +1,16 @@
 import { post, get } from "@/request";
+import { IResume } from "./resume";
+import { IApply } from "./apply";
+import { ICompany } from "./company";
 
 export interface IUser {
   address: string;
   chainId: number;
   integral: number;
   id: number;
+  resumes: IResume[];
+  applies: IApply[];
+  companies: ICompany[];
 }
 // export const setProfile = (data: unknown) => post("/api/profile", data);
 

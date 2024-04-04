@@ -1,8 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { Button, Chip } from "@mui/material";
-import { toast } from "react-hot-toast";
 import { Ellipsis } from "@/components/Ellipsis";
-import { ComfirmDelete } from "@/components/ComfirmDelete";
 import { timeAgo } from "@/utils/time";
 import styles from "./index.less";
 import { useNavigate } from "react-router-dom";
@@ -12,15 +10,14 @@ import { deleteJob } from "@/api/job";
 
 interface IItem {
   data: any;
-  caddress: string;
+  userId: number;
 }
 export const Item: React.FC<IItem> = (props) => {
-  const { data, caddress } = props;
+  const { data, userId } = props;
   const confirmRef = useRef();
   const navigate = useNavigate();
-  const { openConfirm } = useJobListStore();
   const { userInfo } = userUserStore();
-  const { address } = userInfo;
+  const { id } = userInfo;
   const salary = useMemo(() => {
     return data?.isFace ? "面议" : `${data.minSalary}~${data.maxSalary}`;
   }, [data]);
@@ -31,7 +28,7 @@ export const Item: React.FC<IItem> = (props) => {
         navigate(`/job/${data.id}`);
       }}
     >
-      {address === caddress && (
+      {id === userId && (
         <div className={styles.edit}>
           <AuthBtn>
             <Button

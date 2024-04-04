@@ -10,10 +10,10 @@ import { useJobListStore } from "@/store";
 
 interface INavbar {
   companyId: number;
-  caddress: string;
+  userId: number;
 }
 export const Navbar: React.FC<INavbar> = (props) => {
-  const { companyId, caddress } = props;
+  const { companyId, userId } = props;
   const [index, setIndex] = useState(1000);
   const [height, setHeight] = useState(0);
 
@@ -63,7 +63,7 @@ export const Navbar: React.FC<INavbar> = (props) => {
             width={1552}
             itemGap={15}
             renderItem={(data) => {
-              return <Item data={data} caddress={caddress}></Item>;
+              return <Item data={data} userId={userId}></Item>;
             }}
             onHeight={(height) => {
               setHeight(height);

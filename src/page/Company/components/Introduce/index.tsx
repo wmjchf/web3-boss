@@ -15,11 +15,11 @@ interface IIntroduce {
 export const Introduce: React.FC<IIntroduce> = (props) => {
   const { companyId } = props;
   const { userInfo } = userUserStore();
-  const { address } = userInfo;
+  const { id } = userInfo;
 
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("");
-  const [caddress, setCAddress] = useState("");
+  const [cuserId, setCUserId] = useState(-1);
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [logo, setLogo] = useState("");
@@ -65,7 +65,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
     setLocation(result.location);
     setLogo(result.logo);
     setName(result.name);
-    setCAddress(result.address);
+    setCUserId(result.userId);
   };
   useEffect(() => {
     if (companyId) {
@@ -77,7 +77,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       onEdit={() => {
         setIsEdit(true);
       }}
-      showEdit={address === caddress || !companyId}
+      showEdit={id === cuserId || !companyId}
       onSave={onSave}
       onClose={() => {
         setIsEdit(false);

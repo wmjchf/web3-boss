@@ -10,10 +10,9 @@ import { userUserStore } from "./store";
 const queryClient = new QueryClient();
 
 export const App = () => {
-  const { getCurrentUser, getCurrentResume } = userUserStore();
+  const { getCurrentUser } = userUserStore();
   const init = async () => {
     await getCurrentUser();
-    await getCurrentResume();
   };
   useEffect(() => {
     init();

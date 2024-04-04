@@ -10,13 +10,13 @@ import { EditPannel } from "../EditPannel";
 import { userUserStore } from "@/store";
 interface IPicture {
   companyId: number;
-  address: string;
+  userId: string;
 }
 export const Picture: React.FC<IPicture> = (props) => {
-  const { companyId, address: caddress } = props;
+  const { companyId, userId } = props;
   const [isEdit, setIsEdit] = useState(false);
   const { userInfo } = userUserStore();
-  const { address } = userInfo;
+  const { id } = userInfo;
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     const list = newFileList
@@ -57,7 +57,7 @@ export const Picture: React.FC<IPicture> = (props) => {
         setIsEdit(false);
       }}
       onSave={onSave}
-      showEdit={address === caddress || !companyId}
+      showEdit={id === userId || !companyId}
       className={styles.edit__picture}
     >
       <div className={styles.picture}>

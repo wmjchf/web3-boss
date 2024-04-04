@@ -15,22 +15,22 @@ import { userUserStore } from "@/store";
 
 export const Company = () => {
   const { userInfo } = userUserStore();
-  const { address } = userInfo;
+  const { id, companies } = userInfo;
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const companyId = searchParams.get("companyId");
 
   const [company, setCompany] = useState<ICompany>();
-  const handleCompanyList = async () => {
-    const { result } = await getCompanyListByAddress(address);
-    result.total > 0 && setCompany(result.list[0]);
-  };
-  useEffect(() => {
-    if (address && !companyId) {
-      handleCompanyList();
-    }
-  }, [address, companyId]);
+  // const handleCompanyList = async () => {
+  //   const { result } = await getCompanyListByAddress(address);
+  //   result.total > 0 && setCompany(result.list[0]);
+  // };
+  // useEffect(() => {
+  //   if (address && !companyId) {
+  //     handleCompanyList();
+  //   }
+  // }, [address, companyId]);
   const handleGetCompanyDetail = async () => {
     const { result } = await getCompanyDetail(parseInt(companyId));
     setCompany(result);
@@ -40,19 +40,24 @@ export const Company = () => {
       handleGetCompanyDetail();
     }
   }, [companyId]);
+  useEffect(() => {
+    if (!companyId) {
+      setCompany(companies[0]);
+    }
+  }, [companies, companyId]);
   return (
     <div className={styles.company}>
       <Introduce companyId={companyId || company?.id}></Introduce>
       <Picture
         companyId={companyId || company?.id}
-        address={company?.address}
+        userId={company?.userId}
       ></Picture>
       <Navbar
         companyId={companyId || company?.id}
-        caddress={company?.address}
+        userId={company?.userId}
       ></Navbar>
 
-      {address === company?.address && (
+      {id === company?.userId && (
         <AuthBtn
           onClick={() => {
             navigate(`/addJob/${companyId || company?.id}`);

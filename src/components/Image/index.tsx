@@ -10,7 +10,7 @@ interface IImage {
 }
 export const Image: React.FC<IImage> = (props) => {
   const { className, style, src } = props;
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
 
   return (
     <div className={classNames(className, styles.image)} style={style}>
@@ -25,10 +25,10 @@ export const Image: React.FC<IImage> = (props) => {
         <></>
       )}
       <img
-        src={src}
+        src={""}
         alt=""
         onLoad={() => {
-          setLoad(false);
+          // setLoad(false);
         }}
       ></img>
     </div>

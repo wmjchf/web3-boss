@@ -4,7 +4,7 @@ export interface ICompany {
   logo: string;
   location: string;
   description: string;
-  address: string;
+  userId: number;
   id: number;
 }
 export interface IPicture {

@@ -31,7 +31,7 @@ export const Job = () => {
   const [noReadList, setNoReadList] = useState<IApply[]>([]);
   const [haveReadList, setHaveReadList] = useState<IApply[]>([]);
   const [markList, setMarkList] = useState<IApply[]>([]);
-  const { userInfo, resume, getCurrentResume } = userUserStore();
+  const { userInfo, getCurrentUser } = userUserStore();
   const [current, setCurrent] = useState("0");
   const { address } = userInfo;
   const pdfPreviewRef = useRef<any>();
@@ -101,7 +101,7 @@ export const Job = () => {
   }, [detail]);
   const renderBtn = () => {
     if (detail?.company?.address !== address) {
-      if (resume?.length === 0) {
+      if (userInfo?.resumes?.length === 0) {
         return (
           <AuthBtn>
             <Upload
@@ -114,7 +114,7 @@ export const Job = () => {
                 if (url) {
                   addResume({ url, name }).then((res) => {
                     toast.success(res.message);
-                    getCurrentResume();
+                    getCurrentUser();
                   });
                 }
               }}
@@ -351,7 +351,7 @@ export const Job = () => {
         onConfirm={() => {
           addApply({
             jobId: detail?.id,
-            resumeId: resume[0]?.id,
+            resumeId: userInfo?.resumes[0]?.id,
           })
             .then((res) => {
               toast.success(
