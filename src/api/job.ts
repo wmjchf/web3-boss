@@ -38,4 +38,4 @@ export const updateJob = (id: number, data: unknown) =>
   put<boolean>(`job/${id}`, data);
 
 export const deleteJob = (id: number, data: unknown) =>
-  post<boolean>(`job/delete/${id}`, data);
+  post<boolean>(`job/delete/${id}`);

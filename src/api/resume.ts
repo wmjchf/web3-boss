@@ -4,6 +4,7 @@ export interface IResume {
   uid: number;
   id: number;
   name: string;
+  isDelete: boolean;
 }
 
 export const addResume = (data: unknown) => post<IResume[]>(`resume`, data);
@@ -15,3 +16,6 @@ export const getResume = () =>
     total: number;
     list: IResume[];
   }>("resume");
+
+export const deleteResume = (id: number) =>
+  post<boolean>(`resume/delete/${id}`);

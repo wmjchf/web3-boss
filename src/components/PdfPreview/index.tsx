@@ -4,6 +4,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import styles from "./index.less";
+import { updateApply } from "@/api/apply";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -14,8 +15,10 @@ export const PdfPreview = forwardRef((props, ref) => {
   const { onLoad } = props;
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState("");
+  const [applyId, setApplyId] = useState(-1);
   const [loaded, setLoaded] = useState(false);
-  const handleOpen = (url: string) => {
+  const handleOpen = (url: string, applyId: number) => {
+    setApplyId(applyId);
     setOpen(true);
     setUrl(url);
   };
@@ -30,6 +33,10 @@ export const PdfPreview = forwardRef((props, ref) => {
   });
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
+  const handleMark = () => {
+    const result = updateApply(applyId, { mark: true });
+    console.log(result, "fds");
+  };
   return (
     <Modal
       open={open}
@@ -65,6 +72,9 @@ export const PdfPreview = forwardRef((props, ref) => {
                   setPageNumber(page);
                 }}
               />
+            </div>
+            <div className={styles.operation__btn}>
+              <span onClick={handleMark}>标记</span>
             </div>
           </div>
         )}

@@ -33,7 +33,7 @@ export const Job = () => {
   const [markList, setMarkList] = useState<IApply[]>([]);
   const { userInfo, getCurrentUser } = userUserStore();
   const [current, setCurrent] = useState("0");
-  const { address } = userInfo;
+  const { id: userId } = userInfo;
   const pdfPreviewRef = useRef<any>();
   const {
     closeConfirm,
@@ -70,7 +70,7 @@ export const Job = () => {
           setNoReadList(res);
         })
         .catch((error) => {});
-      handleGetApplyList({ jobId: id, haveRead: "1" })
+      handleGetApplyList({ jobId: id, haveRead: "1", mark: "0" })
         .then((res) => {
           setHaveReadList(res);
         })
@@ -81,13 +81,13 @@ export const Job = () => {
         })
         .catch((error) => {});
     }
-  }, [address]);
+  }, [id]);
 
   useEffect(() => {
-    if (address !== detail?.company?.address && detail?.id) {
+    if (userId !== detail?.company?.userId && detail?.id) {
       handleGetApply();
     }
-  }, [address, detail]);
+  }, [userId, detail]);
 
   useEffect(() => {
     if (id) {
@@ -100,7 +100,7 @@ export const Job = () => {
       : `${detail?.minSalary}~${detail?.maxSalary}`;
   }, [detail]);
   const renderBtn = () => {
-    if (detail?.company?.address !== address) {
+    if (detail?.company?.userId !== userId) {
       if (userInfo?.resumes?.length === 0) {
         return (
           <AuthBtn>
@@ -129,22 +129,28 @@ export const Job = () => {
         return (
           <>
             {applyInfo ? (
-              <AuthBtn
-                onClick={() => {
-                  //   addApply({
-                  //     jobId: detail?.id,
-                  //     resumeId: resume[0]?.id,
-                  //     resumeName: resume[0]?.name,
-                  //     resumeUrl: resume[0]?.url,
-                  //   }).then((res) => {
-                  //     toast.success(res.message);
-                  //   });
-                }}
-              >
-                <Button variant="contained" size="large">
-                  简历修改
+              applyInfo.haveRead ? (
+                <Button variant="contained" disabled>
+                  简历已被查看，不能再修改简历
                 </Button>
-              </AuthBtn>
+              ) : (
+                <AuthBtn
+                  onClick={() => {
+                    //   addApply({
+                    //     jobId: detail?.id,
+                    //     resumeId: resume[0]?.id,
+                    //     resumeName: resume[0]?.name,
+                    //     resumeUrl: resume[0]?.url,
+                    //   }).then((res) => {
+                    //     toast.success(res.message);
+                    //   });
+                  }}
+                >
+                  <Button variant="contained" size="large">
+                    修改简历
+                  </Button>
+                </AuthBtn>
+              )
             ) : (
               <AuthBtn
                 onClick={() => {
@@ -178,7 +184,7 @@ export const Job = () => {
             <div className={styles.left}>
               {detail?.name} <span className={styles.salary}>{salary}</span>
             </div>
-            {detail?.company?.address === address && (
+            {detail?.company?.userId === userId && (
               <div className={styles.operation}>
                 <Button
                   onClick={() => {
@@ -219,7 +225,7 @@ export const Job = () => {
 
           <div className={styles.apply}>{renderBtn()}</div>
 
-          {detail?.company?.address === address && (
+          {detail?.company?.userId === userId && (
             <div className={styles.resume__list}>
               <div className={styles.title}>申请列表</div>
               <div className={styles.top}>
@@ -268,7 +274,10 @@ export const Job = () => {
                             data={item}
                             key={item.id}
                             onClick={() => {
-                              pdfPreviewRef.current?.handleOpen(item.resumeUrl);
+                              pdfPreviewRef.current?.handleOpen(
+                                item.resumeUrl,
+                                item.id
+                              );
                               setCurrentApply(item);
                             }}
                           ></ApplyItem>
@@ -296,7 +305,10 @@ export const Job = () => {
                             data={item}
                             key={item.id}
                             onClick={() => {
-                              pdfPreviewRef.current?.handleOpen(item.resumeUrl);
+                              pdfPreviewRef.current?.handleOpen(
+                                item.resumeUrl,
+                                item.id
+                              );
                               setCurrentApply(item);
                             }}
                           ></ApplyItem>
@@ -317,7 +329,23 @@ export const Job = () => {
                       <span>没有数据，还没有标记申请</span>
                     </div>
                   ) : (
-                    <div>fds</div>
+                    <div style={{ height: 232 }} className={styles.wrap}>
+                      {markList?.map((item) => {
+                        return (
+                          <ApplyItem
+                            data={item}
+                            key={item.id}
+                            onClick={() => {
+                              pdfPreviewRef.current?.handleOpen(
+                                item.resumeUrl,
+                                item.id
+                              );
+                              setCurrentApply(item);
+                            }}
+                          ></ApplyItem>
+                        );
+                      })}
+                    </div>
                   )}
                 </div>
               </div>
@@ -347,7 +375,7 @@ export const Job = () => {
       <Comfirm
         open={applyOpen}
         tip="申请将消耗5颗豆豆，是否继续申请？"
-        onClose={closeConfirm}
+        onClose={closeApply}
         onConfirm={() => {
           addApply({
             jobId: detail?.id,

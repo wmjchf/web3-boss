@@ -10,6 +10,7 @@
     border-radius: 6px;
   }
   .operation {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,6 +24,14 @@
 
       display: flex;
       justify-content: center;
+    }
+    .operation__btn {
+      box-sizing: border-box;
+      padding-right: 12px;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 }

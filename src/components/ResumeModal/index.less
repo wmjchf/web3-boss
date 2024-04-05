@@ -1,0 +1,41 @@
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 12px;
+  width: 300px;
+  overflow: hidden;
+  height: 300px;
+  .apply__item {
+    box-shadow: none;
+    border-radius: 0;
+    margin-right: 0;
+    border-bottom: solid 1px #eaecf1;
+  }
+  .ant__upload {
+    display: flex;
+    justify-content: center;
+    :global {
+      .ant-upload {
+        background-color: #fff !important;
+        border: none !important;
+        height: 100px;
+        box-shadow: none !important;
+      }
+    }
+  }
+  .upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    i {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+      margin-top: -12px;
+    }
+  }
+}
