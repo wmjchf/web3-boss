@@ -63,7 +63,11 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
       account: address,
     });
 
-    const { result } = await login({ signature, message });
+    const { result } = await login({
+      signature,
+      message,
+      share: localStorage.getItem("address"),
+    });
     updateToken(result.token);
     localStorage.setItem("token", result.token);
     getCurrentUser();

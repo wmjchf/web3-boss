@@ -12,6 +12,7 @@ import {
 import { AuthBtn } from "@/components/AuthBtn";
 import { addJob } from "@/api/job";
 import { useNavigate, useParams } from "react-router-dom";
+import { Comfirm } from "@/components/ComfirmDelete";
 
 export const AddJob = () => {
   const [tagList, setTagList] = useState([]);
@@ -36,27 +37,7 @@ export const AddJob = () => {
   }, [isFace]);
 
   const handlePublish = async () => {
-    if (!name) {
-      toast.error("岗位名称必填");
-      return;
-    }
-    if (isFace === "0" && (!minSalary || !maxSalary)) {
-      toast.error("薪资范围必填");
-      return;
-    }
-    if (isRemote === "0" && !location) {
-      toast.error("工作地点必填");
-      return;
-    }
-    if (!description) {
-      toast.error("岗位描述必填");
-      return;
-    }
-    if (tagList.length === 0) {
-      toast.error("标签至少有一个");
-      return;
-    }
-    await addJob({
+    const result = await addJob({
       name,
       isRemote,
       minSalary,
@@ -67,16 +48,41 @@ export const AddJob = () => {
       location,
       tag: tagList.join(","),
     });
-
+    toast.success(`${result.message},还剩${result.result?.resetIntegral}豆豆`);
     navigate(-1);
   };
+  const [open, setOpen] = useState(false);
   return (
     <div className={styles.add__job}>
       <div className={styles.container}>
         <div className={styles.form}>
           <div className={styles.title}>
             <span className={styles.span}>发布职位</span>
-            <AuthBtn onClick={handlePublish}>
+            <AuthBtn
+              onClick={() => {
+                if (!name) {
+                  toast.error("岗位名称必填");
+                  return;
+                }
+                if (isFace === "0" && (!minSalary || !maxSalary)) {
+                  toast.error("薪资范围必填");
+                  return;
+                }
+                if (isRemote === "0" && !location) {
+                  toast.error("工作地点必填");
+                  return;
+                }
+                if (!description) {
+                  toast.error("岗位描述必填");
+                  return;
+                }
+                if (tagList.length === 0) {
+                  toast.error("标签至少有一个");
+                  return;
+                }
+                setOpen(true);
+              }}
+            >
               <Button variant="contained">发布</Button>
             </AuthBtn>
           </div>
@@ -208,6 +214,14 @@ export const AddJob = () => {
           </div>
         </div>
       </div>
+      <Comfirm
+        open={open}
+        tip="发布将消耗5颗豆豆，是否继续申请？"
+        onClose={() => {
+          setOpen(false);
+        }}
+        onConfirm={handlePublish}
+      ></Comfirm>
     </div>
   );
 };

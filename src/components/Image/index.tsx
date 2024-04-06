@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import Skeleton from "@mui/material/Skeleton";
+import { OSS_ORIGIN } from "@/constant/index";
 import styles from "./index.less";
+import { getPreviewNormalUrl } from "@/api/common";
 
 interface IImage {
   className?: string;
@@ -11,7 +13,16 @@ interface IImage {
 export const Image: React.FC<IImage> = (props) => {
   const { className, style, src } = props;
   const [load, setLoad] = useState(true);
-
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    getPreviewNormalUrl({ path: src.replace(OSS_ORIGIN, "") })
+      .then((res) => {
+        setUrl(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <div className={classNames(className, styles.image)} style={style}>
       {load ? (
@@ -28,7 +39,7 @@ export const Image: React.FC<IImage> = (props) => {
         src={""}
         alt=""
         onLoad={() => {
-          // setLoad(false);
+          setLoad(false);
         }}
       ></img>
     </div>

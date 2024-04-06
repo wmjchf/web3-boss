@@ -22,9 +22,7 @@ export const Item: React.FC<IItem> = (props) => {
         navigate(`/job/${data.id}`);
       }}
     >
-      <div className={styles.logo}>
-        <Image src={data.company.logo}></Image>
-      </div>
+      <Image className={styles.logo} src={data.company.logo}></Image>
       <div className={styles.company__name}>
         <span>{data.company.name}</span>
       </div>

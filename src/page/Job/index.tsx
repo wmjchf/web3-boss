@@ -7,19 +7,20 @@ import { getJobDetail, IJob } from "@/api/job";
 import { useJobListStore, userUserStore } from "@/store";
 import { AuthBtn } from "@/components/AuthBtn";
 import NoData from "@/image/common/no-list.png";
-import { ApplyItem } from "./ApplyItem";
+import { ApplyItem } from "@/components/ApplyItem";
 import { Upload } from "antd";
 import { addResume } from "@/api/resume";
 import { PdfPreview } from "@/components/PdfPreview";
 import {
   IApply,
   addApply,
-  getApply,
   getApplyList,
+  getApplySelf,
   updateApply,
 } from "@/api/apply";
 import classNames from "classnames";
 import { Comfirm } from "@/components/ComfirmDelete";
+import { SHARE_TIP } from "@/constant";
 
 export const Job = () => {
   const { id } = useParams();
@@ -35,6 +36,7 @@ export const Job = () => {
   const [current, setCurrent] = useState("0");
   const { id: userId } = userInfo;
   const pdfPreviewRef = useRef<any>();
+  const [shareOpen, setShareOpen] = useState(false);
   const {
     closeConfirm,
     deleteJob,
@@ -51,8 +53,8 @@ export const Job = () => {
   // 申请人的apply，看是否有申请过
   const handleGetApply = async () => {
     try {
-      const { result } = await getApply(detail?.id);
-      setApplyInfo(result);
+      const { result } = await getApplySelf({ jobId: detail?.id });
+      setApplyInfo(result.list[0]);
     } catch (error) {}
   };
 
@@ -276,7 +278,8 @@ export const Job = () => {
                             onClick={() => {
                               pdfPreviewRef.current?.handleOpen(
                                 item.resumeUrl,
-                                item.id
+                                item.id,
+                                item.mark
                               );
                               setCurrentApply(item);
                             }}
@@ -307,7 +310,8 @@ export const Job = () => {
                             onClick={() => {
                               pdfPreviewRef.current?.handleOpen(
                                 item.resumeUrl,
-                                item.id
+                                item.id,
+                                item.mark
                               );
                               setCurrentApply(item);
                             }}
@@ -338,7 +342,8 @@ export const Job = () => {
                             onClick={() => {
                               pdfPreviewRef.current?.handleOpen(
                                 item.resumeUrl,
-                                item.id
+                                item.id,
+                                item.mark
                               );
                               setCurrentApply(item);
                             }}
@@ -390,8 +395,29 @@ export const Job = () => {
             })
             .catch((error) => {
               toast.error(error.message);
+              setShareOpen(true);
               closeApply();
             });
+        }}
+      ></Comfirm>
+      <Comfirm
+        open={shareOpen}
+        tip={SHARE_TIP}
+        onClose={() => {
+          setShareOpen(false);
+        }}
+        onConfirm={() => {
+          console.log("复制");
+          navigator.clipboard
+            .writeText(`http://localhost:3000/jobs?address=${userInfo.address}`)
+            .then(() => {
+              console.log("复制成功");
+            })
+            .catch(() => {
+              console.log("复制失败");
+            });
+
+          setShareOpen(false);
         }}
       ></Comfirm>
     </div>

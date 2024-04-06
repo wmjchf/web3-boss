@@ -23,7 +23,11 @@ const BasicLayout = () => {
           setOpen(false);
         }}
       >
-        <DrawList></DrawList>
+        <DrawList
+          onClose={() => {
+            setOpen(false);
+          }}
+        ></DrawList>
       </Drawer>
     </div>
   );

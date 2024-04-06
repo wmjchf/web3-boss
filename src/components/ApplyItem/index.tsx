@@ -25,6 +25,7 @@ export const ApplyItem: React.FC<IApplyItem> = (props) => {
     className,
     showDelete = false,
   } = props;
+
   return (
     <div
       className={classNames(styles.apply__item, className)}
@@ -41,22 +42,26 @@ export const ApplyItem: React.FC<IApplyItem> = (props) => {
           <div
             className={classNames(styles.name, !showTime && styles.no__margin)}
           >
-            <EllipsisMiddle
-              value={data.resume.name}
-              suffixCount={7}
-            ></EllipsisMiddle>
+            {data.resume?.name && (
+              <EllipsisMiddle
+                value={data.resume?.name}
+                suffixCount={7}
+              ></EllipsisMiddle>
+            )}
+
             {/* {data.resume.name} */}
           </div>
           {showTime && (
             <div className={styles.time}>
-              {timeAgo(new Date(data.updatedAt))}
+              {timeAgo(new Date(data?.updatedAt))}
             </div>
           )}
         </div>
         {showDelete && (
           <div
             className={styles.end}
-            onClick={() => {
+            onClick={(event) => {
+              event.stopPropagation();
               onDelete && onDelete();
             }}
           >

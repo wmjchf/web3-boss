@@ -4,7 +4,7 @@ import { Button, Modal } from "@mui/material";
 import styles from "./index.less";
 
 export const Comfirm = (props) => {
-  const { open, onClose, onConfirm, tip } = props;
+  const { open, onClose, onConfirm, tip, confirmText = "确定" } = props;
 
   return (
     <Modal
@@ -24,7 +24,7 @@ export const Comfirm = (props) => {
             取消
           </Button>
           <Button variant="contained" onClick={onConfirm}>
-            确认
+            {confirmText}
           </Button>
         </div>
       </div>

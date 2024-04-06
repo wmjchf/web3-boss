@@ -69,7 +69,7 @@ export const ResumeModal: React.FC<IResumeModal> = forwardRef((props, ref) => {
               ></ApplyItem>
             );
           })}
-        {userInfo.resumes?.length === 3 && (
+        {userInfo.resumes?.length <= 3 && (
           <Upload
             // className={styles.upload}
             action="http://localhost:8000/common/upload"

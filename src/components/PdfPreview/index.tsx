@@ -5,6 +5,7 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import styles from "./index.less";
 import { updateApply } from "@/api/apply";
+import classNames from "classnames";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -14,13 +15,15 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 export const PdfPreview = forwardRef((props, ref) => {
   const { onLoad, showMark = true } = props;
   const [open, setOpen] = useState(false);
+  const [mark, setMark] = useState(false);
   const [url, setUrl] = useState("");
   const [applyId, setApplyId] = useState(-1);
   const [loaded, setLoaded] = useState(false);
-  const handleOpen = (url: string, applyId: number) => {
+  const handleOpen = (url: string, applyId: number, mark: boolean) => {
     setApplyId(applyId);
     setOpen(true);
     setUrl(url);
+    setMark(mark);
   };
   const handleClose = () => {
     setOpen(false);
@@ -34,8 +37,13 @@ export const PdfPreview = forwardRef((props, ref) => {
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const handleMark = () => {
-    const result = updateApply(applyId, { mark: true });
-    console.log(result, "fds");
+    if (!mark) {
+      const result = updateApply(applyId, { mark: true });
+      setMark(true);
+    } else {
+      const result = updateApply(applyId, { mark: false });
+      setMark(false);
+    }
   };
   return (
     <Modal
@@ -74,9 +82,26 @@ export const PdfPreview = forwardRef((props, ref) => {
               />
             </div>
             {showMark && (
-              <div className={styles.operation__btn}>
-                <span onClick={handleMark}>标记</span>
-              </div>
+              <>
+                {mark ? (
+                  <div className={styles.operation__btn}>
+                    <div
+                      className={classNames(styles.collection, styles.has)}
+                      onClick={handleMark}
+                    >
+                      <i className="iconfont icon-yishoucang"></i>
+                      <span>收藏</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.operation__btn}>
+                    <div className={styles.collection} onClick={handleMark}>
+                      <i className="iconfont icon-weishoucang"></i>
+                      <span>收藏</span>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}

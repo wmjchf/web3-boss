@@ -7,11 +7,15 @@ import { useDisconnect } from "wagmi";
 import { ResumeModal } from "@/components/ResumeModal";
 import { userUserStore } from "@/store";
 import { PdfPreview } from "@/components/PdfPreview";
+import { ApplyModal } from "@/components/ApplyModal";
+import { SHARE_TIP } from "@/constant";
 
-export const DrawList = () => {
+export const DrawList = (props) => {
+  const { onClose } = props;
   const { disconnect } = useDisconnect();
   const { userInfo } = userUserStore();
   const resumeModalRef = useRef(0);
+  const applyModalRef = useRef(0);
   const pdfPreviewRef = useRef<any>();
   return (
     <div className={styles.draw__list}>
@@ -23,9 +27,7 @@ export const DrawList = () => {
             <img src={ScorePng} alt="" />
             <Button className={styles.copy}>复制</Button>
           </div>
-          <div className={styles.rule}>
-            点击复制按钮，分享给好友，即可获得20颗豆豆
-          </div>
+          <div className={styles.rule}>{SHARE_TIP}</div>
         </div>
         <div
           className={styles.item}
@@ -39,7 +41,12 @@ export const DrawList = () => {
           <i className="iconfont icon-resume-line"></i>
           <span>我的简历</span>
         </div>
-        <div className={styles.item}>
+        <div
+          className={styles.item}
+          onClick={() => {
+            applyModalRef.current?.handleOpen();
+          }}
+        >
           <i className="iconfont icon-wodetoudi"></i>
           <span>我的投递</span>
         </div>
@@ -67,6 +74,12 @@ export const DrawList = () => {
           pdfPreviewRef.current?.handleOpen(item.resumeUrl, item.id);
         }}
       ></ResumeModal>
+      <ApplyModal
+        ref={applyModalRef}
+        onClose={() => {
+          onClose && onClose();
+        }}
+      ></ApplyModal>
       <PdfPreview ref={pdfPreviewRef} showMark={false}></PdfPreview>
     </div>
   );

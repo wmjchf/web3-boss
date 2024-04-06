@@ -32,6 +32,23 @@
       right: 0;
       top: 50%;
       transform: translateY(-50%);
+      .collection {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        &.has {
+          i {
+            color: RGB(243, 2, 65);
+          }
+        }
+        i {
+          font-size: 18px;
+          margin-right: 4px;
+        }
+        span {
+          font-size: 14px;
+        }
+      }
     }
   }
 }
