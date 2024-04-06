@@ -64,7 +64,7 @@
   }
   .middle {
     .location {
-      width: 300px;
+      width: 500px;
       margin-top: 24px;
       display: flex;
       align-items: center;
@@ -78,6 +78,9 @@
         line-height: 34px;
         display: block;
         height: 34px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         &.none {
           color: #ddd;
         }

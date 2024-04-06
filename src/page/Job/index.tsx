@@ -169,7 +169,7 @@ export const Job = () => {
                 }}
               >
                 <Button variant="contained" size="large">
-                  申请岗位
+                  投递岗位
                 </Button>
               </AuthBtn>
             )}
@@ -229,7 +229,7 @@ export const Job = () => {
 
           {detail?.company?.userId === userId && (
             <div className={styles.resume__list}>
-              <div className={styles.title}>申请列表</div>
+              <div className={styles.title}>投递列表</div>
               <div className={styles.top}>
                 <span
                   className={classNames(current === "0" && styles.active)}
@@ -266,7 +266,7 @@ export const Job = () => {
                   {noReadList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>没有数据，还没有人申请</span>
+                      <span>没有数据，还没有人投递</span>
                     </div>
                   ) : (
                     <div className={styles.wrap} style={{ height: 232 }}>
@@ -298,7 +298,7 @@ export const Job = () => {
                   {haveReadList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>没有数据，还没有查看申请</span>
+                      <span>没有数据，还没有查看投递</span>
                     </div>
                   ) : (
                     <div style={{ height: 232 }} className={styles.wrap}>
@@ -330,7 +330,7 @@ export const Job = () => {
                   {markList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>没有数据，还没有标记申请</span>
+                      <span>没有数据，还没有标记投递</span>
                     </div>
                   ) : (
                     <div style={{ height: 232 }} className={styles.wrap}>
@@ -379,7 +379,7 @@ export const Job = () => {
       ></Comfirm>
       <Comfirm
         open={applyOpen}
-        tip="申请将消耗5颗豆豆，是否继续申请？"
+        tip="投递将消耗5颗豆豆，是否继续投递？"
         onClose={closeApply}
         onConfirm={() => {
           addApply({

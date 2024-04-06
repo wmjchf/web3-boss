@@ -8,6 +8,7 @@ import React, {
 import { Button, Modal } from "@mui/material";
 import { Item } from "./item";
 import styles from "./index.less";
+import NoData from "@/image/common/no-list.png";
 import { userUserStore } from "@/store";
 import { getApplySelf, IApply } from "@/api/apply";
 
@@ -56,21 +57,28 @@ export const ApplyModal: React.FC<IApplyModal> = forwardRef((props, ref) => {
         <div className={styles.title}>
           <span>投递列表</span>
         </div>
-        <div className={styles.list}>
-          {list.map((item) => {
-            return (
-              <Item
-                key={item.id}
-                data={item.job}
-                apply={item}
-                onClose={() => {
-                  setOpen(false);
-                  onClose && onClose();
-                }}
-              ></Item>
-            );
-          })}
-        </div>
+        {list.length > 0 ? (
+          <div className={styles.list}>
+            {list.map((item) => {
+              return (
+                <Item
+                  key={item.id}
+                  data={item.job}
+                  apply={item}
+                  onClose={() => {
+                    setOpen(false);
+                    onClose && onClose();
+                  }}
+                ></Item>
+              );
+            })}
+          </div>
+        ) : (
+          <div className={styles.no__data}>
+            <img src={NoData}></img>
+            <span>暂时还没有投递</span>
+          </div>
+        )}
       </div>
     </Modal>
   );

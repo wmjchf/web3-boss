@@ -64,7 +64,7 @@ export const Search = () => {
           label="是否远程"
           select
           fullWidth
-          value={isRemote}
+          value={isRemote === false ? "0" : isRemote === true ? "1" : ""}
           onChange={(event) => {
             setIsRemote(event.target.value === "1" ? true : false);
           }}

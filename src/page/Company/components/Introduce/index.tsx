@@ -94,6 +94,9 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
                 listType="picture-card"
                 showUploadList={false}
                 onChange={handleChange}
+                headers={{
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }}
               >
                 {logo ? (
                   <Image src={logo}></Image>

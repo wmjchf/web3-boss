@@ -8,6 +8,7 @@ import { Image } from "@/components/Image";
 import styles from "./index.less";
 import { EditPannel } from "../EditPannel";
 import { userUserStore } from "@/store";
+import toast from "react-hot-toast";
 interface IPicture {
   companyId: number;
   userId: string;
@@ -67,7 +68,23 @@ export const Picture: React.FC<IPicture> = (props) => {
             // console.log(item?.response.result.url);
             return (
               <PhotoView src={item?.url} key={item?.id}>
-                <div>
+                <div className={styles.image}>
+                  {isEdit && (
+                    <div
+                      className={styles.delete}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        const newFileList = fileList.filter(
+                          (v) => v.id !== item.id
+                        );
+
+                        setFileList(newFileList);
+                      }}
+                    >
+                      <i className="iconfont icon-shanchu1"></i>
+                    </div>
+                  )}
+
                   <Image
                     src={item?.url}
                     alt=""
@@ -78,13 +95,22 @@ export const Picture: React.FC<IPicture> = (props) => {
             );
           })}
         </PhotoProvider>
-        {isEdit ? (
+        {isEdit && fileList.length < 6 ? (
           <Upload
             // className={styles.upload}
             action="http://localhost:8000/common/upload"
             listType="picture-card"
             showUploadList={false}
             onChange={handleChange}
+            beforeUpload={() => {
+              if (fileList.length === 6) {
+                toast.error("目前最多支持6张图片");
+                return;
+              }
+            }}
+            headers={{
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }}
           >
             <div className={styles.upload}></div>
           </Upload>

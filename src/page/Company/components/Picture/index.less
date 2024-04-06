@@ -1,10 +1,33 @@
 .picture {
   display: flex;
+  flex-wrap: wrap;
+  .image {
+    position: relative;
+
+    .delete {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: -15px;
+      right: -5px;
+      cursor: pointer;
+      z-index: 1000000;
+      i {
+        font-size: 30px;
+      }
+    }
+  }
   .preview__image {
     width: 250px !important;
     height: 150px !important;
     border-radius: 4px;
     margin-right: 8px;
+    margin-bottom: 8px;
   }
   .no__data {
     display: flex;
