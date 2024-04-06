@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./index.less";
 import { IApply } from "@/api/apply";
 import { timeAgo } from "@/utils/time";
+import { EllipsisMiddle } from "../EllipsisMiddle";
 import classNames from "classnames";
 
 interface IApplyItem {
@@ -40,7 +41,11 @@ export const ApplyItem: React.FC<IApplyItem> = (props) => {
           <div
             className={classNames(styles.name, !showTime && styles.no__margin)}
           >
-            {data.resume.name}
+            <EllipsisMiddle
+              value={data.resume.name}
+              suffixCount={7}
+            ></EllipsisMiddle>
+            {/* {data.resume.name} */}
           </div>
           {showTime && (
             <div className={styles.time}>

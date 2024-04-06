@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React from "react";
-import Popover from "@mui/material/Popover";
 interface IEllipsisMiddle {
   value: string;
   suffixCount: number;
@@ -16,26 +15,19 @@ export const EllipsisMiddle: React.FC<IEllipsisMiddle> = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClick = (event: React.MouseEvent<HTMLSpanElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+
   const open = Boolean(anchorEl);
+  const renderText = () => {
+    if (value.length > 2 * suffixCount) {
+      return `${start}.....${suffix}`;
+    }
+    return value;
+  };
   return (
     <>
       <span className={classNames(className)} onClick={onClick}>
-        {start}....{suffix}
+        {renderText()}
       </span>
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      >
-        {children}
-      </Popover>
     </>
     // </Tooltip>
   );

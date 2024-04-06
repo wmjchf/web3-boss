@@ -6,11 +6,13 @@ import ScorePng from "@/image/my/score.svg";
 import { useDisconnect } from "wagmi";
 import { ResumeModal } from "@/components/ResumeModal";
 import { userUserStore } from "@/store";
+import { PdfPreview } from "@/components/PdfPreview";
 
 export const DrawList = () => {
   const { disconnect } = useDisconnect();
   const { userInfo } = userUserStore();
   const resumeModalRef = useRef(0);
+  const pdfPreviewRef = useRef<any>();
   return (
     <div className={styles.draw__list}>
       <div className={styles.top}>
@@ -59,7 +61,13 @@ export const DrawList = () => {
           退出登录
         </Button>
       </div>
-      <ResumeModal ref={resumeModalRef}></ResumeModal>
+      <ResumeModal
+        ref={resumeModalRef}
+        openResume={(item) => {
+          pdfPreviewRef.current?.handleOpen(item.resumeUrl, item.id);
+        }}
+      ></ResumeModal>
+      <PdfPreview ref={pdfPreviewRef} showMark={false}></PdfPreview>
     </div>
   );
 };

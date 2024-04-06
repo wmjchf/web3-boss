@@ -12,7 +12,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 export const PdfPreview = forwardRef((props, ref) => {
-  const { onLoad } = props;
+  const { onLoad, showMark = true } = props;
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [applyId, setApplyId] = useState(-1);
@@ -73,9 +73,11 @@ export const PdfPreview = forwardRef((props, ref) => {
                 }}
               />
             </div>
-            <div className={styles.operation__btn}>
-              <span onClick={handleMark}>标记</span>
-            </div>
+            {showMark && (
+              <div className={styles.operation__btn}>
+                <span onClick={handleMark}>标记</span>
+              </div>
+            )}
           </div>
         )}
       </div>
