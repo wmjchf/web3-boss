@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from "react";
+import React, { useRef, useMemo, useState, useEffect } from "react";
 
 import styles from "./index.less";
 import { IWaterItemPosition, Item } from "./Item";
@@ -63,6 +63,9 @@ export const Waterfull = <T extends IData>(
       top: prevMinHeight,
     };
   };
+  useEffect(() => {
+    heightArrRef.current = new Array(columns).fill(0);
+  }, [data]);
   return (
     <div className={styles.waterfull}>
       {data.map((item) => {
@@ -72,6 +75,7 @@ export const Waterfull = <T extends IData>(
             key={item.id}
             node={item}
             itemGap={itemGap}
+            data={data}
             getWaterfallItemPostionInfo={getWaterfallItemPostionInfo}
           >
             {renderItem && renderItem(item, itemWidth)}

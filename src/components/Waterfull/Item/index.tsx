@@ -11,6 +11,7 @@ type IWaterfullItemProps<T extends IWaterItemData> = {
   width: number;
   itemGap?: number;
   children?: React.ReactNode;
+  data?: any;
 };
 
 const Item = <T extends IWaterItemData>(
@@ -22,6 +23,7 @@ const Item = <T extends IWaterItemData>(
     width,
     getWaterfallItemPostionInfo,
     children,
+    data,
   } = props;
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -34,7 +36,7 @@ const Item = <T extends IWaterItemData>(
     });
 
     setPositionInfo(positionInfo);
-  }, []);
+  }, [data]);
 
   return (
     <div
