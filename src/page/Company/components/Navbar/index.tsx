@@ -20,9 +20,9 @@ export const Navbar: React.FC<INavbar> = (props) => {
   const { getJobList, jobList } = useJobListStore();
 
   useEffect(() => {
-    if (companyId) {
-      getJobList(companyId);
-    }
+    // if (companyId) {
+    getJobList(companyId);
+    // }
   }, [companyId]);
   return (
     <EditPannel className={styles.edit__navbar} showEdit={false}>

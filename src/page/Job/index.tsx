@@ -32,7 +32,7 @@ export const Job = () => {
   const [noReadList, setNoReadList] = useState<IApply[]>([]);
   const [haveReadList, setHaveReadList] = useState<IApply[]>([]);
   const [markList, setMarkList] = useState<IApply[]>([]);
-  const { userInfo, getCurrentUser } = userUserStore();
+  const { userInfo, getCurrentUser, token } = userUserStore();
   const [current, setCurrent] = useState("0");
   const { id: userId } = userInfo;
   const pdfPreviewRef = useRef<any>();
@@ -66,7 +66,7 @@ export const Job = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (id && token) {
       handleGetApplyList({ jobId: id, haveRead: "0" })
         .then((res) => {
           setNoReadList(res);
@@ -83,7 +83,7 @@ export const Job = () => {
         })
         .catch((error) => {});
     }
-  }, [id]);
+  }, [id, token]);
 
   useEffect(() => {
     if (userId !== detail?.company?.userId && detail?.id) {

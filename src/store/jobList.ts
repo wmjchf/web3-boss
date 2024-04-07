@@ -50,6 +50,12 @@ export const useJobListStore = create<State & Action>()(
       return true;
     },
     getJobList: async (companyId: number) => {
+      if (!companyId) {
+        set((state) => {
+          state.jobList = [];
+        });
+        return;
+      }
       const { result } = await getJobListByCompanyId(companyId);
 
       set((state) => {

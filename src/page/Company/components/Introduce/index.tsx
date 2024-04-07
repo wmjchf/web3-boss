@@ -87,24 +87,28 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       <div className={styles.introduce}>
         <div className={styles.top}>
           <div className={styles.logo}>
-            <ImgCrop aspect={100 / 65} zoomSlider={false} quality={1}>
-              <Upload
-                // className={styles.upload}
-                action="http://localhost:8000/common/upload"
-                listType="picture-card"
-                showUploadList={false}
-                onChange={handleChange}
-                headers={{
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                }}
-              >
-                {logo ? (
-                  <Image src={logo}></Image>
-                ) : (
-                  <div className={styles.upload}></div>
-                )}
-              </Upload>
-            </ImgCrop>
+            {isEdit ? (
+              <ImgCrop aspect={100 / 65} zoomSlider={false} quality={1}>
+                <Upload
+                  // className={styles.upload}
+                  action="http://localhost:8000/common/upload"
+                  listType="picture-card"
+                  showUploadList={false}
+                  onChange={handleChange}
+                  headers={{
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  }}
+                >
+                  {logo ? (
+                    <Image src={logo}></Image>
+                  ) : (
+                    <div className={styles.upload}></div>
+                  )}
+                </Upload>
+              </ImgCrop>
+            ) : (
+              <Image src={logo} className={styles.logo__image}></Image>
+            )}
           </div>
           <div className={styles.name}>
             {isEdit ? (

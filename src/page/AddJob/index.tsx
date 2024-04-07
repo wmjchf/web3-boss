@@ -13,14 +13,18 @@ import { AuthBtn } from "@/components/AuthBtn";
 import { addJob } from "@/api/job";
 import { useNavigate, useParams } from "react-router-dom";
 import { Comfirm } from "@/components/ComfirmDelete";
+import { SHARE_TIP } from "@/constant";
+import { userUserStore } from "@/store";
 
 export const AddJob = () => {
   const [tagList, setTagList] = useState([]);
   const { companyId } = useParams();
+  const [shareOpen, setShareOpen] = useState(false);
   const [tag, setTag] = useState("");
   const [name, setName] = useState("");
   const navigate = useNavigate();
   const [isRemote, setIsRemote] = useState("0");
+  const { userInfo } = userUserStore();
   const [showLocation, setShowLocation] = useState(true);
   const [location, setLocation] = useState("");
   const [isFace, setIsFace] = useState("0");
@@ -47,9 +51,19 @@ export const AddJob = () => {
       isFace,
       location,
       tag: tagList.join(","),
-    });
-    toast.success(`${result.message},还剩${result.result?.resetIntegral}豆豆`);
-    navigate(-1);
+    })
+      .then((result) => {
+        toast.success(
+          `${result.message},还剩${result.result?.resetIntegral}豆豆`
+        );
+        navigate(-1);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        setShareOpen(true);
+        // closeApply();
+        setOpen(false);
+      });
   };
   const [open, setOpen] = useState(false);
   return (
@@ -216,11 +230,33 @@ export const AddJob = () => {
       </div>
       <Comfirm
         open={open}
-        tip="发布将消耗5颗豆豆，是否继续申请？"
+        tip="发布将消耗5颗豆豆，是否继续发布？"
         onClose={() => {
           setOpen(false);
         }}
         onConfirm={handlePublish}
+      ></Comfirm>
+      <Comfirm
+        open={shareOpen}
+        tip={SHARE_TIP}
+        onClose={() => {
+          setShareOpen(false);
+        }}
+        onConfirm={() => {
+          console.log("复制");
+          navigator.clipboard
+            .writeText(
+              `http://localhost:3000/company?companyId=${companyId}&address=${userInfo.address}`
+            )
+            .then(() => {
+              console.log("复制成功");
+            })
+            .catch(() => {
+              console.log("复制失败");
+            });
+
+          setShareOpen(false);
+        }}
       ></Comfirm>
     </div>
   );
