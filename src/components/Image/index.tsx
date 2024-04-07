@@ -14,15 +14,7 @@ export const Image: React.FC<IImage> = (props) => {
   const { className, style, src } = props;
   const [load, setLoad] = useState(true);
   const [url, setUrl] = useState("");
-  useEffect(() => {
-    getPreviewNormalUrl({ path: src.replace(OSS_ORIGIN, "") })
-      .then((res) => {
-        setUrl(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+
   return (
     <div className={classNames(className, styles.image)} style={style}>
       {load ? (

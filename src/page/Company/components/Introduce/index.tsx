@@ -10,6 +10,7 @@ import { Upload, UploadProps } from "antd";
 import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
 import { userUserStore } from "@/store";
 import { Button } from "@mui/material";
+import { BASE_URL } from "@/constant";
 interface IIntroduce {
   companyId: number;
   className?: string;
@@ -74,6 +75,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       handleGetCompanyDetail();
     }
   }, [companyId]);
+
   return (
     <EditPannel
       onEdit={() => {
@@ -93,7 +95,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
               <ImgCrop aspect={100 / 65} zoomSlider={false} quality={1}>
                 <Upload
                   // className={styles.upload}
-                  action="http://localhost:8000/common/upload"
+                  action={`${BASE_URL}/common/upload`}
                   listType="picture-card"
                   showUploadList={false}
                   onChange={handleChange}

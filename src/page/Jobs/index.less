@@ -5,7 +5,23 @@
   &::-webkit-scrollbar {
     display: none;
   }
+  :global {
+    .adm-pull-to-refresh {
+      height: 100%;
+    }
+    .adm-pull-to-refresh-content {
+      height: 100%;
+    }
+  }
   .footer {
     margin-top: 12px;
+  }
+  .add {
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    i {
+      font-size: 30px;
+    }
   }
 }

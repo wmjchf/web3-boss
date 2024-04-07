@@ -32,6 +32,7 @@ export function findMaxColumnValue(columns: Array<number>): number {
       maxNumber = value;
     }
   });
+
   return maxNumber;
 }
 

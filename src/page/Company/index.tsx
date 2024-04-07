@@ -63,7 +63,9 @@ export const Company = () => {
             navigate(`/addJob/${companyId || company?.id}`);
           }}
         >
-          <Fab color="primary" aria-label="add" className={styles.add}></Fab>
+          <Fab color="primary" aria-label="add" className={styles.add}>
+            <i className="iconfont icon-tianjia1"></i>
+          </Fab>
         </AuthBtn>
       )}
     </div>

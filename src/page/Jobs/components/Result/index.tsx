@@ -108,7 +108,7 @@ export const Result = () => {
         jobList.length === 0 && styles.block
       )}
       style={{
-        height,
+        [jobList.length !== 0 ? "height" : ""]: height,
       }}
     >
       {/* {list.map((item) => {

@@ -53,24 +53,28 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
-    const message = await createSiweMessage(
-      address,
-      "Sign in with Ethereum to the app."
-    );
+    try {
+      const message = await createSiweMessage(
+        address,
+        "Sign in with Ethereum to the app."
+      );
 
-    const signature = await signMessageAsync({
-      message,
-      account: address,
-    });
+      const signature = await signMessageAsync({
+        message,
+        account: address,
+      });
 
-    const { result } = await login({
-      signature,
-      message,
-      share: localStorage.getItem("address"),
-    });
-    updateToken(result.token);
-    localStorage.setItem("token", result.token);
-    getCurrentUser();
+      const { result } = await login({
+        signature,
+        message,
+        share: localStorage.getItem("address"),
+      });
+      updateToken(result.token);
+      localStorage.setItem("token", result.token);
+      getCurrentUser();
+    } catch (error) {
+      console.log(error, "fsdfs");
+    }
   }
   const renderChildren = () => {
     if (!isConnected) {

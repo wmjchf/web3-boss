@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/constant";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
@@ -8,7 +9,7 @@ interface IResponse<T> {
 }
 
 axios.defaults.timeout = 100000;
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = BASE_URL;
 
 // axios.defaults.baseURL = "http://116.62.121.151";
 // 请求拦截器  1，可以在这里添加token

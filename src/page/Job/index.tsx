@@ -21,7 +21,7 @@ import {
 } from "@/api/apply";
 import classNames from "classnames";
 import { Comfirm } from "@/components/ComfirmDelete";
-import { SHARE_TIP } from "@/constant";
+import { BASE_URL, SHARE_TIP } from "@/constant";
 
 export const Job = () => {
   const { id } = useParams();
@@ -167,7 +167,7 @@ export const Job = () => {
         return (
           <AuthBtn>
             <Upload
-              action="http://localhost:8000/common/upload"
+              action={`${BASE_URL}/common/upload`}
               accept=".pdf"
               showUploadList={false}
               headers={{

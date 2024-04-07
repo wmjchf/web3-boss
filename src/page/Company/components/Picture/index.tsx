@@ -9,6 +9,7 @@ import styles from "./index.less";
 import { EditPannel } from "../EditPannel";
 import { userUserStore } from "@/store";
 import toast from "react-hot-toast";
+import { BASE_URL } from "@/constant";
 interface IPicture {
   companyId: number;
   userId: string;
@@ -98,7 +99,7 @@ export const Picture: React.FC<IPicture> = (props) => {
         {isEdit && fileList.length < 6 ? (
           <Upload
             // className={styles.upload}
-            action="http://localhost:8000/common/upload"
+            action={`${BASE_URL}/common/upload`}
             listType="picture-card"
             showUploadList={false}
             onChange={handleChange}

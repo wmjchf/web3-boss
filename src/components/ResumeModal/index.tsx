@@ -7,6 +7,7 @@ import { Upload, UploadFile, UploadProps } from "antd";
 import { addResume, deleteResume } from "@/api/resume";
 
 import toast from "react-hot-toast";
+import { BASE_URL } from "@/constant";
 
 interface IResumeModal {
   openResume?: (item) => void;
@@ -72,7 +73,7 @@ export const ResumeModal: React.FC<IResumeModal> = forwardRef((props, ref) => {
         {userInfo.resumes?.length <= 3 && (
           <Upload
             // className={styles.upload}
-            action="http://localhost:8000/common/upload"
+            action={`${BASE_URL}/common/upload`}
             listType="picture-card"
             showUploadList={false}
             onChange={handleChange}

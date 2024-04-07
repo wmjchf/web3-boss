@@ -20,7 +20,7 @@ interface State {
   pageNum: number;
   hasMore: boolean;
   refreshing: boolean;
-
+  first: boolean;
   jobList: IJob[];
 }
 
@@ -29,6 +29,7 @@ export const useJobsStore = create<State & Action>()(
     name: "",
     isRemote: "",
     location: "",
+    first: true,
     pageNum: 1,
     pageSize: 10,
     jobList: [],
@@ -71,6 +72,7 @@ export const useJobsStore = create<State & Action>()(
       const result = await getJobList(data);
 
       set((state) => {
+        state.first = false;
         state.jobList = jobList.concat(result.result.list);
         state.refreshing = false;
         if (result.result.list.length < 10) {
