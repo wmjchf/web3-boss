@@ -16,7 +16,7 @@ interface State {
 
 export const userUserStore = create<State & Action>()(
   immer((set) => ({
-    token: "",
+    token: localStorage.getItem("token"),
 
     userInfo: {
       address: "",

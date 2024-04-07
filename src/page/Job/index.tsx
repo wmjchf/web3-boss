@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { toast } from "react-hot-toast";
 import styles from "./index.less";
-import { Chip, Button } from "@mui/material";
+import { Chip, Button, Pagination } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { getJobDetail, IJob } from "@/api/job";
 import { useJobListStore, userUserStore } from "@/store";
@@ -30,8 +30,14 @@ export const Job = () => {
   const [detail, setDetail] = useState<IJob>();
   const [applyInfo, setApplyInfo] = useState<IApply>();
   const [noReadList, setNoReadList] = useState<IApply[]>([]);
+  const [noReadPage, setNoReadPage] = useState<number>(1);
+  const [noReadTotal, setNoReadTotal] = useState<number>(0);
   const [haveReadList, setHaveReadList] = useState<IApply[]>([]);
+  const [haveReadPage, setHaveReadPage] = useState(1);
+  const [haveReadTotal, setHaveReadTotal] = useState<number>(0);
   const [markList, setMarkList] = useState<IApply[]>([]);
+  const [markPage, setMarkPage] = useState(1);
+  const [markTotal, setMarkTotal] = useState<number>(0);
   const { userInfo, getCurrentUser, token } = userUserStore();
   const [current, setCurrent] = useState("0");
   const { id: userId } = userInfo;
@@ -61,35 +67,88 @@ export const Job = () => {
   const handleGetApplyList = async (data: unknown) => {
     try {
       const { result } = await getApplyList(data);
-      return result.list;
+      return result;
     } catch (error) {}
   };
 
-  useEffect(() => {
-    if (id && token) {
-      handleGetApplyList({ jobId: id, haveRead: "0" })
-        .then((res) => {
-          setNoReadList(res);
-        })
-        .catch((error) => {});
-      handleGetApplyList({ jobId: id, haveRead: "1", mark: "0" })
-        .then((res) => {
-          setHaveReadList(res);
-        })
-        .catch((error) => {});
-      handleGetApplyList({ jobId: id, haveRead: "1", mark: "1" })
-        .then((res) => {
-          setMarkList(res);
-        })
-        .catch((error) => {});
-    }
-  }, [id, token]);
+  // useEffect(() => {
+  //   if (id && token) {
+  //     handleGetApplyList({ jobId: id, haveRead: "0" })
+  //       .then((res) => {
+  //         setNoReadList(res.list);
+  //         setNoReadTotal(res.total);
+  //       })
+  //       .catch((error) => {});
+  //     handleGetApplyList({ jobId: id, haveRead: "1", mark: "0" })
+  //       .then((res) => {
+  //         setHaveReadList(res.list);
+  //         setHaveReadTotal(res.total);
+  //       })
+  //       .catch((error) => {});
+  //     handleGetApplyList({ jobId: id, haveRead: "1", mark: "1" })
+  //       .then((res) => {
+  //         setMarkList(res.list);
+  //         setMarkTotal(res.total);
+  //       })
+  //       .catch((error) => {});
+  //   }
+  // }, [id, token]);
 
   useEffect(() => {
     if (userId !== detail?.company?.userId && detail?.id) {
       handleGetApply();
     }
   }, [userId, detail]);
+
+  useEffect(() => {
+    if (id && token && noReadPage) {
+      handleGetApplyList({
+        jobId: id,
+        haveRead: "0",
+        pageNum: noReadPage,
+        pageSize: 12,
+      })
+        .then((res) => {
+          setNoReadList(res.list);
+          setNoReadTotal(res.total);
+        })
+        .catch((error) => {});
+    }
+  }, [noReadPage, id, token]);
+
+  useEffect(() => {
+    if (id && token && haveReadPage) {
+      handleGetApplyList({
+        jobId: id,
+        haveRead: "1",
+        mark: "0",
+        pageNum: haveReadPage,
+        pageSize: 12,
+      })
+        .then((res) => {
+          setHaveReadList(res.list);
+          setHaveReadTotal(res.total);
+        })
+        .catch((error) => {});
+    }
+  }, [haveReadPage, id, token]);
+
+  useEffect(() => {
+    if (id && token && markPage) {
+      handleGetApplyList({
+        jobId: id,
+        haveRead: "1",
+        mark: "1",
+        pageNum: markPage,
+        pageSize: 12,
+      })
+        .then((res) => {
+          setMarkList(res.list);
+          setMarkTotal(res.total);
+        })
+        .catch((error) => {});
+    }
+  }, [markPage, id, token]);
 
   useEffect(() => {
     if (id) {
@@ -110,6 +169,9 @@ export const Job = () => {
               action="http://localhost:8000/common/upload"
               accept=".pdf"
               showUploadList={false}
+              headers={{
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              }}
               onChange={(event) => {
                 const url = event.file?.response?.result?.url;
                 const name = event.file?.name;
@@ -269,24 +331,41 @@ export const Job = () => {
                       <span>没有数据，还没有人投递</span>
                     </div>
                   ) : (
-                    <div className={styles.wrap} style={{ height: 232 }}>
-                      {noReadList?.map((item) => {
-                        return (
-                          <ApplyItem
-                            data={item}
-                            key={item.id}
-                            onClick={() => {
-                              pdfPreviewRef.current?.handleOpen(
-                                item.resumeUrl,
-                                item.id,
-                                item.mark
-                              );
-                              setCurrentApply(item);
-                            }}
-                          ></ApplyItem>
-                        );
-                      })}
-                    </div>
+                    <>
+                      <div
+                        className={styles.wrap}
+                        style={{
+                          height: 336,
+                        }}
+                      >
+                        {noReadList?.map((item) => {
+                          return (
+                            <ApplyItem
+                              data={item}
+                              key={item.id}
+                              onClick={() => {
+                                pdfPreviewRef.current?.handleOpen(
+                                  item.resumeUrl,
+                                  item.id,
+                                  item.mark
+                                );
+                                setCurrentApply(item);
+                              }}
+                            ></ApplyItem>
+                          );
+                        })}
+                      </div>
+                      <div className={styles.pagination}>
+                        <Pagination
+                          count={Math.ceil(noReadTotal / 12)}
+                          variant="outlined"
+                          color="primary"
+                          onChange={(_, page) => {
+                            setNoReadPage(page);
+                          }}
+                        />
+                      </div>
+                    </>
                   )}
                 </div>
                 <div
@@ -301,24 +380,41 @@ export const Job = () => {
                       <span>没有数据，还没有查看投递</span>
                     </div>
                   ) : (
-                    <div style={{ height: 232 }} className={styles.wrap}>
-                      {haveReadList?.map((item) => {
-                        return (
-                          <ApplyItem
-                            data={item}
-                            key={item.id}
-                            onClick={() => {
-                              pdfPreviewRef.current?.handleOpen(
-                                item.resumeUrl,
-                                item.id,
-                                item.mark
-                              );
-                              setCurrentApply(item);
-                            }}
-                          ></ApplyItem>
-                        );
-                      })}
-                    </div>
+                    <>
+                      <div
+                        className={styles.wrap}
+                        style={{
+                          height: 336,
+                        }}
+                      >
+                        {haveReadList?.map((item) => {
+                          return (
+                            <ApplyItem
+                              data={item}
+                              key={item.id}
+                              onClick={() => {
+                                pdfPreviewRef.current?.handleOpen(
+                                  item.resumeUrl,
+                                  item.id,
+                                  item.mark
+                                );
+                                setCurrentApply(item);
+                              }}
+                            ></ApplyItem>
+                          );
+                        })}
+                      </div>
+                      <div className={styles.pagination}>
+                        <Pagination
+                          count={Math.ceil(haveReadTotal / 12)}
+                          variant="outlined"
+                          color="primary"
+                          onChange={(_, page) => {
+                            setHaveReadPage(page);
+                          }}
+                        />
+                      </div>
+                    </>
                   )}
                 </div>
                 <div
@@ -333,24 +429,41 @@ export const Job = () => {
                       <span>没有数据，还没有标记投递</span>
                     </div>
                   ) : (
-                    <div style={{ height: 232 }} className={styles.wrap}>
-                      {markList?.map((item) => {
-                        return (
-                          <ApplyItem
-                            data={item}
-                            key={item.id}
-                            onClick={() => {
-                              pdfPreviewRef.current?.handleOpen(
-                                item.resumeUrl,
-                                item.id,
-                                item.mark
-                              );
-                              setCurrentApply(item);
-                            }}
-                          ></ApplyItem>
-                        );
-                      })}
-                    </div>
+                    <>
+                      <div
+                        className={styles.wrap}
+                        style={{
+                          height: 336,
+                        }}
+                      >
+                        {markList?.map((item) => {
+                          return (
+                            <ApplyItem
+                              data={item}
+                              key={item.id}
+                              onClick={() => {
+                                pdfPreviewRef.current?.handleOpen(
+                                  item.resumeUrl,
+                                  item.id,
+                                  item.mark
+                                );
+                                setCurrentApply(item);
+                              }}
+                            ></ApplyItem>
+                          );
+                        })}
+                      </div>
+                      <div className={styles.pagination}>
+                        <Pagination
+                          count={Math.ceil(markTotal / 12)}
+                          variant="outlined"
+                          color="primary"
+                          onChange={(_, page) => {
+                            setMarkPage(page);
+                          }}
+                        />
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
