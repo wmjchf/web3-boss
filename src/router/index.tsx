@@ -25,6 +25,12 @@ const router = createBrowserRouter([
       {
         path: "company",
         element: <Company></Company>,
+        children: [
+          {
+            path: ":id",
+            element: <Company></Company>,
+          },
+        ],
       },
       {
         path: "addJob/:companyId",

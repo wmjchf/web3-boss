@@ -9,6 +9,7 @@ import { AuthBtn } from "@/components/AuthBtn";
 import NoData from "@/image/common/no-list.png";
 import { ApplyItem } from "@/components/ApplyItem";
 import { Upload } from "antd";
+import { Introduce } from "../Company/components/Introduce";
 import { addResume } from "@/api/resume";
 import { PdfPreview } from "@/components/PdfPreview";
 import {
@@ -243,6 +244,10 @@ export const Job = () => {
   return (
     <div className={styles.job}>
       <div className={styles.container}>
+        <Introduce
+          companyId={detail?.company?.id}
+          className={styles.company}
+        ></Introduce>
         <div className={styles.content}>
           <div className={styles.name}>
             <div className={styles.left}>

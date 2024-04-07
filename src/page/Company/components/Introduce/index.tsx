@@ -9,11 +9,13 @@ import classNames from "classnames";
 import { Upload, UploadProps } from "antd";
 import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
 import { userUserStore } from "@/store";
+import { Button } from "@mui/material";
 interface IIntroduce {
   companyId: number;
+  className?: string;
 }
 export const Introduce: React.FC<IIntroduce> = (props) => {
-  const { companyId } = props;
+  const { companyId, className } = props;
   const { userInfo } = userUserStore();
   const { id } = userInfo;
 
@@ -82,7 +84,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       onClose={() => {
         setIsEdit(false);
       }}
-      className={styles.edit__introduce}
+      className={classNames(styles.edit__introduce, className)}
     >
       <div className={styles.introduce}>
         <div className={styles.top}>
@@ -124,6 +126,23 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
             ) : (
               <span className={classNames(!name && styles.none)}>
                 {name || "一个好的名字可以给求职者留下好的印象哦"}
+                {companyId && (
+                  <Button
+                    className={styles.copy}
+                    onClick={() => {
+                      navigator.clipboard
+                        .writeText(`http://localhost:3000/company/${companyId}`)
+                        .then(() => {
+                          console.log("复制成功");
+                        })
+                        .catch(() => {
+                          console.log("复制失败");
+                        });
+                    }}
+                  >
+                    复制
+                  </Button>
+                )}
               </span>
             )}
           </div>

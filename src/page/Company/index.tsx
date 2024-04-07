@@ -9,7 +9,7 @@ import {
   getCompanyListByAddress,
   ICompany,
 } from "@/api/company";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AuthBtn } from "@/components/AuthBtn";
 import { userUserStore } from "@/store";
 
@@ -19,7 +19,7 @@ export const Company = () => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const companyId = searchParams.get("companyId");
+  const { id: companyId } = useParams();
 
   const [company, setCompany] = useState<ICompany>();
   // const handleCompanyList = async () => {
