@@ -1,9 +1,43 @@
 .basic__layout {
   height: 100%;
   .content {
-    height: calc(100% - 80px);
+    height: calc(100% - 130px);
     // background-color: RGB(242, 244, 247);
     // background-color: #fff;
     // padding: 0 var(--pagePaddingHorizontal);
+  }
+  .notice {
+    height: 50px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      .platform {
+        font-style: normal;
+        margin-right: 3px;
+        color: #1976d2;
+      }
+      .public {
+        font-style: normal;
+        margin: 0 3px;
+        color: #1976d2;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.popover {
+  margin-top: 10px;
+  .qrcode {
+    width: 200px;
+    height: 200px;
+
+    img {
+      width: 100%;
+    }
   }
 }

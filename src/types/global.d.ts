@@ -3,6 +3,7 @@ declare module "*.png";
 declare module "*.less";
 declare module "*.docx";
 declare module "*.json";
+declare module "*.jpg";
 
 interface Point {
   h: number;
