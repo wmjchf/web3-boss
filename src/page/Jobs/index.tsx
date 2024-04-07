@@ -3,6 +3,7 @@ import { InfiniteScroll, PullToRefresh } from "antd-mobile";
 import { Search } from "./components/Search";
 import { Result } from "./components/Result";
 import styles from "./index.less";
+import KeepAlive from "react-activation";
 import { useSearchParams } from "react-router-dom";
 import { useJobsStore } from "@/store";
 import classNames from "classnames";

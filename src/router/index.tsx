@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
-
+import KeepAlive from "react-activation";
 import BasicLayout from "@/layout/Basic";
 import { Jobs } from "@/page/Jobs";
 
@@ -19,7 +19,11 @@ const router = createBrowserRouter([
       },
       {
         path: "jobs",
-        element: <Jobs></Jobs>,
+        element: (
+          <KeepAlive key={"jobs"}>
+            <Jobs></Jobs>
+          </KeepAlive>
+        ),
       },
 
       {

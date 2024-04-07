@@ -22,7 +22,9 @@ export const App = () => {
       <QueryClientProvider client={queryClient}>
         {/* <ConnectWallet></ConnectWallet> */}
         {/* <EditorLayout></EditorLayout> */}
+
         <RouterProvider router={router}></RouterProvider>
+
         <Toaster />
       </QueryClientProvider>
     </WagmiProvider>
