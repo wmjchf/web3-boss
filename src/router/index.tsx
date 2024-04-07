@@ -28,7 +28,11 @@ const router = createBrowserRouter([
 
       {
         path: "company",
-        element: <Company></Company>,
+        element: (
+          <KeepAlive key={"company"}>
+            <Company></Company>
+          </KeepAlive>
+        ),
         children: [
           {
             path: ":id",
