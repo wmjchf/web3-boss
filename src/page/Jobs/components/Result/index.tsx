@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Item } from "./Item";
 import NoData from "@/image/common/no-list.png";
 import styles from "./index.less";
@@ -98,16 +98,18 @@ export const Result = () => {
       salary: "15k~20k",
     },
   ];
-  const { jobList, getJobList } = useJobsStore();
-  useEffect(() => {
-    getJobList();
-  }, []);
+  const [height, setHeight] = useState(0);
+  const { jobList } = useJobsStore();
+
   return (
     <div
       className={classNames(
         styles.result,
         jobList.length === 0 && styles.block
       )}
+      style={{
+        height,
+      }}
     >
       {/* {list.map((item) => {
         return <Item key={item.logo} data={item}></Item>;
@@ -122,6 +124,9 @@ export const Result = () => {
           columns={4}
           data={jobList}
           width={1600}
+          onHeight={(height) => {
+            setHeight(height);
+          }}
           itemGap={15}
           renderItem={(data) => {
             return <Item data={data}></Item>;

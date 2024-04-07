@@ -8,7 +8,8 @@ type Action = {
   setLocation: (location) => void;
   setPageNum: (pageNum) => void;
   setPageSize: (pageSize) => void;
-  getJobList: () => void;
+  getJobList: () => Promise<any>;
+  refresh: () => void;
 };
 
 interface State {
@@ -17,6 +18,8 @@ interface State {
   location: string;
   pageSize: number;
   pageNum: number;
+  hasMore: boolean;
+  refreshing: boolean;
 
   jobList: IJob[];
 }
@@ -29,6 +32,9 @@ export const useJobsStore = create<State & Action>()(
     pageNum: 1,
     pageSize: 10,
     jobList: [],
+    hasMore: true,
+    refreshing: false,
+
     setName: (name) =>
       set((state) => {
         state.name = name;
@@ -49,15 +55,30 @@ export const useJobsStore = create<State & Action>()(
       set((state) => {
         state.isRemote = isRemote;
       }),
+    refresh: () => {
+      set((state) => {
+        state.pageNum = 1;
+        state.jobList = [];
+        state.refreshing = true;
+      });
+    },
     getJobList: async () => {
-      const { name, isRemote, location, pageNum, pageSize } = get();
+      const { name, isRemote, location, pageNum, pageSize, jobList } = get();
       const data = { pageNum, pageSize };
       name && Object.assign(data, { name });
       isRemote && Object.assign(data, { isRemote });
       location && Object.assign(data, { location });
       const result = await getJobList(data);
+
       set((state) => {
-        state.jobList = result.result.list;
+        state.jobList = jobList.concat(result.result.list);
+        state.refreshing = false;
+        if (result.result.list.length < 10) {
+          state.hasMore = false;
+        } else {
+          state.hasMore = true;
+          state.pageNum++;
+        }
       });
     },
   }))

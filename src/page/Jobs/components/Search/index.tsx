@@ -44,6 +44,7 @@ export const Search = () => {
     location,
     isRemote,
     getJobList,
+    refresh,
   } = useJobsStore();
   return (
     <div className={styles.search}>
@@ -91,7 +92,10 @@ export const Search = () => {
         variant="contained"
         size="large"
         className={styles.search__btn}
-        onClick={getJobList}
+        onClick={() => {
+          refresh();
+          getJobList();
+        }}
       >
         搜索
       </Button>
