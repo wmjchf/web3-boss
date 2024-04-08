@@ -17,7 +17,7 @@ interface IIntroduce {
 }
 export const Introduce: React.FC<IIntroduce> = (props) => {
   const { companyId, className } = props;
-  const { userInfo } = userUserStore();
+  const { userInfo, getCurrentUser } = userUserStore();
   const { id } = userInfo;
 
   const [isEdit, setIsEdit] = useState(false);
@@ -39,12 +39,29 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
     }
   };
   const handleAddCompany = async () => {
+    if (!name) {
+      toast.error("相关团队/项目/公司名称必填");
+      return;
+    }
+    if (!location) {
+      toast.error("相关地址必填");
+      return;
+    }
+    if (!description) {
+      toast.error("相关简介必填");
+      return;
+    }
+    if (!logo) {
+      toast.error("相关logo必填");
+      return;
+    }
     await addCompany({
       name,
       location,
       description,
       logo,
     });
+    getCurrentUser();
     setIsEdit(false);
   };
   const handleUpdateCompany = async () => {
@@ -110,8 +127,10 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
                   )}
                 </Upload>
               </ImgCrop>
-            ) : (
+            ) : logo ? (
               <Image src={logo} className={styles.logo__image}></Image>
+            ) : (
+              <div className={styles.upload}></div>
             )}
           </div>
           <div className={styles.name}>

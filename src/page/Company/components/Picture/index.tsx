@@ -31,6 +31,10 @@ export const Picture: React.FC<IPicture> = (props) => {
   };
 
   const onSave = async () => {
+    if (!companyId) {
+      toast.error("先填写项目/团队/公司/基本信息");
+      return;
+    }
     const pictures = fileList.map((item) => {
       return {
         url: item?.url,
