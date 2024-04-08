@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useImperativeHandle } from "react";
-import { Modal, Pagination } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import Pagination from "@mui/material/Pagination";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";

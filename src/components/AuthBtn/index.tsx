@@ -4,7 +4,7 @@ import { SiweMessage } from "siwe";
 
 import { getNonce, login } from "@/api/user";
 import { userUserStore } from "@/store";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 
 interface IAuthBtn {
   onClick?: () => void;

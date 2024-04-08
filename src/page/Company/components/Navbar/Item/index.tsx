@@ -1,5 +1,6 @@
 import React, { useMemo, useRef } from "react";
-import { Button, Chip } from "@mui/material";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 import { Ellipsis } from "@/components/Ellipsis";
 import { timeAgo } from "@/utils/time";
 import styles from "./index.less";

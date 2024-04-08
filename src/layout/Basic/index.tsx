@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "./components/Header";
-import { Drawer, Popover } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import Popover from "@mui/material/Popover";
 import { DrawList } from "./components/DrawList";
 import QRCODE from "./image/qrcode.jpg";
 import styles from "./index.less";

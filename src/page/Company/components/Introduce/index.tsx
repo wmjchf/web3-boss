@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { Upload, UploadProps } from "antd";
 import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
 import { userUserStore } from "@/store";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import { BASE_URL } from "@/constant";
 interface IIntroduce {
   companyId: number;
@@ -146,7 +146,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
               />
             ) : (
               <span className={classNames(!name && styles.none)}>
-                {name || "一个好的名字可以给求职者留下好的印象哦"}
+                {name || "一个好的名字可以给用户留下好的印象哦"}
                 {companyId && (
                   <Button
                     className={styles.copy}
@@ -183,7 +183,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
               />
             ) : (
               <span className={classNames(!location && styles.none)}>
-                {location || "请填写你们的办公地址"}
+                {location || "请填写所在位置"}
               </span>
             )}
           </div>
@@ -204,7 +204,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
             />
           ) : (
             <span className={classNames(!description && styles.none)}>
-              {description || "简介可以给求职者留下好的印象哦"}
+              {description || "简介可以让用户更了解你们哦"}
             </span>
           )}
         </div>

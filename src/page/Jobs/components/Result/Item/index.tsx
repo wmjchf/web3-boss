@@ -3,7 +3,7 @@ import { Ellipsis } from "@/components/Ellipsis";
 import styles from "./index.less";
 import { IJob } from "@/api/job";
 import { Image } from "@/components/Image";
-import { Chip } from "@mui/material";
+import Chip from "@mui/material/Chip";
 import { useNavigate } from "react-router-dom";
 
 interface IItem {

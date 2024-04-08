@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const webpack = require("webpack");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -98,16 +101,59 @@ const config = {
       filename: "css/[contenthash].[name].css",
     }),
     new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   optimization: {
+    minimizer: [
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: [
+              ["gifsicle", { interlaced: true }],
+              ["jpegtran", { progressive: true }],
+              ["optipng", { optimizationLevel: 5 }],
+              [
+                "svgo",
+                {
+                  plugins: [
+                    "preset-default",
+                    "prefixIds",
+                    {
+                      name: "sortAttrs",
+                      params: {
+                        xmlnsOrder: "alphabetical",
+                      },
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+      }),
+    ],
+
     splitChunks: {
-      chunks: "all",
+      chunks: "all", // 可选值：all，async 和 initial。all功能最强大，所以咱们就使用all
+      maxInitialRequests: Infinity, // 最大并行请求数，为了以防万一，设置无穷大即可
+      minSize: 20000, // 引入的模块大于20kb才做代码分割，官方默认20000，这里不用修改了
+      maxSize: 60000, // 若引入的模块大于60kb，则告诉webpack尝试再进行拆分
       cacheGroups: {
         vendors: {
-          name: `vendors`,
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          filename: "js/common/[name].[contenthash].js",
+          test: /[\\/]node_modules[\\/]/, // 使用正则匹配node_modules中引入的模块
+          priority: -10, // 优先级值越大优先级越高，默认-10，不用修改
+          name(module) {
+            const match = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            );
+            if (!match) return "";
+            // 设定分包以后的文件模块名字，按照包名字替换拼接一下
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            return `npm.${packageName.replace("@", "")}`;
+          },
         },
       },
     },

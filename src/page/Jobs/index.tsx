@@ -7,9 +7,9 @@ import KeepAlive from "react-activation";
 import { useSearchParams } from "react-router-dom";
 import { useJobsStore } from "@/store";
 import classNames from "classnames";
-import { Fab } from "@mui/material";
+import Fab from "@mui/material/Fab";
 
-export const Jobs = () => {
+const Jobs = () => {
   const [searchParams] = useSearchParams();
   const divRef = useRef<HTMLDivElement>();
   const address = searchParams.get("address");
@@ -51,3 +51,5 @@ export const Jobs = () => {
     </div>
   );
 };
+
+export default Jobs;

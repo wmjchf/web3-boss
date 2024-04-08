@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useImperativeHandle } from "react";
-import { Button, Modal } from "@mui/material";
-
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
 import styles from "./index.less";
 
 export const Comfirm = (props) => {

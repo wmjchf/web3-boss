@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import styles from "./index.less";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import ScorePng from "@/image/my/score.svg";
 import { useDisconnect } from "wagmi";
 import { ResumeModal } from "@/components/ResumeModal";

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import styles from "./index.less";
-import { Chip } from "@mui/material";
+import Chip from "@mui/material/Chip";
 import { useNavigate } from "react-router-dom";
 
 interface IItem {

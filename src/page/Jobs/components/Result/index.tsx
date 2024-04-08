@@ -98,8 +98,20 @@ export const Result = () => {
       salary: "15k~20k",
     },
   ];
+  const divRef = useRef<HTMLDivElement>();
   const [height, setHeight] = useState(0);
   const { jobList } = useJobsStore();
+  const [width, setWidth] = useState(1600);
+  const [columns, setColumns] = useState(4);
+  useEffect(() => {
+    const width = document.documentElement.clientWidth;
+    if (width < 1700) {
+      setWidth(width - 100);
+      if (width < 1550) {
+        setColumns(3);
+      }
+    }
+  }, []);
 
   return (
     <div
@@ -110,6 +122,7 @@ export const Result = () => {
       style={{
         [jobList.length !== 0 ? "height" : ""]: height,
       }}
+      ref={divRef}
     >
       {/* {list.map((item) => {
         return <Item key={item.logo} data={item}></Item>;
@@ -121,9 +134,9 @@ export const Result = () => {
         </div>
       ) : (
         <Waterfull
-          columns={4}
+          columns={columns}
           data={jobList}
-          width={1600}
+          width={width}
           onHeight={(height) => {
             setHeight(height);
           }}

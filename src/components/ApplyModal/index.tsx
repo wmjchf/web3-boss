@@ -5,7 +5,7 @@ import React, {
   useRef,
   useImperativeHandle,
 } from "react";
-import { Button, Modal } from "@mui/material";
+import Modal from "@mui/material/Modal";
 import { Item } from "./item";
 import styles from "./index.less";
 import NoData from "@/image/common/no-list.png";

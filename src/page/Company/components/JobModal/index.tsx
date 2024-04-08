@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useImperativeHandle } from "react";
-import { Modal, TextField } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
 import styles from "./index.less";
 
 export const JobModal = forwardRef((props, ref) => {

@@ -16,9 +16,18 @@ export const Navbar: React.FC<INavbar> = (props) => {
   const { companyId, userId } = props;
   const [index, setIndex] = useState(1000);
   const [height, setHeight] = useState(0);
-
+  const [width, setWidth] = useState(1552);
+  const [columns, setColumns] = useState(4);
   const { getJobList, jobList } = useJobListStore();
-
+  useEffect(() => {
+    const width = document.documentElement.clientWidth;
+    if (width < 1700) {
+      setWidth(width - 148);
+      if (width < 1500) {
+        setColumns(3);
+      }
+    }
+  }, []);
   useEffect(() => {
     // if (companyId) {
     getJobList(companyId);
@@ -58,9 +67,9 @@ export const Navbar: React.FC<INavbar> = (props) => {
       >
         {jobList?.length > 0 ? (
           <Waterfull
-            columns={4}
+            columns={columns}
             data={jobList}
-            width={1552}
+            width={width}
             itemGap={15}
             renderItem={(data) => {
               return <Item data={data} userId={userId}></Item>;

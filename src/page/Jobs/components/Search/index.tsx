@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import styles from "./index.less";
 import { useJobsStore } from "@/store";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 
 export const Search = () => {
   const citys = [

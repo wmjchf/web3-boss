@@ -5,8 +5,7 @@ const { merge } = require("webpack-merge");
 const common = require("./common.config.js");
 
 const config = merge(common, {
-  mode: "development",
-  devtool: "source-map",
+  mode: "production",
 });
 
 module.exports = config;

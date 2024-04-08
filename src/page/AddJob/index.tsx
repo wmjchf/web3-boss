@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { toast } from "react-hot-toast";
 import styles from "./index.less";
-import {
-  Button,
-  Chip,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import { AuthBtn } from "@/components/AuthBtn";
 import { addJob } from "@/api/job";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,7 +14,7 @@ import { Comfirm } from "@/components/ComfirmDelete";
 import { SHARE_TIP } from "@/constant";
 import { userUserStore } from "@/store";
 
-export const AddJob = () => {
+const AddJob = () => {
   const [tagList, setTagList] = useState([]);
   const { companyId } = useParams();
   const [shareOpen, setShareOpen] = useState(false);
@@ -220,7 +218,7 @@ export const AddJob = () => {
               label="岗位描述"
               fullWidth
               multiline
-              rows={15}
+              minRows={20}
               onChange={(event) => {
                 setDescription(event.target.value);
               }}
@@ -261,3 +259,5 @@ export const AddJob = () => {
     </div>
   );
 };
+
+export default AddJob;

@@ -13,7 +13,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AuthBtn } from "@/components/AuthBtn";
 import { userUserStore } from "@/store";
 
-export const Company = () => {
+const Company = () => {
   const { userInfo } = userUserStore();
   const { id, companies } = userInfo;
 
@@ -71,3 +71,4 @@ export const Company = () => {
     </div>
   );
 };
+export default Company;

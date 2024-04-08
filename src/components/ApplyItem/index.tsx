@@ -14,6 +14,9 @@ interface IApplyItem {
   className?: string;
   showDelete?: boolean;
   onDelete?: () => void;
+  isChoice?: boolean;
+  checked?: boolean;
+  onSelect?: () => void;
 }
 export const ApplyItem: React.FC<IApplyItem> = (props) => {
   const {
@@ -24,6 +27,9 @@ export const ApplyItem: React.FC<IApplyItem> = (props) => {
     style,
     className,
     showDelete = false,
+    isChoice = false,
+    checked = false,
+    onSelect,
   } = props;
 
   return (
@@ -66,6 +72,19 @@ export const ApplyItem: React.FC<IApplyItem> = (props) => {
             }}
           >
             <i className="iconfont icon-shanchu"></i>
+          </div>
+        )}
+        {isChoice && (
+          <div
+            className={styles.end}
+            onClick={(event) => {
+              event.stopPropagation();
+              onSelect && onSelect();
+            }}
+          >
+            <div className={styles.outer}>
+              {checked && <div className={styles.inner}></div>}
+            </div>
           </div>
         )}
       </div>

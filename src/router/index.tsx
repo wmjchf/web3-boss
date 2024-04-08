@@ -1,13 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import KeepAlive from "react-activation";
 import BasicLayout from "@/layout/Basic";
-import { Jobs } from "@/page/Jobs";
+import Jobs from "@/page/Jobs";
+import Company from "@/page/Company";
 
-import { Company } from "@/page/Company";
-import { AddJob } from "@/page/AddJob";
-import { UpdateJob } from "@/page/UpdateJob";
-import { Job } from "@/page/Job";
+const Job = lazy(() => import("@/page/Job"));
+const AddJob = lazy(() => import("@/page/AddJob"));
+const UpdateJob = lazy(() => import("@/page/UpdateJob"));
+
 const router = createBrowserRouter([
   {
     path: "/",

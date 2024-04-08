@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import styles from "./index.less";
-import {
-  Button,
-  Chip,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import { AuthBtn } from "@/components/AuthBtn";
 import { getJobDetail, updateJob } from "@/api/job";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
-export const UpdateJob = () => {
+const UpdateJob = () => {
   const [tagList, setTagList] = useState([]);
   const { id } = useParams();
 
@@ -236,3 +234,5 @@ export const UpdateJob = () => {
     </div>
   );
 };
+
+export default UpdateJob;

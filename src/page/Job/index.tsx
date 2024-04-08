@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo, useRef, lazy } from "react";
 import { toast } from "react-hot-toast";
 import styles from "./index.less";
-import { Chip, Button, Pagination } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { getJobDetail, IJob } from "@/api/job";
 import { useJobListStore, userUserStore } from "@/store";
@@ -22,10 +24,11 @@ import {
 import classNames from "classnames";
 import { Comfirm } from "@/components/ComfirmDelete";
 import { BASE_URL, SHARE_TIP } from "@/constant";
-
-export const Job = () => {
+import { ResumeModal } from "@/components/ResumeModal";
+const Job = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const resumeModalRef = useRef(0);
   // hr查询申请的时候
   const [currentApply, setCurrentApply] = useState<IApply>();
   const [detail, setDetail] = useState<IJob>();
@@ -44,6 +47,7 @@ export const Job = () => {
   const { id: userId } = userInfo;
   const pdfPreviewRef = useRef<any>();
   const [shareOpen, setShareOpen] = useState(false);
+  const pdfPreviewRef1 = useRef<any>();
   const {
     closeConfirm,
     deleteJob,
@@ -53,6 +57,7 @@ export const Job = () => {
     openApply,
     closeApply,
   } = useJobListStore();
+  const [select, setSelect] = useState(0);
   const handleGetJobInfo = async () => {
     const { result } = await getJobDetail(parseInt(id));
     setDetail(result);
@@ -196,39 +201,30 @@ export const Job = () => {
             {applyInfo ? (
               applyInfo.haveRead ? (
                 <Button variant="contained" disabled>
-                  简历已被查看，不能再修改简历
+                  简历已被查看
                 </Button>
               ) : (
-                <AuthBtn
-                  onClick={() => {
-                    //   addApply({
-                    //     jobId: detail?.id,
-                    //     resumeId: resume[0]?.id,
-                    //     resumeName: resume[0]?.name,
-                    //     resumeUrl: resume[0]?.url,
-                    //   }).then((res) => {
-                    //     toast.success(res.message);
-                    //   });
-                  }}
-                >
-                  <Button variant="contained" size="large">
-                    修改简历
-                  </Button>
-                </AuthBtn>
+                // <AuthBtn
+                //   onClick={() => {
+                //     resumeModalRef?.current.handleOpen();
+                //   }}
+                // >
+                //   <Button variant="contained" size="large">
+                //     修改简历
+                //   </Button>
+                // </AuthBtn>
+                <Button variant="contained" disabled>
+                  等待简历被查看
+                </Button>
               )
             ) : (
               <AuthBtn
                 onClick={() => {
-                  openApply();
-                  // addApply({
-                  //   jobId: detail?.id,
-                  //   resumeId: resume[0]?.id,
-                  //   resumeName: resume[0]?.name,
-                  //   resumeUrl: resume[0]?.url,
-                  // }).then((res) => {
-                  //   toast.success(res.message);
-                  //   handleGetApply();
-                  // });
+                  if (userInfo?.resumes?.length === 0) {
+                    openApply();
+                  } else {
+                    resumeModalRef.current?.handleOpen();
+                  }
                 }}
               >
                 <Button variant="contained" size="large">
@@ -243,11 +239,11 @@ export const Job = () => {
   };
   return (
     <div className={styles.job}>
+      <Introduce
+        companyId={detail?.company?.id}
+        className={styles.company}
+      ></Introduce>
       <div className={styles.container}>
-        <Introduce
-          companyId={detail?.company?.id}
-          className={styles.company}
-        ></Introduce>
         <div className={styles.content}>
           <div className={styles.name}>
             <div className={styles.left}>
@@ -502,7 +498,8 @@ export const Job = () => {
         onConfirm={() => {
           addApply({
             jobId: detail?.id,
-            resumeId: userInfo?.resumes[0]?.id,
+            resumeId:
+              userInfo?.resumes?.length > 1 ? select : userInfo?.resumes[0]?.id,
           })
             .then((res) => {
               toast.success(
@@ -538,6 +535,25 @@ export const Job = () => {
           setShareOpen(false);
         }}
       ></Comfirm>
+      <ResumeModal
+        ref={resumeModalRef}
+        isChoice={true}
+        showDelete={false}
+        select={select}
+        onSelect={(select) => {
+          setSelect(select);
+        }}
+        onPost={() => {
+          resumeModalRef?.current?.handleClose();
+          openApply();
+        }}
+        openResume={(item) => {
+          pdfPreviewRef1.current?.handleOpen(item.resumeUrl, item.id);
+        }}
+      ></ResumeModal>
+      <PdfPreview ref={pdfPreviewRef1} showMark={false}></PdfPreview>
     </div>
   );
 };
+
+export default Job;

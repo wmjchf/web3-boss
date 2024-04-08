@@ -1,5 +1,5 @@
 import React, { forwardRef, useState, useImperativeHandle } from "react";
-import { Button, Modal } from "@mui/material";
+import Modal from "@mui/material/Modal";
 import { ApplyItem } from "../ApplyItem";
 import styles from "./index.less";
 import { userUserStore } from "@/store";
@@ -8,12 +8,25 @@ import { addResume, deleteResume } from "@/api/resume";
 
 import toast from "react-hot-toast";
 import { BASE_URL } from "@/constant";
+import { Button } from "@mui/material";
 
 interface IResumeModal {
   openResume?: (item) => void;
+  isChoice?: boolean;
+  showDelete?: boolean;
+  select?: number;
+  onSelect?: (id: number) => void;
+  onPost?: () => void;
 }
 export const ResumeModal: React.FC<IResumeModal> = forwardRef((props, ref) => {
-  const { openResume } = props;
+  const {
+    openResume,
+    isChoice = false,
+    showDelete = true,
+    select,
+    onSelect,
+    onPost,
+  } = props;
   const [open, setOpen] = useState(false);
   const { userInfo, getCurrentUser } = userUserStore();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -64,13 +77,18 @@ export const ResumeModal: React.FC<IResumeModal> = forwardRef((props, ref) => {
                 onClick={() => {
                   openResume(item);
                 }}
-                showDelete={true}
+                showDelete={showDelete}
                 showTime={false}
+                isChoice={isChoice}
+                checked={select === item.id}
                 className={styles.apply__item}
+                onSelect={() => {
+                  onSelect && onSelect(item.id);
+                }}
               ></ApplyItem>
             );
           })}
-        {userInfo.resumes?.length <= 3 && (
+        {userInfo.resumes?.length <= 3 && !isChoice && (
           <Upload
             // className={styles.upload}
             action={`${BASE_URL}/common/upload`}
@@ -78,12 +96,30 @@ export const ResumeModal: React.FC<IResumeModal> = forwardRef((props, ref) => {
             showUploadList={false}
             onChange={handleChange}
             className={styles.ant__upload}
+            headers={{
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }}
           >
             <div className={styles.upload}>
               <i className="iconfont icon-tianjia"></i>
               <span>上传简历</span>
             </div>
           </Upload>
+        )}
+        {isChoice && (
+          <div className={styles.btn}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              取消
+            </Button>
+            <Button variant="contained" onClick={onPost}>
+              确定
+            </Button>
+          </div>
         )}
       </div>
     </Modal>
