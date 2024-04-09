@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { EditPannel } from "../EditPannel";
+import { PullToRefresh, InfiniteScroll } from "antd-mobile";
 import styles from "./index.less";
 import classNames from "classnames";
 import { Waterfull } from "@/components/Waterfull";
@@ -18,7 +19,7 @@ export const Navbar: React.FC<INavbar> = (props) => {
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(1552);
   const [columns, setColumns] = useState(4);
-  const { getJobList, jobList } = useJobListStore();
+  // const { getJobList, jobList } = useJobListStore();
   useEffect(() => {
     const width = document.documentElement.clientWidth;
     if (width < 1700) {
@@ -28,11 +29,13 @@ export const Navbar: React.FC<INavbar> = (props) => {
       }
     }
   }, []);
-  useEffect(() => {
-    // if (companyId) {
-    getJobList(companyId);
-    // }
-  }, [companyId]);
+  // useEffect(() => {
+  //   // if (companyId) {
+  //   getJobList(companyId);
+  //   // }
+  // }, [companyId]);
+  const { getJobList, hasMore, refresh, refreshing, first, jobList } =
+    useJobListStore();
   return (
     <EditPannel className={styles.edit__navbar} showEdit={false}>
       <div className={styles.navbar}>
@@ -59,32 +62,48 @@ export const Navbar: React.FC<INavbar> = (props) => {
           }}
         ></div>
       </div>
-      <div
-        className={styles.body}
-        style={{
-          height: jobList?.length > 0 ? height : "auto",
+      <PullToRefresh
+        onRefresh={() => {
+          // store.Message.resetCOData();
+          // store.Message.setCORefresh(true);
+          refresh();
+          return getJobList(companyId);
         }}
       >
-        {jobList?.length > 0 ? (
-          <Waterfull
-            columns={columns}
-            data={jobList}
-            width={width}
-            itemGap={15}
-            renderItem={(data) => {
-              return <Item data={data} userId={userId}></Item>;
-            }}
-            onHeight={(height) => {
-              setHeight(height);
-            }}
-          ></Waterfull>
-        ) : (
-          <div className={styles.no__data}>
-            <img src={NoData}></img>
-            <span>没有数据，点击悬浮按钮可以去发布！</span>
-          </div>
+        <div
+          className={styles.body}
+          style={{
+            height: jobList?.length > 0 ? height : "auto",
+          }}
+        >
+          {jobList?.length > 0 ? (
+            <Waterfull
+              columns={columns}
+              data={jobList}
+              width={width}
+              itemGap={15}
+              renderItem={(data) => {
+                return <Item data={data} userId={userId}></Item>;
+              }}
+              onHeight={(height) => {
+                setHeight(height);
+              }}
+            ></Waterfull>
+          ) : (
+            <div className={styles.no__data}>
+              <img src={NoData}></img>
+              <span>没有数据，点击悬浮按钮可以去发布！</span>
+            </div>
+          )}
+        </div>
+        {!refreshing && (first || jobList.length > 0) && (
+          <InfiniteScroll
+            hasMore={hasMore}
+            loadMore={() => getJobList(companyId)}
+            className={classNames(styles.footer)}
+          ></InfiniteScroll>
         )}
-      </div>
+      </PullToRefresh>
     </EditPannel>
   );
 };

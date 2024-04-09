@@ -7,8 +7,10 @@ type Action = {
   openConfirm: (job: IJob) => void;
   closeConfirm: () => void;
   deleteJob: () => Promise<boolean>;
-  getJobList: (companyId: number) => void;
-
+  getJobList: (companyId: number) => Promise<any>;
+  setPageNum: (pageNum) => void;
+  setPageSize: (pageSize) => void;
+  refresh: () => void;
   openApply: () => void;
   closeApply: () => void;
 };
@@ -17,6 +19,11 @@ interface State {
   confirmOpen: boolean;
   deleteItem: IJob;
   jobList: IJob[];
+  pageSize: number;
+  pageNum: number;
+  hasMore: boolean;
+  refreshing: boolean;
+  first: boolean;
 
   applyOpen: boolean;
 }
@@ -27,6 +34,26 @@ export const useJobListStore = create<State & Action>()(
     applyOpen: false,
     deleteItem: null,
     jobList: [],
+    first: true,
+    pageNum: 1,
+    pageSize: 10,
+    hasMore: true,
+    refreshing: false,
+    refresh: () => {
+      set((state) => {
+        state.pageNum = 1;
+        state.jobList = [];
+        state.refreshing = true;
+      });
+    },
+    setPageNum: (pageNum) =>
+      set((state) => {
+        state.pageNum = pageNum;
+      }),
+    setPageSize: (pageSize) =>
+      set((state) => {
+        state.pageSize = pageSize;
+      }),
     openConfirm: (job) =>
       set((state) => {
         state.confirmOpen = true;
@@ -56,10 +83,22 @@ export const useJobListStore = create<State & Action>()(
         });
         return;
       }
-      const { result } = await getJobListByCompanyId(companyId);
-
+      const { pageNum, pageSize, jobList } = get();
+      const result = await getJobListByCompanyId({
+        companyId,
+        pageNum,
+        pageSize,
+      });
       set((state) => {
-        state.jobList = result.list;
+        state.first = false;
+        state.jobList = jobList.concat(result.result.list);
+        state.refreshing = false;
+        if (result.result.list.length < 10) {
+          state.hasMore = false;
+        } else {
+          state.hasMore = true;
+          state.pageNum++;
+        }
       });
     },
     openApply: () =>

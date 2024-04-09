@@ -17,13 +17,13 @@ export interface IJob {
 
 export const addJob = (data: unknown) => post<IJob>("job", data);
 
-export const getJobListByCompanyId = (companyId: number) =>
+export const getJobListByCompanyId = (data: unknown) =>
   get<{
     pageNum: number;
     pageSize: number;
     total: number;
     list: IJob[];
-  }>("job", { companyId });
+  }>("job", data);
 
 export const getJobList = (data: unknown) =>
   get<{

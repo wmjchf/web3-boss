@@ -28,7 +28,7 @@ export const Image: React.FC<IImage> = (props) => {
         <></>
       )}
       <img
-        src={""}
+        src={src}
         alt=""
         onLoad={() => {
           setLoad(false);

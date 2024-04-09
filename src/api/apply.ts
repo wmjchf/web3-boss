@@ -9,6 +9,7 @@ export interface IApply {
   mark: boolean;
   resume: IResume;
   resetIntegral?: number;
+  job: any;
 }
 
 interface IAddApply {
