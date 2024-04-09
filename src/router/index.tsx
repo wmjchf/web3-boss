@@ -4,8 +4,8 @@ import KeepAlive from "react-activation";
 import BasicLayout from "@/layout/Basic";
 import Jobs from "@/page/Jobs";
 import Company from "@/page/Company";
-
-const Job = lazy(() => import("@/page/Job"));
+import Job from "@/page/Job";
+// const Job = lazy(() => import("@/page/Job"));
 const AddJob = lazy(() => import("@/page/AddJob"));
 const UpdateJob = lazy(() => import("@/page/UpdateJob"));
 

@@ -244,7 +244,7 @@ const AddJob = () => {
           console.log("复制");
           navigator.clipboard
             .writeText(
-              `http://localhost:3000/company${companyId}?address=${userInfo.address}`
+              `https://www.flowin3/company${companyId}?address=${userInfo.address}`
             )
             .then(() => {
               console.log("复制成功");

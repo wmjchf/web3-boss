@@ -27,7 +27,7 @@ const BasicLayout = () => {
           <i className={styles.public} onMouseEnter={handleClick}>
             公众号
           </i>
-          进行反馈。
+          留言。
         </span>
       </div>
       <Popover

@@ -5,6 +5,7 @@ import { SiweMessage } from "siwe";
 import { getNonce, login } from "@/api/user";
 import { userUserStore } from "@/store";
 import Button from "@mui/material/Button";
+import toast from "react-hot-toast";
 
 interface IAuthBtn {
   onClick?: () => void;
@@ -21,22 +22,23 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   const { connectors, connect } = useConnect();
   const { isConnected, address } = useAccount();
   const { userInfo } = userUserStore();
+
   const connector = useMemo(() => {
-    const item = connectors.find((item) => !item.icon);
+    const item = connectors.find((item) => item.id === "io.metamask");
     return item;
-  }, []);
+  }, [connectors]);
+
   const handleConnect = () => {
-    if (!ready) {
-      alert("请下载metaMask钱包");
+    if (!connector) {
+      toast("这里需要先下载metaMask钱包", {
+        icon: "😬",
+        duration: 5000,
+      });
       return;
     }
     connect({ connector });
   };
-  useEffect(() => {
-    connector.getProvider().then((provider) => {
-      setReady(!!provider);
-    });
-  }, [connector]);
+
   async function createSiweMessage(address, statement) {
     const domain = window.location.host;
     const origin = window.location.origin;

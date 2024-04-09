@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useImperativeHandle } from "react";
+import React, { forwardRef, useState, useImperativeHandle, lazy } from "react";
 import Modal from "@mui/material/Modal";
 import Pagination from "@mui/material/Pagination";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -7,13 +7,12 @@ import "react-pdf/dist/Page/TextLayer.css";
 import styles from "./index.less";
 import { updateApply } from "@/api/apply";
 import classNames from "classnames";
-
+// const { Document, Page, pdfjs } = lazy(() => import("react-pdf"));
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
   import.meta.url
 ).toString();
-
-export const PdfPreview = forwardRef((props, ref) => {
+const PdfPreview = forwardRef((props, ref) => {
   const { onLoad, showMark = true } = props;
   const [open, setOpen] = useState(false);
   const [mark, setMark] = useState(false);
@@ -58,9 +57,7 @@ export const PdfPreview = forwardRef((props, ref) => {
           <Document
             loading={<div></div>}
             className={styles.documents}
-            file={
-              "http://localhost:8000/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf"
-            }
+            file={url}
             onLoadSuccess={({ numPages }) => {
               setNumPages(numPages);
               setLoaded(true);
@@ -110,3 +107,4 @@ export const PdfPreview = forwardRef((props, ref) => {
     </Modal>
   );
 });
+export default PdfPreview;

@@ -13,7 +13,7 @@ import { ApplyItem } from "@/components/ApplyItem";
 import { Upload } from "antd";
 import { Introduce } from "../Company/components/Introduce";
 import { addResume } from "@/api/resume";
-import { PdfPreview } from "@/components/PdfPreview";
+
 import {
   IApply,
   addApply,
@@ -25,6 +25,7 @@ import classNames from "classnames";
 import { Comfirm } from "@/components/ComfirmDelete";
 import { BASE_URL, SHARE_TIP } from "@/constant";
 import { ResumeModal } from "@/components/ResumeModal";
+const PdfPreview = lazy(() => import("@/components/PdfPreview"));
 const Job = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -524,7 +525,9 @@ const Job = () => {
         onConfirm={() => {
           console.log("复制");
           navigator.clipboard
-            .writeText(`http://localhost:3000/jobs?address=${userInfo.address}`)
+            .writeText(
+              `https://www.flowin3.com/jobs?address=${userInfo.address}`
+            )
             .then(() => {
               console.log("复制成功");
             })

@@ -152,7 +152,9 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
                     className={styles.copy}
                     onClick={() => {
                       navigator.clipboard
-                        .writeText(`http://localhost:3000/company/${companyId}`)
+                        .writeText(
+                          `https://www.flowin3.com/company/${companyId}`
+                        )
                         .then(() => {
                           console.log("复制成功");
                         })
