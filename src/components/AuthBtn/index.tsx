@@ -22,6 +22,13 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   const { connectors, connect } = useConnect();
   const { isConnected, address } = useAccount();
   const { userInfo } = userUserStore();
+  function isMobile() {
+    let flag =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    return flag;
+  }
 
   const connector = useMemo(() => {
     const item = connectors.find((item) => item.id === "io.metamask");
@@ -29,6 +36,13 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   }, [connectors]);
 
   const handleConnect = () => {
+    if (isMobile()) {
+      toast("需要去pc端打开申请哦", {
+        icon: "😬",
+        duration: 5000,
+      });
+      return;
+    }
     if (!connector) {
       toast("这里需要先下载metaMask钱包", {
         icon: "😬",
@@ -55,6 +69,13 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
+    if (isMobile()) {
+      toast("需要去pc端打开申请哦", {
+        icon: "😬",
+        duration: 5000,
+      });
+      return;
+    }
     try {
       const message = await createSiweMessage(
         address,

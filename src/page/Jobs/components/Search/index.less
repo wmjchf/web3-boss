@@ -5,20 +5,38 @@
   background-color: #051a49;
   padding: 24px calc((100% - var(--contentWidth)) / 2);
   @media (max-width: 750px) {
-    display: none;
+    padding: 12px calc((100% - var(--contentWidth)) / 2);
   }
   .keyword {
     width: 20%;
     margin-right: 24px;
+    @media (max-width: 750px) {
+      width: 70%;
+      margin-right: 8px;
+      :global {
+        .MuiInputBase-root {
+          height: 50px;
+        }
+      }
+    }
+    label {
+      font-size: 14px;
+      // @media (max-width: 750px) {
+      //   transform: translate(14px, 15px) scale(1);
+      // }
+    }
     input,
     label {
-      color: #fff;
+      color: #fff !important;
     }
     fieldset {
       border-color: #fff !important;
     }
   }
   .type {
+    @media (max-width: 750px) {
+      display: none;
+    }
     width: 20%;
     margin-right: 24px;
 
@@ -35,6 +53,9 @@
     }
   }
   .city {
+    @media (max-width: 750px) {
+      display: none;
+    }
     // @media (max-width: 750px) {
     //   display: none;
     // }
@@ -49,5 +70,12 @@
   }
   .search__btn {
     margin-left: 24px;
+    @media (max-width: 750px) {
+      width: 60px;
+      height: 40px;
+      font-size: 12px;
+      padding: 0;
+      margin-left: 8px;
+    }
   }
 }
