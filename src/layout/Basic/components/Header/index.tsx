@@ -7,6 +7,8 @@ import { EllipsisMiddle } from "@/components/EllipsisMiddle";
 import styles from "./index.less";
 import { userUserStore } from "@/store";
 import { useAccount } from "wagmi";
+import { isMobile } from "@/utils/platform";
+import toast from "react-hot-toast";
 interface IHeader {
   onClick: () => void;
 }
@@ -18,7 +20,7 @@ export const Header: React.FC<IHeader> = (props) => {
   const { address } = userInfo;
   const { isConnected } = useAccount();
   const renderBtn = useMemo(() => {
-    return pathname === "/company" ? (
+    return pathname.includes("company") ? (
       <>
         <Button
           variant="contained"
@@ -45,7 +47,15 @@ export const Header: React.FC<IHeader> = (props) => {
           variant="contained"
           size="large"
           onClick={() => {
-            navigate("/company");
+            if (isMobile()) {
+              toast("需要去pc端打开填写哦", {
+                icon: "😬",
+                duration: 5000,
+              });
+              return;
+            } else {
+              navigate("/company");
+            }
           }}
         >
           我要招人

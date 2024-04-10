@@ -23,8 +23,10 @@ import {
 } from "@/api/apply";
 import classNames from "classnames";
 import { Comfirm } from "@/components/ComfirmDelete";
-import { BASE_URL, SHARE_TIP } from "@/constant";
+import { BASE_URL, OSS_ORIGIN, SHARE_TIP } from "@/constant";
 import { ResumeModal } from "@/components/ResumeModal";
+import { download } from "@/api/common";
+import { downloadOss } from "@/utils/downloadOss";
 const PdfPreview = lazy(() => import("@/components/PdfPreview"));
 const Job = () => {
   const { id } = useParams();
@@ -55,8 +57,10 @@ const Job = () => {
     openConfirm,
     confirmOpen,
     applyOpen,
+    downlaodOpen,
     openApply,
     closeApply,
+    closeDownlaod,
   } = useJobListStore();
   const [select, setSelect] = useState(0);
   const handleGetJobInfo = async () => {
@@ -205,9 +209,19 @@ const Job = () => {
           <>
             {applyInfo ? (
               applyInfo.haveRead ? (
-                <Button variant="contained" disabled>
-                  简历已被查看
-                </Button>
+                applyInfo.isDownload ? (
+                  <Button variant="contained" disabled>
+                    简历已被下载
+                  </Button>
+                ) : applyInfo.mark ? (
+                  <Button variant="contained" disabled>
+                    简历已被标记
+                  </Button>
+                ) : (
+                  <Button variant="contained" disabled>
+                    简历已被查看
+                  </Button>
+                )
               ) : (
                 // <AuthBtn
                 //   onClick={() => {
@@ -518,6 +532,45 @@ const Job = () => {
               setShareOpen(true);
               closeApply();
             });
+        }}
+      ></Comfirm>
+      <Comfirm
+        open={downlaodOpen}
+        tip="下载将消耗5颗豆豆，是否继续下载？"
+        onClose={closeDownlaod}
+        onConfirm={() => {
+          download({
+            url: decodeURIComponent(
+              pdfPreviewRef.current.url.replace(OSS_ORIGIN, "")
+            ),
+          }).then((res) => {
+            !currentApply.isDownload &&
+              updateApply(currentApply.id, { isDownload: true });
+            closeDownlaod();
+            downloadOss(
+              res.result,
+              decodeURIComponent(
+                pdfPreviewRef.current.url.replace(OSS_ORIGIN, "")
+              )
+            );
+          });
+          // addApply({
+          //   jobId: detail?.id,
+          //   resumeId:
+          //     userInfo?.resumes?.length > 1 ? select : userInfo?.resumes[0]?.id,
+          // })
+          //   .then((res) => {
+          //     toast.success(
+          //       `${res.message},还剩${res.result?.resetIntegral}豆豆`
+          //     );
+          //     closeApply();
+          //     handleGetApply();
+          //   })
+          //   .catch((error) => {
+          //     toast.error(error.message);
+          //     setShareOpen(true);
+          //     closeApply();
+          //   });
         }}
       ></Comfirm>
       <Comfirm

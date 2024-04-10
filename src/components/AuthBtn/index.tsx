@@ -6,6 +6,7 @@ import { getNonce, login } from "@/api/user";
 import { userUserStore } from "@/store";
 import Button from "@mui/material/Button";
 import toast from "react-hot-toast";
+import { isMobile } from "@/utils/platform";
 
 interface IAuthBtn {
   onClick?: () => void;
@@ -22,13 +23,6 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   const { connectors, connect } = useConnect();
   const { isConnected, address } = useAccount();
   const { userInfo } = userUserStore();
-  function isMobile() {
-    let flag =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-    return flag;
-  }
 
   const connector = useMemo(() => {
     const item = connectors.find((item) => item.id === "io.metamask");

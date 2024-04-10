@@ -13,6 +13,9 @@ type Action = {
   refresh: () => void;
   openApply: () => void;
   closeApply: () => void;
+
+  openDownload: () => void;
+  closeDownlaod: () => void;
 };
 
 interface State {
@@ -26,12 +29,14 @@ interface State {
   first: boolean;
 
   applyOpen: boolean;
+  downlaodOpen: boolean;
 }
 
 export const useJobListStore = create<State & Action>()(
   immer((set, get) => ({
     confirmOpen: false,
     applyOpen: false,
+    downlaodOpen: false,
     deleteItem: null,
     jobList: [],
     first: true,
@@ -108,6 +113,14 @@ export const useJobListStore = create<State & Action>()(
     closeApply: () =>
       set((state) => {
         state.applyOpen = false;
+      }),
+    openDownload: () =>
+      set((state) => {
+        state.downlaodOpen = true;
+      }),
+    closeDownlaod: () =>
+      set((state) => {
+        state.downlaodOpen = false;
       }),
   }))
 );

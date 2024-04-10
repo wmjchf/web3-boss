@@ -7,6 +7,10 @@ import "react-pdf/dist/Page/TextLayer.css";
 import styles from "./index.less";
 import { updateApply } from "@/api/apply";
 import classNames from "classnames";
+import { download } from "@/api/common";
+import { OSS_ORIGIN } from "@/constant";
+import { downloadOss } from "@/utils/downloadOss";
+import { useJobListStore } from "@/store";
 // const { Document, Page, pdfjs } = lazy(() => import("react-pdf"));
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
@@ -19,6 +23,7 @@ const PdfPreview = forwardRef((props, ref) => {
   const [url, setUrl] = useState("");
   const [applyId, setApplyId] = useState(-1);
   const [loaded, setLoaded] = useState(false);
+  const { openDownload } = useJobListStore();
   const handleOpen = (url: string, applyId: number, mark: boolean) => {
     setApplyId(applyId);
     setOpen(true);
@@ -33,6 +38,7 @@ const PdfPreview = forwardRef((props, ref) => {
     return {
       handleOpen,
       handleClose,
+      url,
     };
   });
   const [numPages, setNumPages] = useState();
@@ -94,6 +100,15 @@ const PdfPreview = forwardRef((props, ref) => {
                   </div>
                 ) : (
                   <div className={styles.operation__btn}>
+                    <div
+                      className={styles.collection}
+                      onClick={() => {
+                        openDownload();
+                      }}
+                    >
+                      <i className="iconfont icon-xiazai"></i>
+                      <span>下载</span>
+                    </div>
                     <div className={styles.collection} onClick={handleMark}>
                       <i className="iconfont icon-weishoucang"></i>
                       <span>收藏</span>

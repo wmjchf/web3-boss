@@ -5,12 +5,14 @@ import { IJob } from "@/api/job";
 import { Image } from "@/components/Image";
 import Chip from "@mui/material/Chip";
 import { useNavigate } from "react-router-dom";
+import { timeAgo } from "@/utils/time";
 
 interface IItem {
   data: IJob;
 }
 export const Item: React.FC<IItem> = (props) => {
   const { data } = props;
+  console.log(data, "fds");
   const navigate = useNavigate();
   const salary = useMemo(() => {
     return data?.isFace ? "面议" : `${data.minSalary}~${data.maxSalary}`;
@@ -75,7 +77,7 @@ export const Item: React.FC<IItem> = (props) => {
         </div> */}
       </div>
       <div className={styles.time}>
-        <span>{data.time}</span>
+        <span>{timeAgo(new Date(data?.updatedAt).getTime())}</span>
       </div>
     </div>
   );

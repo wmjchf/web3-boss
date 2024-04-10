@@ -24,6 +24,14 @@ export const Item: React.FC<IItem> = (props) => {
         </div>
       );
     }
+    if (apply.isDownload) {
+      return (
+        <div className={styles.download}>
+          <i className="iconfont icon-xiazai"></i>
+          <span>已被下载</span>
+        </div>
+      );
+    }
     if (!apply.mark && apply.haveRead) {
       return (
         <div className={styles.have__read}>
@@ -36,7 +44,7 @@ export const Item: React.FC<IItem> = (props) => {
       return (
         <div className={styles.mark}>
           <i className="iconfont icon-yishoucang"></i>
-          <span>收藏</span>
+          <span>已被标记</span>
         </div>
       );
     }
