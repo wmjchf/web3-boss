@@ -14,9 +14,10 @@ interface IAuthBtn {
   variant?: string;
   size?: string;
   className?: string;
+  share?: string;
 }
 export const AuthBtn: React.FC<IAuthBtn> = (props) => {
-  const { onClick, children, className } = props;
+  const { onClick, children, className, share } = props;
   const [ready, setReady] = useState(false);
   const { updateToken, getCurrentUser } = userUserStore();
   const { signMessageAsync } = useSignMessage();
@@ -80,11 +81,13 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
         message,
         account: address,
       });
-
+      const shareList = [share, localStorage.getItem("address")].filter(
+        (item) => item
+      );
       const { result } = await login({
         signature,
         message,
-        share: localStorage.getItem("address"),
+        share: shareList,
       });
       updateToken(result.token);
       localStorage.setItem("token", result.token);

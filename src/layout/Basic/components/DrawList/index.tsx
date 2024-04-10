@@ -25,7 +25,23 @@ export const DrawList = (props) => {
             <span className={styles.lable}>豆豆余额：</span>
             <span className={styles.count}>{userInfo.integral}</span>
             <img src={ScorePng} alt="" />
-            <Button className={styles.copy}>复制</Button>
+            <Button
+              className={styles.copy}
+              onClick={() => {
+                navigator.clipboard
+                  .writeText(
+                    `https://www.flowin3.com/jobs?address=${userInfo.address}`
+                  )
+                  .then(() => {
+                    console.log("复制成功");
+                  })
+                  .catch(() => {
+                    console.log("复制失败");
+                  });
+              }}
+            >
+              复制
+            </Button>
           </div>
           <div className={styles.rule}>{SHARE_TIP}</div>
         </div>

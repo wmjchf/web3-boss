@@ -51,6 +51,7 @@ const Job = () => {
   const pdfPreviewRef = useRef<any>();
   const [shareOpen, setShareOpen] = useState(false);
   const pdfPreviewRef1 = useRef<any>();
+
   const {
     closeConfirm,
     deleteJob,
@@ -179,7 +180,7 @@ const Job = () => {
     if (detail?.company?.userId !== userId) {
       if (userInfo?.resumes?.length === 0) {
         return (
-          <AuthBtn>
+          <AuthBtn share={detail?.company?.user?.address}>
             <Upload
               action={`${BASE_URL}/common/upload`}
               accept=".pdf"
@@ -238,6 +239,7 @@ const Job = () => {
               )
             ) : (
               <AuthBtn
+                share={detail?.company?.user?.address}
                 onClick={() => {
                   if (userInfo?.resumes?.length === 0) {
                     openApply();

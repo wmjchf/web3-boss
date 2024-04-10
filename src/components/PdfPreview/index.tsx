@@ -88,8 +88,17 @@ const PdfPreview = forwardRef((props, ref) => {
             </div>
             {showMark && (
               <>
-                {mark ? (
-                  <div className={styles.operation__btn}>
+                <div className={styles.operation__btn}>
+                  <div
+                    className={styles.collection}
+                    onClick={() => {
+                      openDownload();
+                    }}
+                  >
+                    <i className="iconfont icon-xiazai"></i>
+                    <span>下载</span>
+                  </div>
+                  {mark ? (
                     <div
                       className={classNames(styles.collection, styles.has)}
                       onClick={handleMark}
@@ -97,24 +106,13 @@ const PdfPreview = forwardRef((props, ref) => {
                       <i className="iconfont icon-yishoucang"></i>
                       <span>收藏</span>
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.operation__btn}>
-                    <div
-                      className={styles.collection}
-                      onClick={() => {
-                        openDownload();
-                      }}
-                    >
-                      <i className="iconfont icon-xiazai"></i>
-                      <span>下载</span>
-                    </div>
+                  ) : (
                     <div className={styles.collection} onClick={handleMark}>
                       <i className="iconfont icon-weishoucang"></i>
                       <span>收藏</span>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </>
             )}
           </div>
