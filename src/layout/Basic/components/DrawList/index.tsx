@@ -1,4 +1,4 @@
-import React, { useRef, lazy } from "react";
+import React, { useRef } from "react";
 
 import styles from "./index.less";
 import Button from "@mui/material/Button";
@@ -6,10 +6,10 @@ import ScorePng from "@/image/my/score.svg";
 import { useDisconnect } from "wagmi";
 import { ResumeModal } from "@/components/ResumeModal";
 import { userUserStore } from "@/store";
-// import { PdfPreview } from "@/components/PdfPreview";
+import PdfPreview from "@/components/PdfPreview";
 import { ApplyModal } from "@/components/ApplyModal";
 import { SHARE_TIP } from "@/constant";
-const PdfPreview = lazy(() => import("@/components/PdfPreview"));
+
 export const DrawList = (props) => {
   const { onClose } = props;
   const { disconnect } = useDisconnect();

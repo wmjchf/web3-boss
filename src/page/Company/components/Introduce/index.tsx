@@ -146,7 +146,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
               />
             ) : (
               <span className={classNames(!name && styles.none)}>
-                {name || "一个好的名字可以给用户留下好的印象哦"}
+                {name || "项目/团队/公司名称"}
                 {companyId && (
                   <Button
                     className={styles.copy}
@@ -172,7 +172,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
         </div>
         <div className={styles.middle}>
           <div className={styles.location}>
-            <i>地址：</i>
+            <i className="iconfont icon-shouye"></i>
             {isEdit ? (
               <TextField
                 id="location"
@@ -185,7 +185,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
               />
             ) : (
               <span className={classNames(!location && styles.none)}>
-                {location || "请填写所在位置"}
+                {location || "项目/团队/公司地址"}
               </span>
             )}
           </div>
@@ -206,7 +206,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
             />
           ) : (
             <span className={classNames(!description && styles.none)}>
-              {description || "简介可以让用户更了解你们哦"}
+              {description || "项目/团队/公司简介"}
             </span>
           )}
         </div>

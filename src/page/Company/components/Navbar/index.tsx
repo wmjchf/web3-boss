@@ -28,6 +28,10 @@ export const Navbar: React.FC<INavbar> = (props) => {
         setColumns(3);
       }
     }
+    if (width < 750) {
+      setWidth(width - 50);
+      setColumns(1);
+    }
   }, []);
   // useEffect(() => {
   //   // if (companyId) {
@@ -92,7 +96,7 @@ export const Navbar: React.FC<INavbar> = (props) => {
           ) : (
             <div className={styles.no__data}>
               <img src={NoData}></img>
-              <span>没有数据，点击悬浮按钮可以去发布！</span>
+              <span>赶快去发布岗位吧</span>
             </div>
           )}
         </div>

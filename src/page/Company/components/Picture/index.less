@@ -3,7 +3,9 @@
   flex-wrap: wrap;
   .image {
     position: relative;
-
+    @media (max-width: 750px) {
+      width: 100%;
+    }
     .delete {
       position: absolute;
       width: 30px;
@@ -25,9 +27,14 @@
   .preview__image {
     width: 250px !important;
     height: 150px !important;
+    @media (max-width: 750px) {
+      width: 100% !important;
+      height: 180px !important;
+    }
     border-radius: 4px;
     margin-right: 8px;
     margin-bottom: 8px;
+    overflow: hidden;
   }
   .no__data {
     display: flex;
@@ -41,6 +48,8 @@
     span {
       font-size: 14px;
       margin-bottom: 12px;
+      color: var(--noColor);
+      margin-left: 25px;
     }
   }
   .upload {
@@ -100,4 +109,7 @@
 }
 .edit__picture {
   margin-top: 24px;
+  @media (max-width: 750px) {
+    margin-top: 12px;
+  }
 }

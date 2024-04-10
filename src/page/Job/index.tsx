@@ -141,6 +141,10 @@ const Job = () => {
   }, [haveReadPage, id, token]);
 
   useEffect(() => {
+    userInfo?.resumes[0] && setSelect(userInfo?.resumes[0]?.id);
+  }, [userInfo]);
+
+  useEffect(() => {
     if (id && token && markPage) {
       handleGetApplyList({
         jobId: id,
@@ -330,7 +334,7 @@ const Job = () => {
                   {noReadList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>没有数据，还没有人投递</span>
+                      <span>还没有人投递</span>
                     </div>
                   ) : (
                     <>
@@ -347,7 +351,7 @@ const Job = () => {
                               key={item.id}
                               onClick={() => {
                                 pdfPreviewRef.current?.handleOpen(
-                                  item.resumeUrl,
+                                  item.resume.url,
                                   item.id,
                                   item.mark
                                 );
@@ -379,7 +383,7 @@ const Job = () => {
                   {haveReadList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>没有数据，还没有查看投递</span>
+                      <span>还没有查看投递</span>
                     </div>
                   ) : (
                     <>
@@ -396,7 +400,7 @@ const Job = () => {
                               key={item.id}
                               onClick={() => {
                                 pdfPreviewRef.current?.handleOpen(
-                                  item.resumeUrl,
+                                  item.resume.url,
                                   item.id,
                                   item.mark
                                 );
@@ -428,7 +432,7 @@ const Job = () => {
                   {markList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>没有数据，还没有标记投递</span>
+                      <span>还没有标记投递</span>
                     </div>
                   ) : (
                     <>
@@ -445,7 +449,7 @@ const Job = () => {
                               key={item.id}
                               onClick={() => {
                                 pdfPreviewRef.current?.handleOpen(
-                                  item.resumeUrl,
+                                  item.resume.url,
                                   item.id,
                                   item.mark
                                 );

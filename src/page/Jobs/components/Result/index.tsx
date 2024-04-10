@@ -111,6 +111,11 @@ export const Result = () => {
         setColumns(3);
       }
     }
+    if (width < 750) {
+      setWidth(width - 20);
+
+      setColumns(1);
+    }
   }, []);
 
   return (
@@ -130,7 +135,7 @@ export const Result = () => {
       {jobList?.length == 0 ? (
         <div className={styles.no__data}>
           <img src={NoData}></img>
-          <span>还没有工作机会，很是抱歉☹️</span>
+          <span>还没有工作机会，非常抱歉</span>
         </div>
       ) : (
         <Waterfull

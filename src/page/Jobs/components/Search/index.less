@@ -3,9 +3,12 @@
   align-items: center;
   justify-content: center;
   background-color: #051a49;
-  padding: 48px calc((100% - var(--contentWidth)) / 2);
+  padding: 24px calc((100% - var(--contentWidth)) / 2);
+  @media (max-width: 750px) {
+    display: none;
+  }
   .keyword {
-    width: 300px;
+    width: 20%;
     margin-right: 24px;
     input,
     label {
@@ -16,7 +19,7 @@
     }
   }
   .type {
-    width: 300px;
+    width: 20%;
     margin-right: 24px;
 
     label {
@@ -32,7 +35,10 @@
     }
   }
   .city {
-    width: 300px;
+    // @media (max-width: 750px) {
+    //   display: none;
+    // }
+    width: 20%;
     input,
     label {
       color: #fff;

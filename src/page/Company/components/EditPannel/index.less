@@ -3,11 +3,17 @@
   @media (max-width: 1700px) {
     padding: 0 50px;
   }
+  @media (max-width: 750px) {
+    padding: 0 10px;
+  }
   .edit__pannel__inner {
     position: relative;
     background-color: #fff;
     border-radius: 12px;
     padding: 24px;
+    @media (max-width: 750px) {
+      padding: 16px;
+    }
     box-sizing: border-box;
   }
   .btn {
@@ -15,5 +21,8 @@
     right: 24px;
     top: 24px;
     display: flex;
+    @media (max-width: 750px) {
+      display: none;
+    }
   }
 }

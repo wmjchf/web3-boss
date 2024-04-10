@@ -20,8 +20,11 @@ export const Picture: React.FC<IPicture> = (props) => {
   const { userInfo } = userUserStore();
   const { id } = userInfo;
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    const list = newFileList
+  const handleChange: UploadProps["onChange"] = ({
+    fileList: newFileList,
+    file,
+  }) => {
+    const list = [file]
       .map((item) => {
         return item?.response?.result;
       })
@@ -124,7 +127,7 @@ export const Picture: React.FC<IPicture> = (props) => {
             {fileList?.length === 0 && (
               <div className={styles.no__data}>
                 <img src={NoData}></img>
-                <span>没有数据，赶快去上传图片吧</span>
+                <span>赶快去上传图片吧</span>
               </div>
             )}
           </>
