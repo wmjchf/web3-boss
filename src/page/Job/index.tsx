@@ -263,6 +263,7 @@ const Job = () => {
       <Introduce
         companyId={detail?.company?.id}
         className={styles.company}
+        showMore={true}
       ></Introduce>
       <div className={styles.container}>
         <div className={styles.content}>

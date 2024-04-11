@@ -5,4 +5,4 @@ export const SHARE_TIP =
 
 // export const BASE_URL = "https://116.62.109.162";
 
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "http://192.168.0.106:8000";

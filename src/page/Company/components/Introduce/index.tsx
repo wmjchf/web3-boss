@@ -11,15 +11,17 @@ import { addCompany, getCompanyDetail, updateCompany } from "@/api/company";
 import { userUserStore } from "@/store";
 import Button from "@mui/material/Button";
 import { BASE_URL } from "@/constant";
+import { useNavigate } from "react-router-dom";
 interface IIntroduce {
   companyId: number;
   className?: string;
+  showMore?: boolean;
 }
 export const Introduce: React.FC<IIntroduce> = (props) => {
-  const { companyId, className } = props;
+  const { companyId, className, showMore = false } = props;
   const { userInfo, getCurrentUser } = userUserStore();
   const { id } = userInfo;
-
+  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState("");
   const [cuserId, setCUserId] = useState(-1);
@@ -207,6 +209,16 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
           ) : (
             <span className={classNames(!description && styles.none)}>
               {description || "项目/团队/公司简介"}
+              {showMore && (
+                <i
+                  className={styles.more}
+                  onClick={() => {
+                    navigate(`/company/${companyId}`);
+                  }}
+                >
+                  查看更多岗位
+                </i>
+              )}
             </span>
           )}
         </div>

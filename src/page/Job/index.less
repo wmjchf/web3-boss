@@ -2,11 +2,13 @@
   height: 100%;
   overflow: scroll;
   background-color: RGB(242, 244, 247);
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
   .container {
     padding: 32px calc((100% - var(--contentWidth)) / 2);
+
     @media (max-width: 1700px) {
       padding: 32px 50px;
     }
@@ -58,7 +60,7 @@
         // margin-top: 8px;
       }
       .description {
-        margin-top: 40px;
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         span {

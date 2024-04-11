@@ -66,7 +66,12 @@ export const Item: React.FC<IItem> = (props) => {
           size="small"
         />
       </div>
+      <div className={styles.address}>
+        <span>地址：</span>
+        <span>{data.location}</span>
+      </div>
       <div className={styles.required}>
+        <span>岗位描述</span>
         <Ellipsis content={data.description}></Ellipsis>
       </div>
       <div className={styles.time}>
