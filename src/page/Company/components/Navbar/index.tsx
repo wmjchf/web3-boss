@@ -42,7 +42,7 @@ export const Navbar: React.FC<INavbar> = (props) => {
     useJobListStore();
   return (
     <EditPannel className={styles.edit__navbar} showEdit={false}>
-      <div className={styles.navbar}>
+      <div className={styles.navbar} id="jobs">
         <div
           className={classNames(styles.item, index === 0 ? styles.active : "")}
           onClick={() => {
