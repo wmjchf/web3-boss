@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "init:ts": "echo \"Error: no test specified\" && exit 1",
-    "build:dev": "webpack server --config ./webpack/dev.config.js",
-    "build:pro": "webpack --config ./webpack/prod.config.js",
+    "build:dev": "cross-env NODE_ENV=development webpack server --config ./webpack/dev.config.js",
+    "build:pro": "cross-env NODE_ENV=production webpack --config ./webpack/prod.config.js",
     "prepare": "husky"
   },
   "author": "dogwang",
@@ -24,6 +24,7 @@
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "core-js": "3",
+    "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
     "image-minimizer-webpack-plugin": "^4.0.0",
     "imagemin": "^8.0.1",

@@ -12,6 +12,7 @@ import {
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AuthBtn } from "@/components/AuthBtn";
 import { userUserStore } from "@/store";
+import toast from "react-hot-toast";
 
 const Company = () => {
   const { userInfo } = userUserStore();
@@ -45,6 +46,7 @@ const Company = () => {
       setCompany(companies[0]);
     }
   }, [companies, companyId]);
+  console.log(company, "fdsfs");
   return (
     <div className={styles.company}>
       <Introduce companyId={companyId || company?.id}></Introduce>
@@ -57,16 +59,30 @@ const Company = () => {
         userId={company?.userId}
       ></Navbar>
 
-      {id === company?.userId && (
-        <AuthBtn
+      {(id === company?.userId || !company) && (
+        // <AuthBtn
+        // onClick={() => {
+        //   navigate(`/addJob/${companyId || company?.id}`);
+        // }}
+        // >
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={styles.add}
           onClick={() => {
+            if (!company) {
+              toast("先要完善项目/团队/公司信息", {
+                icon: "😬",
+                duration: 5000,
+              });
+              return;
+            }
             navigate(`/addJob/${companyId || company?.id}`);
           }}
         >
-          <Fab color="primary" aria-label="add" className={styles.add}>
-            <i className="iconfont icon-tianjia1"></i>
-          </Fab>
-        </AuthBtn>
+          <i className="iconfont icon-tianjia1"></i>
+        </Fab>
+        // </AuthBtn>
       )}
     </div>
   );

@@ -41,6 +41,9 @@ dependencies:
   core-js:
     specifier: '3'
     version: 3.35.1
+  cross-env:
+    specifier: ^7.0.3
+    version: 7.0.3
   crypto-browserify:
     specifier: ^3.12.0
     version: 3.12.0
@@ -6822,6 +6825,14 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       warning: 4.0.3
+    dev: false
+
+  /cross-env@7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: false
 
   /cross-fetch@3.1.8:

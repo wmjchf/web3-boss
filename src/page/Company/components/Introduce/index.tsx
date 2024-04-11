@@ -100,6 +100,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
       onEdit={() => {
         setIsEdit(true);
       }}
+      isEdit={isEdit}
       showEdit={id === cuserId || !companyId}
       onSave={onSave}
       onClose={() => {

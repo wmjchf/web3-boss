@@ -60,8 +60,16 @@ export const Picture: React.FC<IPicture> = (props) => {
   return (
     <EditPannel
       onEdit={() => {
+        if (!companyId) {
+          toast("先要完善项目/团队/公司信息", {
+            icon: "😬",
+            duration: 5000,
+          });
+          return;
+        }
         setIsEdit(true);
       }}
+      isEdit={isEdit}
       onClose={() => {
         setIsEdit(false);
       }}

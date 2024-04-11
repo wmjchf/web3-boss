@@ -9,6 +9,7 @@ import { userUserStore } from "@/store";
 import PdfPreview from "@/components/PdfPreview";
 import { ApplyModal } from "@/components/ApplyModal";
 import { SHARE_TIP } from "@/constant";
+import { copyToClipboard } from "@/utils/copy";
 
 export const DrawList = (props) => {
   const { onClose } = props;
@@ -28,8 +29,8 @@ export const DrawList = (props) => {
             <Button
               className={styles.copy}
               onClick={() => {
-                navigator.clipboard
-                  .writeText(
+                navigator?.clipboard
+                  ?.writeText(
                     `https://www.flowin3.com/jobs?address=${userInfo.address}`
                   )
                   .then(() => {

@@ -11,6 +11,7 @@ interface IEditorPannel {
   onEdit?: () => void;
   onSave?: () => void;
   onClose?: () => void;
+  isEdit?: boolean;
 }
 export const EditPannel: React.FC<IEditorPannel> = (props) => {
   const {
@@ -20,8 +21,9 @@ export const EditPannel: React.FC<IEditorPannel> = (props) => {
     className,
     showEdit = true,
     onClose,
+    isEdit = false,
   } = props;
-  const [isEdit, setIsEdit] = useState(false);
+  // const [isEdit, setIsEdit] = useState(false);
   return (
     <div className={classNames(styles.edit__pannel, className)}>
       <div className={styles.edit__pannel__inner}>
@@ -31,7 +33,7 @@ export const EditPannel: React.FC<IEditorPannel> = (props) => {
             {isEdit && (
               <Button
                 onClick={() => {
-                  setIsEdit(false);
+                  // setIsEdit(false);
                   onClose && onClose();
                 }}
               >
@@ -41,7 +43,7 @@ export const EditPannel: React.FC<IEditorPannel> = (props) => {
             {!isEdit ? (
               <AuthBtn
                 onClick={() => {
-                  setIsEdit(true);
+                  // setIsEdit(true);
                   onEdit && onEdit();
                 }}
               >
@@ -50,7 +52,7 @@ export const EditPannel: React.FC<IEditorPannel> = (props) => {
             ) : (
               <AuthBtn
                 onClick={() => {
-                  setIsEdit(false);
+                  // setIsEdit(false);
                   onSave && onSave();
                 }}
               >
