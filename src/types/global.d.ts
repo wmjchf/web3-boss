@@ -22,3 +22,5 @@ interface PointData {
   status: string;
   point: Point;
 }
+
+declare const wx: any;

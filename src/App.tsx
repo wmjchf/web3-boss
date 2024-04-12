@@ -11,6 +11,7 @@ const queryClient = new QueryClient();
 
 export const App = () => {
   const { getCurrentUser } = userUserStore();
+
   const init = async () => {
     await getCurrentUser();
   };
