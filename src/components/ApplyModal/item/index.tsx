@@ -65,10 +65,12 @@ export const Item: React.FC<IItem> = (props) => {
           <span>{data.name}</span>
           <span>{salary}</span>
         </div>
-        <div className={styles.address}>
-          <span>地址：</span>
-          <span>{data.location}</span>
-        </div>
+        {!data?.isRemote && (
+          <div className={styles.address}>
+            <span>地址：</span>
+            <span>{data.location}</span>
+          </div>
+        )}
         <div className={styles.tag}>
           {data?.tag?.split(",").map((item) => {
             return (
@@ -89,7 +91,13 @@ export const Item: React.FC<IItem> = (props) => {
           />
         </div>
       </div>
-      <div className={styles.bottom}>{status}</div>
+      <div className={styles.bottom}>
+        <span className={styles.contact}>
+          {apply.isDownload ? data.contact : ""}
+        </span>
+
+        {status}
+      </div>
     </div>
   );
 };

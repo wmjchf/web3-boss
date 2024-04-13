@@ -45,6 +45,9 @@ const Job = () => {
   const [markList, setMarkList] = useState<IApply[]>([]);
   const [markPage, setMarkPage] = useState(1);
   const [markTotal, setMarkTotal] = useState<number>(0);
+  const [downloadList, setDownloadList] = useState<IApply[]>([]);
+  const [downloadPage, setDownloadPage] = useState(1);
+  const [downloadTotal, setDownloadTotal] = useState<number>(0);
   const { userInfo, getCurrentUser, token } = userUserStore();
   const [current, setCurrent] = useState("0");
   const { id: userId } = userInfo;
@@ -134,6 +137,7 @@ const Job = () => {
         jobId: id,
         haveRead: "1",
         mark: "0",
+        isDownload: "0",
         pageNum: haveReadPage,
         pageSize: 12,
       })
@@ -165,6 +169,23 @@ const Job = () => {
         .catch((error) => {});
     }
   }, [markPage, id, token]);
+
+  useEffect(() => {
+    if (id && token && markPage) {
+      handleGetApplyList({
+        jobId: id,
+        haveRead: "1",
+        isDownload: "1",
+        pageNum: downloadPage,
+        pageSize: 12,
+      })
+        .then((res) => {
+          setDownloadList(res.list);
+          setDownloadTotal(res.total);
+        })
+        .catch((error) => {});
+    }
+  }, [downloadPage, id, token]);
 
   useEffect(() => {
     if (id) {
@@ -340,6 +361,14 @@ const Job = () => {
                 >
                   标记
                 </span>
+                <span
+                  className={classNames(current === "3" && styles.active)}
+                  onClick={() => {
+                    setCurrent("3");
+                  }}
+                >
+                  下载
+                </span>
               </div>
               <div className={styles.bottom}>
                 <div
@@ -351,7 +380,7 @@ const Job = () => {
                   {noReadList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>还没有人投递</span>
+                      <span>投递全部已处理完</span>
                     </div>
                   ) : (
                     <>
@@ -400,7 +429,9 @@ const Job = () => {
                   {haveReadList?.length === 0 ? (
                     <div className={styles.no__data}>
                       <img src={NoData}></img>
-                      <span>还没有查看投递</span>
+                      <span>
+                        暂时还没有数据(被标记和下载的简历不会在这里显示)
+                      </span>
                     </div>
                   ) : (
                     <>
@@ -483,6 +514,55 @@ const Job = () => {
                           color="primary"
                           onChange={(_, page) => {
                             setMarkPage(page);
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div
+                  className={classNames(
+                    styles.content,
+                    current !== "3" && styles.none
+                  )}
+                >
+                  {downloadList?.length === 0 ? (
+                    <div className={styles.no__data}>
+                      <img src={NoData}></img>
+                      <span>还没有下载投递</span>
+                    </div>
+                  ) : (
+                    <>
+                      <div
+                        className={styles.wrap}
+                        style={{
+                          height: 336,
+                        }}
+                      >
+                        {downloadList?.map((item) => {
+                          return (
+                            <ApplyItem
+                              data={item}
+                              key={item.id}
+                              onClick={() => {
+                                pdfPreviewRef.current?.handleOpen(
+                                  item.resume.url,
+                                  item.id,
+                                  item.mark
+                                );
+                                setCurrentApply(item);
+                              }}
+                            ></ApplyItem>
+                          );
+                        })}
+                      </div>
+                      <div className={styles.pagination}>
+                        <Pagination
+                          count={Math.ceil(downloadTotal / 12)}
+                          variant="outlined"
+                          color="primary"
+                          onChange={(_, page) => {
+                            setDownloadPage(page);
                           }}
                         />
                       </div>

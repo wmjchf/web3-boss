@@ -112,7 +112,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
         <div className={styles.top}>
           <div className={styles.logo}>
             {isEdit ? (
-              <ImgCrop aspect={100 / 65} zoomSlider={false} quality={1}>
+              <ImgCrop aspect={100 / 56} zoomSlider={false} quality={1}>
                 <Upload
                   // className={styles.upload}
                   action={`${BASE_URL}/common/upload`}
@@ -136,7 +136,9 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
               <div className={styles.upload}></div>
             )}
           </div>
-          <div className={styles.name}>
+          <div
+            className={classNames(styles.name, isEdit ? styles.visible : "")}
+          >
             {isEdit ? (
               <TextField
                 id="name"
