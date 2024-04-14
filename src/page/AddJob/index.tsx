@@ -259,13 +259,12 @@ const AddJob = () => {
           setShareOpen(false);
         }}
         onConfirm={() => {
-          console.log("复制");
           navigator.clipboard
             .writeText(
               `https://www.flowin3/company${companyId}?address=${userInfo.address}`
             )
             .then(() => {
-              console.log("复制成功");
+              toast.success("复制成功");
             })
             .catch(() => {
               console.log("复制失败");

@@ -161,7 +161,7 @@ export const Introduce: React.FC<IIntroduce> = (props) => {
                           `https://www.flowin3.com/company/${companyId}`
                         )
                         .then(() => {
-                          console.log("复制成功");
+                          toast.success("复制成功");
                         })
                         .catch(() => {
                           console.log("复制失败");

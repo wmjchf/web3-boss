@@ -10,6 +10,7 @@ import PdfPreview from "@/components/PdfPreview";
 import { ApplyModal } from "@/components/ApplyModal";
 import { SHARE_TIP } from "@/constant";
 import { copyToClipboard } from "@/utils/copy";
+import toast from "react-hot-toast";
 
 export const DrawList = (props) => {
   const { onClose } = props;
@@ -34,7 +35,7 @@ export const DrawList = (props) => {
                     `https://www.flowin3.com/jobs?address=${userInfo.address}`
                   )
                   .then(() => {
-                    console.log("复制成功");
+                    toast.success("复制成功");
                   })
                   .catch(() => {
                     console.log("复制失败");

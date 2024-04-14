@@ -92,9 +92,7 @@ export const Item: React.FC<IItem> = (props) => {
         </div>
       </div>
       <div className={styles.bottom}>
-        <span className={styles.contact}>
-          {apply.isDownload ? data.contact : ""}
-        </span>
+        <span className={styles.contact}></span>
 
         {status}
       </div>

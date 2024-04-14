@@ -232,8 +232,22 @@ const Job = () => {
             {applyInfo ? (
               applyInfo.haveRead ? (
                 applyInfo.isDownload ? (
-                  <Button variant="contained" disabled>
-                    简历已被下载
+                  <Button
+                    variant="contained"
+                    disabled={!applyInfo?.job.contact}
+                    onClick={() => {
+                      if (!applyInfo?.job.contact) return;
+                      navigator?.clipboard
+                        ?.writeText(applyInfo?.job.contact)
+                        .then(() => {
+                          toast.success("复制成功");
+                        })
+                        .catch(() => {
+                          console.log("复制失败");
+                        });
+                    }}
+                  >
+                    {applyInfo?.job.contact || "简历已被下载"}
                   </Button>
                 ) : applyInfo.mark ? (
                   <Button variant="contained" disabled>
@@ -277,6 +291,15 @@ const Job = () => {
           </>
         );
       }
+    }
+  };
+  const renderTip = () => {
+    if (detail?.company?.userId !== userId) {
+      return (
+        <div className={styles.tip}>
+          如果岗位留有联系方式，当简历被下载时就会看到
+        </div>
+      );
     }
   };
   return (
@@ -332,6 +355,7 @@ const Job = () => {
           </div>
 
           <div className={styles.apply}>{renderBtn()}</div>
+          <div className={styles.tip}>{renderTip()}</div>
 
           {detail?.company?.userId === userId && (
             <div className={styles.resume__list}>
@@ -669,7 +693,7 @@ const Job = () => {
               `https://www.flowin3.com/jobs?address=${userInfo.address}`
             )
             .then(() => {
-              console.log("复制成功");
+              toast.success("复制成功");
             })
             .catch(() => {
               console.log("复制失败");
