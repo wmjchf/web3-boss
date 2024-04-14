@@ -653,6 +653,7 @@ const Job = () => {
             ),
             resumeId: currentApply?.resume.id,
             jobId: currentApply.jobId,
+            applyId: currentApply.id,
           })
             .then((res) => {
               !currentApply.isDownload &&
