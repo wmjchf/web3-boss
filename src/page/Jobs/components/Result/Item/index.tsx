@@ -12,7 +12,7 @@ interface IItem {
 }
 export const Item: React.FC<IItem> = (props) => {
   const { data } = props;
-  console.log(data, "fds");
+
   const navigate = useNavigate();
   const salary = useMemo(() => {
     return data?.isFace ? "面议" : `${data.minSalary}~${data.maxSalary}`;
@@ -32,10 +32,12 @@ export const Item: React.FC<IItem> = (props) => {
         <span>{data.name}</span>
         <span>{salary}</span>
       </div>
-      <div className={styles.address}>
-        <span>地址：</span>
-        <span>{data.location}</span>
-      </div>
+      {!data?.isRemote && (
+        <div className={styles.address}>
+          <span>地址：</span>
+          <span>{data.location}</span>
+        </div>
+      )}
       <div className={styles.tag}>
         {data?.tag?.split(",").map((item) => {
           return (

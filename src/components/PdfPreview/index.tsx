@@ -27,7 +27,6 @@ const PdfPreview = forwardRef((props, ref) => {
   const handleOpen = (url: string, applyId: number, mark: boolean) => {
     setApplyId(applyId);
     setOpen(true);
-    console.log(url, "fdsfs");
     setUrl(url);
     setMark(mark);
   };

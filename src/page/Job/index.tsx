@@ -201,7 +201,7 @@ const Job = () => {
     if (detail?.company?.userId !== userId) {
       if (userInfo?.resumes?.length === 0) {
         return (
-          <AuthBtn share={detail?.company?.user?.address}>
+          <AuthBtn share={detail?.company?.user?.address} jobId={detail?.id}>
             <Upload
               action={`${BASE_URL}/common/upload`}
               accept=".pdf"
@@ -233,6 +233,7 @@ const Job = () => {
               applyInfo.haveRead ? (
                 applyInfo.isDownload ? (
                   <Button
+                    className={styles.contact__btn}
                     variant="contained"
                     disabled={!applyInfo?.job.contact}
                     onClick={() => {
@@ -297,7 +298,7 @@ const Job = () => {
     if (detail?.company?.userId !== userId) {
       return (
         <div className={styles.tip}>
-          如果岗位留有联系方式，当简历被下载时就会看到
+          如果岗位留有联系方式，当简历被下载时会自动显示
         </div>
       );
     }
@@ -650,17 +651,24 @@ const Job = () => {
             url: decodeURIComponent(
               pdfPreviewRef.current.url.replace(OSS_ORIGIN, "")
             ),
-          }).then((res) => {
-            !currentApply.isDownload &&
-              updateApply(currentApply.id, { isDownload: true });
-            closeDownlaod();
-            downloadOss(
-              res.result,
-              decodeURIComponent(
-                pdfPreviewRef.current.url.replace(OSS_ORIGIN, "")
-              )
-            );
-          });
+            resumeId: currentApply?.resume.id,
+            jobId: currentApply.jobId,
+          })
+            .then((res) => {
+              !currentApply.isDownload &&
+                updateApply(currentApply.id, { isDownload: true });
+              closeDownlaod();
+              downloadOss(
+                res.result,
+                decodeURIComponent(
+                  pdfPreviewRef.current.url.replace(OSS_ORIGIN, "")
+                )
+              );
+            })
+            .catch((error) => {
+              toast.error(error.message);
+              setShareOpen(true);
+            });
           // addApply({
           //   jobId: detail?.id,
           //   resumeId:

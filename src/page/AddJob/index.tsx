@@ -261,7 +261,7 @@ const AddJob = () => {
         onConfirm={() => {
           navigator.clipboard
             .writeText(
-              `https://www.flowin3/company${companyId}?address=${userInfo.address}`
+              `https://www.flowin3/company/${companyId}?address=${userInfo.address}`
             )
             .then(() => {
               toast.success("复制成功");

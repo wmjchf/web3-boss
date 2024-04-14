@@ -21,7 +21,8 @@ const Company = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { id: companyId } = useParams();
-
+  const address = searchParams.get("address");
+  address && localStorage.setItem("address", address);
   const [company, setCompany] = useState<ICompany>();
   // const handleCompanyList = async () => {
   //   const { result } = await getCompanyListByAddress(address);
@@ -46,7 +47,7 @@ const Company = () => {
       setCompany(companies[0]);
     }
   }, [companies, companyId]);
-  console.log(company, "fdsfs");
+
   return (
     <div className={styles.company}>
       <Introduce companyId={companyId || company?.id}></Introduce>

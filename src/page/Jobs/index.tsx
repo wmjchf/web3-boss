@@ -11,12 +11,12 @@ import Fab from "@mui/material/Fab";
 import { getTicket } from "@/api/wx";
 
 const Jobs = () => {
-  const [searchParams] = useSearchParams();
   const divRef = useRef<HTMLDivElement>();
+  const [searchParams] = useSearchParams();
   const address = searchParams.get("address");
+  address && localStorage.setItem("address", address);
   const { getJobList, hasMore, refresh, refreshing, first, jobList } =
     useJobsStore();
-  address && localStorage.setItem("address", address);
 
   useEffect(() => {
     const url = window.location.href;
