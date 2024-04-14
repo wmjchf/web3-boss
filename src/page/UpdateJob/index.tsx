@@ -28,6 +28,7 @@ const UpdateJob = () => {
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
   const [description, setDescription] = useState("");
+  const [contact, setContact] = useState("");
 
   const handleGetJobInfo = async () => {
     const { result } = await getJobDetail(parseInt(id));
@@ -40,6 +41,7 @@ const UpdateJob = () => {
     setDescription(result.description);
     setTagList(result.tag.split(","));
     setCompanyId(result.company?.id);
+    setContact(result.contact);
   };
   useEffect(() => {
     setShowLocation(isRemote === "0");
@@ -77,6 +79,7 @@ const UpdateJob = () => {
       companyId,
       isFace,
       location,
+      contact,
       tag: tagList.join(","),
     });
 
@@ -215,6 +218,22 @@ const UpdateJob = () => {
                 {/* </div> */}
               </div>
             )}
+          </div>
+          <div className={styles.four}>
+            <div className={styles.contact}>
+              <span className={styles.label}>联系方式</span>
+              {/* <div className={styles.location__input}> */}
+              <TextField
+                id="contact"
+                label="简历被下载联系会被显示，非必填"
+                value={contact}
+                onChange={(event) => {
+                  setContact(event.target.value);
+                }}
+                fullWidth
+              />
+              {/* </div> */}
+            </div>
           </div>
           <div className={styles.description}>
             <TextField

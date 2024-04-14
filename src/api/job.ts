@@ -13,6 +13,7 @@ export interface IJob {
   location: string;
   address: string;
   resetIntegral: number;
+  contact: string;
 }
 
 export const addJob = (data: unknown) => post<IJob>("job", data);
