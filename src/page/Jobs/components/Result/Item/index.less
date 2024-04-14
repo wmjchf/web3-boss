@@ -52,6 +52,19 @@
   }
   .address {
     font-size: 14px;
+    overflow: hidden; //超出的文本隐藏
+    text-overflow: ellipsis; //溢出用省略号显示
+    white-space: nowrap; //溢出不换行
+    span {
+      &:nth-child(1) {
+        margin-right: 12px;
+        color: var(--primaryColor);
+        font-weight: 600;
+      }
+      &:nth-child(2) {
+        color: #333;
+      }
+    }
   }
   .required {
     white-space: pre-line;

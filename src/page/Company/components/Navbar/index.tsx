@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { EditPannel } from "../EditPannel";
 import { PullToRefresh, InfiniteScroll } from "antd-mobile";
 import styles from "./index.less";
+import { useActivate } from "react-activation";
 import classNames from "classnames";
 import { Waterfull } from "@/components/Waterfull";
 import NoData from "@/image/common/no-list.png";
@@ -40,6 +41,10 @@ export const Navbar: React.FC<INavbar> = (props) => {
   // }, [companyId]);
   const { getJobList, hasMore, refresh, refreshing, first, jobList } =
     useJobListStore();
+  useActivate(() => {
+    refresh();
+    getJobList(companyId);
+  });
   return (
     <EditPannel className={styles.edit__navbar} showEdit={false}>
       <div className={styles.navbar} id="jobs">

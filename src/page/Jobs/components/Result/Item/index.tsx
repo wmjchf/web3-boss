@@ -34,7 +34,9 @@ export const Item: React.FC<IItem> = (props) => {
       </div>
       {!data?.isRemote && (
         <div className={styles.address}>
-          <span>地址：</span>
+          <span>
+            <i className="iconfont icon-shouye"></i>
+          </span>
           <span>{data.location}</span>
         </div>
       )}

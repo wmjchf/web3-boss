@@ -24,15 +24,7 @@ const Company = () => {
   const address = searchParams.get("address");
   address && localStorage.setItem("address", address);
   const [company, setCompany] = useState<ICompany>();
-  // const handleCompanyList = async () => {
-  //   const { result } = await getCompanyListByAddress(address);
-  //   result.total > 0 && setCompany(result.list[0]);
-  // };
-  // useEffect(() => {
-  //   if (address && !companyId) {
-  //     handleCompanyList();
-  //   }
-  // }, [address, companyId]);
+
   const handleGetCompanyDetail = async () => {
     const { result } = await getCompanyDetail(parseInt(companyId));
     setCompany(result);

@@ -347,7 +347,9 @@ const Job = () => {
             />
           </div>
           <div className={styles.location}>
-            <span>地址：</span>
+            <span>
+              <i className="iconfont icon-shouye"></i>
+            </span>
             <span>{detail?.location}</span>
           </div>
           <div className={styles.description}>
