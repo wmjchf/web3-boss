@@ -11,6 +11,7 @@ import { ApplyModal } from "@/components/ApplyModal";
 import { SHARE_TIP } from "@/constant";
 import { copyToClipboard } from "@/utils/copy";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export const DrawList = (props) => {
   const { onClose } = props;
@@ -19,6 +20,7 @@ export const DrawList = (props) => {
   const resumeModalRef = useRef(0);
   const applyModalRef = useRef(0);
   const pdfPreviewRef = useRef<any>();
+  const navigate = useNavigate();
   return (
     <div className={styles.draw__list}>
       <div className={styles.top}>
@@ -94,8 +96,11 @@ export const DrawList = (props) => {
       ></ResumeModal>
       <ApplyModal
         ref={applyModalRef}
-        onClose={() => {
-          onClose && onClose();
+        onClose={(jobId) => {
+          onClose && onClose(jobId);
+          setTimeout(() => {
+            navigate(`/job/${jobId}`);
+          }, 0);
         }}
       ></ApplyModal>
       <PdfPreview ref={pdfPreviewRef} showMark={false}></PdfPreview>

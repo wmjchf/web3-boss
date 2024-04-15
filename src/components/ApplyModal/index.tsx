@@ -15,7 +15,7 @@ import { getApplySelf, IApply } from "@/api/apply";
 import classNames from "classnames";
 
 interface IApplyModal {
-  onClose?: () => void;
+  onClose?: (jobId: number) => void;
 }
 export const ApplyModal: React.FC<IApplyModal> = forwardRef((props, ref) => {
   const { onClose } = props;
@@ -75,9 +75,9 @@ export const ApplyModal: React.FC<IApplyModal> = forwardRef((props, ref) => {
                     key={item.id}
                     data={item.job}
                     apply={item}
-                    onClose={() => {
+                    onClose={(jobId) => {
                       setOpen(false);
-                      onClose && onClose();
+                      onClose && onClose(jobId);
                     }}
                   ></Item>
                 );

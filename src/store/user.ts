@@ -42,12 +42,10 @@ export const userUserStore = create<State & Action>()(
           state.userInfo = result;
         });
       } catch (error) {
-        if (error.code === "10102") {
-          localStorage.removeItem("token");
-          set((state) => {
-            state.token = "";
-          });
-        }
+        localStorage.removeItem("token");
+        set((state) => {
+          state.token = "";
+        });
       }
     },
   }))

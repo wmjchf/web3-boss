@@ -4,6 +4,10 @@
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 12px;
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   .top {
     .tag {
       margin-top: 12px;
@@ -46,8 +50,8 @@
     align-items: center;
     padding-top: 8px;
     border-top: solid 1px #eaecf1;
-    .contact {
-      color: RGB(82, 196, 26);
+    .delete {
+      color: RGB(243, 2, 65);
       font-size: 16px;
     }
     .no__read {

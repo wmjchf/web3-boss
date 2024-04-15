@@ -27,4 +27,32 @@
       font-size: 30px;
     }
   }
+  .publish {
+    display: none;
+
+    @media (max-width: 750px) {
+      display: flex;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      i {
+        font-size: 30px;
+      }
+    }
+  }
+  .footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 12px;
+    a {
+      color: var(--noColor);
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+        color: var(--primaryColor);
+      }
+    }
+  }
 }

@@ -9,6 +9,7 @@ import { useJobsStore } from "@/store";
 import classNames from "classnames";
 import Fab from "@mui/material/Fab";
 import { getTicket } from "@/api/wx";
+import toast from "react-hot-toast";
 
 const Jobs = () => {
   const divRef = useRef<HTMLDivElement>();
@@ -18,17 +19,16 @@ const Jobs = () => {
   const { getJobList, hasMore, refresh, refreshing, first, jobList } =
     useJobsStore();
 
-  useEffect(() => {
-    const url = window.location.href;
+  // useEffect(() => {
+  //   const url = window.location.href;
 
-    getTicket({ url }).then(({ result }) => {
-      wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        ...result,
-        jsApiList: ["updateTimelineShareData"], // 必填，需要使用的JS接口列表
-      });
-    });
-  }, []);
+  //   getTicket({ url }).then(({ result }) => {
+  //     wx.config({
+  //       ...result,
+  //       jsApiList: ["updateTimelineShareData"],
+  //     });
+  //   });
+  // }, []);
   return (
     <div className={styles.jobs} ref={divRef}>
       <PullToRefresh
@@ -41,14 +41,22 @@ const Jobs = () => {
       >
         <Search></Search>
         <Result></Result>
-        {!refreshing && (first || jobList.length > 0) && (
+
+        {!refreshing && (first || jobList.length > 0) ? (
           <InfiniteScroll
             hasMore={hasMore}
             loadMore={getJobList}
             className={classNames(styles.footer)}
           ></InfiniteScroll>
+        ) : (
+          <></>
         )}
       </PullToRefresh>
+      <div className={styles.footer}>
+        <a href="https://beian.miit.gov.cn" target="_blank">
+          鄂ICP备2024049946号
+        </a>
+      </div>
       <Fab
         color="primary"
         aria-label="add"
@@ -60,6 +68,20 @@ const Jobs = () => {
         }}
       >
         <i className="iconfont icon-huidaodingbu"></i>
+      </Fab>
+      <Fab
+        color="primary"
+        aria-label="add"
+        className={styles.publish}
+        onClick={() => {
+          toast("需要去pc端发布岗位哦", {
+            icon: "😬",
+            duration: 5000,
+          });
+          return;
+        }}
+      >
+        <i className="iconfont icon-tianjia1"></i>
       </Fab>
     </div>
   );

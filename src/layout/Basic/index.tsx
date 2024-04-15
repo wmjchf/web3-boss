@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import Drawer from "@mui/material/Drawer";
 import Popover from "@mui/material/Popover";
@@ -9,8 +9,10 @@ import QRCODE from "./image/qrcode.jpg";
 import styles from "./index.less";
 
 const BasicLayout = () => {
+  const jobIdRef = useRef<number>();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +21,11 @@ const BasicLayout = () => {
     setAnchorEl(null);
   };
   const show = Boolean(anchorEl);
+  // useEffect(() => {
+  //   if (!open && jobIdRef.current) {
+  //     navigate(`/job/${jobIdRef.current}`);
+  //   }
+  // }, [open]);
   return (
     <div className={styles.basic__layout}>
       <div className={styles.notice}>
@@ -67,7 +74,8 @@ const BasicLayout = () => {
         }}
       >
         <DrawList
-          onClose={() => {
+          onClose={(jobId) => {
+            // jobIdRef.current = jobId;
             setOpen(false);
           }}
         ></DrawList>

@@ -3,15 +3,16 @@ import React, { useMemo } from "react";
 import styles from "./index.less";
 import Chip from "@mui/material/Chip";
 import { useNavigate } from "react-router-dom";
+import classNames from "classnames";
 
 interface IItem {
   data: any;
   apply: any;
-  onClose?: () => void;
+  onClose?: (jobId: number) => void;
 }
 export const Item: React.FC<IItem> = (props) => {
   const { data, apply, onClose } = props;
-  const navigate = useNavigate();
+
   const salary = useMemo(() => {
     return data?.isFace ? "面议" : `${data.minSalary}~${data.maxSalary}`;
   }, [data]);
@@ -51,10 +52,13 @@ export const Item: React.FC<IItem> = (props) => {
   }, [apply]);
   return (
     <div
-      className={styles.item}
+      className={classNames(styles.item, data.isDelete ? styles.disabled : "")}
       onClick={() => {
-        navigate(`job/${apply.jobId}`);
-        onClose && onClose();
+        if (data.isDelete) {
+          return;
+        }
+
+        onClose && onClose(apply.jobId);
       }}
     >
       <div className={styles.top}>
@@ -92,9 +96,11 @@ export const Item: React.FC<IItem> = (props) => {
         </div>
       </div>
       <div className={styles.bottom}>
-        <span className={styles.contact}></span>
+        <span className={styles.delete}>
+          {data.isDelete ? "岗位已被删除" : ""}
+        </span>
 
-        {status}
+        {data.isDelete ? "" : status}
       </div>
     </div>
   );

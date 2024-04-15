@@ -23,7 +23,7 @@ import {
 } from "@/api/apply";
 import classNames from "classnames";
 import { Comfirm } from "@/components/ComfirmDelete";
-import { BASE_URL, OSS_ORIGIN, SHARE_TIP } from "@/constant";
+import { BASE_URL, OSS_ORIGIN, OSS_ORIGIN_DNS, SHARE_TIP } from "@/constant";
 import { ResumeModal } from "@/components/ResumeModal";
 import { download } from "@/api/common";
 import { downloadOss } from "@/utils/downloadOss";

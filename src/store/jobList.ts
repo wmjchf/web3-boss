@@ -70,6 +70,7 @@ export const useJobListStore = create<State & Action>()(
       }),
     deleteJob: async () => {
       const { deleteItem, jobList } = get();
+
       const result = await deleteJob(deleteItem.id, {
         companyId: deleteItem?.company?.id,
       });

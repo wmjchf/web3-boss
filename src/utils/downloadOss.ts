@@ -2,6 +2,7 @@ export const downloadOss = (url, filename) => {
   const link = document.createElement("a");
   link.style.display = "none";
   link.href = url;
+  link.setAttribute("target", "_blank");
   link.setAttribute("download", filename);
   document.body.appendChild(link);
   link.click();
