@@ -51,12 +51,13 @@ const Jobs = () => {
         ) : (
           <></>
         )}
+        <div className={styles.footer}>
+          <a href="https://beian.miit.gov.cn" target="_blank">
+            鄂ICP备2024049946号
+          </a>
+        </div>
       </PullToRefresh>
-      <div className={styles.footer}>
-        <a href="https://beian.miit.gov.cn" target="_blank">
-          鄂ICP备2024049946号
-        </a>
-      </div>
+
       <Fab
         color="primary"
         aria-label="add"
@@ -74,7 +75,7 @@ const Jobs = () => {
         aria-label="add"
         className={styles.publish}
         onClick={() => {
-          toast("需要去pc端发布岗位哦", {
+          toast("需要在pc浏览器打开", {
             icon: "😬",
             duration: 5000,
           });

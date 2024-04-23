@@ -48,7 +48,7 @@ export const Header: React.FC<IHeader> = (props) => {
           size="large"
           onClick={() => {
             if (isMobile()) {
-              toast("需要去pc端打开填写哦", {
+              toast("需要在pc浏览器打开", {
                 icon: "😬",
                 duration: 5000,
               });

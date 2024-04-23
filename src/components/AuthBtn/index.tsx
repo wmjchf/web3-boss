@@ -33,7 +33,7 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
 
   const handleConnect = () => {
     if (isMobile()) {
-      toast("需要去pc端打开申请哦", {
+      toast("需要在pc浏览器打开", {
         icon: "😬",
         duration: 5000,
       });
@@ -66,7 +66,7 @@ export const AuthBtn: React.FC<IAuthBtn> = (props) => {
   }
   async function signInWithEthereum() {
     if (isMobile()) {
-      toast("需要去pc端打开申请哦", {
+      toast("需要在pc浏览器打开", {
         icon: "😬",
         duration: 5000,
       });

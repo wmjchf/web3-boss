@@ -13,6 +13,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { AuthBtn } from "@/components/AuthBtn";
 import { userUserStore } from "@/store";
 import toast from "react-hot-toast";
+import { isMobile } from "@/utils/platform";
 
 const Company = () => {
   const { userInfo } = userUserStore();
@@ -63,6 +64,13 @@ const Company = () => {
           aria-label="add"
           className={styles.add}
           onClick={() => {
+            if (isMobile()) {
+              toast("需要在pc浏览器打开", {
+                icon: "😬",
+                duration: 5000,
+              });
+              return;
+            }
             if (!company) {
               toast("先要完善项目/团队/公司信息", {
                 icon: "😬",
